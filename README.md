@@ -17,9 +17,22 @@ their features locked behind a subscription paywall. I'd like to
 make a simple budget app that I can use for free, since it's difficult
 to keep track of a personal budget otherwise.
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
+*User Stories*:
+- As a user, I want to be able to create a custom budget with
+spending categories of my choosing.
+- As a user, I want to be able to add an expense to each list of
+weekly, monthly, and yearly expenses.
+- As a user, I want to be able to create a regular expensive to be added
+to my lists of expenses on a given basis
+- As a user, I want to be able to add a regular income that repeats
+on a given basis to each list of biweekly, monthly, and yearly income.
+- As a user, I want to be able to add supplemental income at any time
+to each list of biweekly, monthly, and yearly income.
+- As a user I want to be able to receive a report of my
+budget for a given week, month, or year.
+- As a user I want to be able to see a visual representation of my
+budget for a given week, month, or year.
+- As a user, I want to be able to stop a regular expense or income
+from continuing to occur
+- As a user, I want to be able to undo an input error
 
-An example of text with **bold** and *italic* fonts.  
