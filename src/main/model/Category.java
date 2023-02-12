@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
+//abstract class for Categories
 public abstract class Category {
     protected static int nextCategoryID = 1;
 

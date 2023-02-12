@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 
+//Abstract class for recurring and single expenses and incomes
 public abstract class IncomeOrExpense {
 
     String name;

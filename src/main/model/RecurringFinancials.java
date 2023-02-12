@@ -6,6 +6,7 @@ import static java.lang.Math.floor;
 import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.MONTHS;
 
+//Abstract class for Recurring expenses and incomes
 public abstract class RecurringFinancials extends IncomeOrExpense {
 
     protected LocalDate date;
@@ -48,6 +49,7 @@ public abstract class RecurringFinancials extends IncomeOrExpense {
         return amount;
     }
 
+    //REQUIRES: numDaysBetween >= 0
     //EFFECTS: returns multiplier for calculation based on period
     public double calculateMultiplier(double numDaysBetween, LocalDate startDate, LocalDate endDate) {
         double multiplier;

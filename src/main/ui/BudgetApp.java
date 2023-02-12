@@ -12,6 +12,7 @@ import model.*;
 
 import static java.lang.Math.round;
 
+//Budget Application
 public class BudgetApp {
     private Scanner input;
     private CategoryList incomes;
