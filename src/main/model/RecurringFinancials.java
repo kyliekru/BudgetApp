@@ -6,7 +6,7 @@ import static java.lang.Math.floor;
 import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.MONTHS;
 
-public abstract class RecurringFinancials extends AddFinancials {
+public abstract class RecurringFinancials extends IncomeOrExpense {
 
     protected LocalDate date;
     protected String period;
@@ -27,7 +27,7 @@ public abstract class RecurringFinancials extends AddFinancials {
 
     }
 
-    //REQUIRES: endDate in dd/MM/YYYY format
+
     //EFFECTS: produce total income over a given period, based on this
     //         period
     public double calculate(LocalDate startDate, LocalDate endDate) {
@@ -41,17 +41,33 @@ public abstract class RecurringFinancials extends AddFinancials {
                 numDaysBetween = DAYS.between(startDate, endDate);
             }
         }
-        double multiplier;
-        if (this.getPeriod().equals("weekly")) {
-            multiplier = floor(numDaysBetween / 7);
-        } else if (this.getPeriod().equals("bi-weekly")) {
-            multiplier = floor((numDaysBetween / 7) / 2);
-        } else {
-            multiplier = floor(MONTHS.between(startDate, endDate));
-        }
+        double multiplier = calculateMultiplier(numDaysBetween, startDate, endDate);
 
         amount = this.amount * multiplier;
 
         return amount;
     }
+
+    //EFFECTS: returns multiplier for calculation based on period
+    public double calculateMultiplier(double numDaysBetween, LocalDate startDate, LocalDate endDate) {
+        double multiplier;
+        int daysInMonth = startDate.getMonth().length(startDate.isLeapYear());
+
+        if (this.getPeriod().equals("weekly")) {
+            multiplier = numDaysBetween / 7;
+        } else if (this.getPeriod().equals("bi-weekly")) {
+            multiplier = (numDaysBetween / 7) / 2;
+        } else {
+            multiplier = MONTHS.between(startDate, endDate);
+            if (multiplier < 1) {
+                multiplier = numDaysBetween / daysInMonth;
+            }
+        }
+        if (multiplier > 1) {
+            multiplier = floor(multiplier);
+        }
+        return multiplier;
+    }
 }
+
+

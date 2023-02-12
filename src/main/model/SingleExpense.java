@@ -5,10 +5,9 @@ import java.time.LocalDate;
 
 // Represents an expense that has a name, Category, amount spent (in $),
 // a date, and an ID unique to other SingleExpenses.
-public class SingleExpense extends AddFinancials {
+public class SingleExpense extends IncomeOrExpense {
 
-    private ExpenseCategory cat;
-    private static int nextSingleExpenseID = 1;
+    private Category cat;
 
 
     //Constructor
@@ -17,17 +16,17 @@ public class SingleExpense extends AddFinancials {
     //EFFECTS: Creates an expense in a given category with given name and
     //         amount spent. Date is set to day expense was created and ID is a
     //         unique positive integer.
-    public SingleExpense(String name, ExpenseCategory cat, double amount) {
+    public SingleExpense(String name, Category cat, double amount) {
 
         date = java.time.LocalDate.now();
         this.name = name;
         this.cat = cat;
         this.amount = amount;
-        this.id = nextSingleExpenseID++;
+        this.id = nextIncomeOrExpenseID++;
     }
 
 
-    public ExpenseCategory getCat() {
+    public Category getCat() {
         return this.cat;
 
     }

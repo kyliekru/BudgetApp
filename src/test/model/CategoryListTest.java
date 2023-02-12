@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,13 @@ class CategoryListTest {
     private ExpenseCategory rent;
     private CategoryList clTest1;
     private CategoryList clTest2;
+    private SingleExpense eatingOut;
+    private RecurringExpense hairProducts;
+    LocalDate startDate = LocalDate.of(2023, 2, 7);
+    LocalDate endDate = LocalDate.of(2023, 6, 11);
+
+
+
 
 
     @BeforeEach
@@ -28,6 +36,9 @@ class CategoryListTest {
         rent = new ExpenseCategory("rent payments");
         clTest1 = new CategoryList(0);
         clTest2 = new CategoryList(1);
+        eatingOut = new SingleExpense("Dinner & Drinks", utilities, 75);
+        hairProducts = new RecurringExpense("Shampoo&Conditioner", rent, 50, "monthly");
+
 
     }
 
@@ -37,6 +48,9 @@ class CategoryListTest {
         assertEquals(emptyList(), clTest1.getCatList());
         assertEquals(1, clTest2.getLabel());
         assertEquals(emptyList(), clTest2.getCatList());
+
+        clTest1.setLabel(1);
+        assertEquals(1, clTest1.getLabel());
     }
 
     @Test
@@ -75,6 +89,22 @@ class CategoryListTest {
         assertEquals(emptyList(), clTest2.getCatList());
         assertEquals(utilities, list.get(0));
         assertFalse(clTest1.removeCat(30));
+
+    }
+
+    @Test
+    void addTotalAmountTest() {
+        utilities.addSingle(eatingOut);
+        rent.addRecurring(hairProducts);
+
+        clTest1.addCat(utilities);
+        clTest1.addCat(rent);
+
+        eatingOut.setDate(LocalDate.of(2023, 2, 8));
+        hairProducts.setDate(LocalDate.of(2023, 2, 8));
+
+        assertEquals(275, clTest1.addTotalAmount(startDate, endDate));
+
 
     }
 

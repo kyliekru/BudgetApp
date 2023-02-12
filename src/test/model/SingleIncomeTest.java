@@ -30,4 +30,10 @@ class SingleIncomeTest {
         assertEquals(oddJobs, siTest2.getCat());
         assertEquals(25, siTest2.getAmount());
     }
+
+    @Test
+    void setCatTest() {
+        siTest1.setCat(oddJobs);
+        assertEquals(oddJobs, siTest1.getCat());
+    }
 }

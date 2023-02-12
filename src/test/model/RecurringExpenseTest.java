@@ -31,6 +31,10 @@ class RecurringExpenseTest {
         assertEquals("Water", reTest2.getName());
         assertEquals(150, reTest2.getAmount());
         assertEquals("bi-weekly", reTest2.getPeriod());
+
+        reTest1.setCat(utilities);
+        assertEquals(utilities, reTest1.getCat());
+        assertEquals(utilities, reTest2.getCat());
     }
 
     @Test

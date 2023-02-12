@@ -2,17 +2,15 @@ package model;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
-import java.util.List;
 
 //Represents an income category with a name, list of recurring incomes and list of
 // single incomes associated with it, and an ID unique to other IncomeCategories.
-public class IncomeCategory implements Category {
+public class IncomeCategory extends Category {
 
     private String name;
     private LinkedList<RecurringIncome> recurringIncomes;
     private LinkedList<SingleIncome> singleIncomes;
     private int id;
-    private static int nextIncomeCategoryID = 1;
 
     //Constructor
     //REQUIRES: name is non-empty String
@@ -22,7 +20,7 @@ public class IncomeCategory implements Category {
         this.name = name;
         recurringIncomes = new LinkedList<>();
         singleIncomes = new LinkedList<>();
-        id = nextIncomeCategoryID++;
+        id = nextCategoryID++;
 
     }
 
@@ -37,11 +35,11 @@ public class IncomeCategory implements Category {
         return this.id;
     }
 
-    public LinkedList getSingleIncomeList() {
+    public LinkedList getSingle() {
         return this.singleIncomes;
     }
 
-    public LinkedList getRecurringIncomeList() {
+    public LinkedList getRecurring() {
         return this.recurringIncomes;
     }
 
@@ -52,18 +50,18 @@ public class IncomeCategory implements Category {
 
     }
 
-    public void addSingleIncome(SingleIncome income) {
-        singleIncomes.addFirst(income);
+    public void addSingle(IncomeOrExpense income) {
+        singleIncomes.addLast((SingleIncome) income);
 
     }
 
-    public void addRecurringIncome(RecurringIncome income) {
-        recurringIncomes.addFirst(income);
+    public void addRecurring(IncomeOrExpense income) {
+        recurringIncomes.addLast((RecurringIncome) income);
     }
 
     //EFFECTS: Searches for SingleIncome in singleIncomes list with given ID,
     //         if found it is removed and returns true, else returns false.
-    public boolean removeSingleIncome(int id) {
+    public boolean removeSingle(int id) {
         boolean outcome = false;
 
         for (SingleIncome income : singleIncomes) {
@@ -78,7 +76,7 @@ public class IncomeCategory implements Category {
 
     //EFFECTS: Searches for RecurringIncome in recurringIncomes list with given ID,
     //         if found it is removed and returns true, else returns false.
-    public boolean removeRecurringIncome(int id) {
+    public boolean removeRecurring(int id) {
         boolean outcome = false;
 
         for (RecurringIncome income : recurringIncomes) {

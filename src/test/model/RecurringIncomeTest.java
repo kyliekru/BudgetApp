@@ -27,11 +27,18 @@ class RecurringIncomeTest {
         assertEquals(renters, riTest2.getCat());
         assertEquals("monthly", riTest2.getPeriod());
 
+        riTest1.setCat(renters);
+        assertEquals(renters, riTest1.getCat());
+
 
     }
 
     @Test
     void calculateRecurringIncomeTest() {
+
+        riTest1.setStartDate(LocalDate.of(2023, 2, 8));
+        riTest2.setStartDate(LocalDate.of(2023, 2, 8));
+
         assertEquals(8*1500, riTest1.calculate(startDate, endDate));
         assertEquals(4*1100, riTest2.calculate(startDate, endDate));
     }

@@ -2,17 +2,15 @@ package model;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
-import java.util.List;
 
-//Represents an expense category that has a name, list of recurring expenses amd
+//Represents an expense category that has a name, list of recurring expenses and
 // list of single expenses associated with it, and an ID unique to other ExpenseCategories.
-public class ExpenseCategory implements Category {
+public class ExpenseCategory extends Category {
 
     private String name;
     private LinkedList<RecurringExpense> recurringExpenses;
     private LinkedList<SingleExpense> singleExpenses;
     private int id;
-    private static int nextExpenseCategoryID = 1;
 
     //Constructor
     //REQUIRES: name is non-empty string
@@ -22,7 +20,7 @@ public class ExpenseCategory implements Category {
         this.name = name;
         recurringExpenses = new LinkedList<>();
         singleExpenses = new LinkedList<>();
-        id = nextExpenseCategoryID++;
+        id = nextCategoryID++;
 
     }
 
@@ -37,12 +35,12 @@ public class ExpenseCategory implements Category {
         return this.id;
     }
 
-    public LinkedList getSingleExpenseList() {
+    public LinkedList getSingle() {
         return this.singleExpenses;
 
     }
 
-    public LinkedList getRecurringExpenseList() {
+    public LinkedList getRecurring() {
         return this.recurringExpenses;
     }
 
@@ -54,19 +52,19 @@ public class ExpenseCategory implements Category {
 
     }
 
-    public void addSingleExpense(SingleExpense expense) {
-        singleExpenses.addFirst(expense);
+    public void addSingle(IncomeOrExpense expense) {
+        singleExpenses.addLast((SingleExpense) expense);
 
     }
 
-    public void addRecurringExpense(RecurringExpense expense) {
-        recurringExpenses.addFirst(expense);
+    public void addRecurring(IncomeOrExpense expense) {
+        recurringExpenses.addLast((RecurringExpense) expense);
 
     }
 
     //EFFECTS: Searches for SingleExpense in singleExpenses list with given ID,
     //         if found it is removed and returns true, else returns false.
-    public boolean removeSingleExpense(int id) {
+    public boolean removeSingle(int id) {
         boolean outcome = false;
 
         for (SingleExpense expense : singleExpenses) {
@@ -82,7 +80,7 @@ public class ExpenseCategory implements Category {
 
     //EFFECTS: Searches for RecurringExpense in recurringExpenses list with given ID,
     //         if found it is removed and returns true, else returns false.
-    public boolean removeRecurringExpense(int id) {
+    public boolean removeRecurring(int id) {
         boolean outcome = false;
 
         for (RecurringExpense expense : recurringExpenses) {

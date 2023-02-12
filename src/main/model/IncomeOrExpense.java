@@ -2,12 +2,13 @@ package model;
 
 import java.time.LocalDate;
 
-public abstract class AddFinancials {
+public abstract class IncomeOrExpense {
 
     String name;
     double amount;
     LocalDate date;
     int id;
+    protected static int nextIncomeOrExpenseID = 1;
 
 
     //Getters
@@ -28,6 +29,9 @@ public abstract class AddFinancials {
 
 
     //Setters
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
     public void setName(String name) {
         this.name = name;

@@ -38,34 +38,37 @@ class ExpenseCategoryTest {
     void expenseCategoryTest() {
         assertEquals("food", ecTest1.getName());
         assertEquals("personal products", ecTest2.getName());
-        assertEquals(emptyList(), ecTest1.getRecurringExpenseList());
-        assertEquals(emptyList(), ecTest1.getSingleExpenseList());
+        assertEquals(emptyList(), ecTest1.getRecurring());
+        assertEquals(emptyList(), ecTest1.getSingle());
+
+        ecTest1.setName("eating");
+        assertEquals("eating", ecTest1.getName());
     }
 
     @Test
     void addRecurringExpenseTest() {
 
-        ecTest2.addRecurringExpense(hairProducts);
-        ecTest2.addRecurringExpense(makeup);
+        ecTest2.addRecurring(hairProducts);
+        ecTest2.addRecurring(makeup);
 
-        List list = ecTest2.getRecurringExpenseList();
-        assertEquals(hairProducts, list.get(1));
-        assertEquals(makeup, list.get(0));
+        List list = ecTest2.getRecurring();
+        assertEquals(hairProducts, list.get(0));
+        assertEquals(makeup, list.get(1));
 
     }
 
     @Test
     void addSingleExpenseTest() {
-        ecTest1.addSingleExpense(eatingOut);
-        List list = ecTest1.getSingleExpenseList();
+        ecTest1.addSingle(eatingOut);
+        List list = ecTest1.getSingle();
         assertEquals(eatingOut, list.get(0));
     }
 
     @Test
     void addTotalAmountTest() {
-        ecTest1.addSingleExpense(eatingOut);
-        ecTest2.addRecurringExpense(hairProducts);
-        ecTest2.addRecurringExpense(makeup);
+        ecTest1.addSingle(eatingOut);
+        ecTest2.addRecurring(hairProducts);
+        ecTest2.addRecurring(makeup);
 
 
         assertEquals(75, ecTest1.addTotalAmount(startDate, endDate));
@@ -74,24 +77,28 @@ class ExpenseCategoryTest {
 
     @Test
     void removeSingleExpenseTest() {
-        ecTest1.removeSingleExpense(2);
-        assertEquals(emptyList(), ecTest1.getSingleExpenseList());
+        ecTest1.addSingle(eatingOut);
+
+
+        ecTest1.removeSingle(15);
+        assertEquals(emptyList(), ecTest1.getSingle());
     }
 
     @Test
     void removeRecurringExpenseTest() {
-        ecTest2.addRecurringExpense(hairProducts);
-        ecTest2.addRecurringExpense(makeup);
+        ecTest2.addRecurring(hairProducts);
+        ecTest2.addRecurring(makeup);
 
 
-        ecTest2.removeRecurringExpense(8);
 
-        List list = ecTest2.getRecurringExpenseList();
+        ecTest2.removeRecurring(20);
+
+        List list = ecTest2.getRecurring();
         assertEquals(hairProducts, list.get(0));
-        ecTest2.removeRecurringExpense(7);
-        List list1 = ecTest2.getRecurringExpenseList();
+        ecTest2.removeRecurring(19);
+        List list1 = ecTest2.getRecurring();
         assertEquals(emptyList(), list1);
 
-        assertFalse(ecTest1.removeRecurringExpense(50));
+        assertFalse(ecTest1.removeRecurring(50));
     }
 }

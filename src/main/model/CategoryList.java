@@ -2,7 +2,6 @@ package model;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
-import java.util.List;
 
 //Represents a category list with a label of expense or income (0 = expense), and list of categories
 //associated with it

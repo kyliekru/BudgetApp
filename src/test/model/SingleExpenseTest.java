@@ -25,5 +25,20 @@ class SingleExpenseTest {
         assertEquals("Calculator", seTest2.getName());
         assertEquals(schoolSupplies, seTest2.getCat());
         assertEquals(60, seTest2.getAmount());
+
+        seTest1.setName("Drinks");
+        assertEquals("Drinks", seTest1.getName());
+
+        seTest1.setAmount(7.50);
+        assertEquals(7.50, seTest1.getAmount());
+    }
+
+    @Test
+    void setCatTest() {
+        seTest1.setCat(schoolSupplies);
+        assertEquals(schoolSupplies, seTest1.getCat());
+
+        seTest2.setCat(eatingOut);
+        assertEquals(eatingOut, seTest2.getCat());
     }
 }
