@@ -79,6 +79,10 @@ class ExpenseCategoryTest {
 
         assertEquals(75, ecTest1.addTotalAmount(startDate, endDate));
         assertEquals(300, ecTest2.addTotalAmount(startDate, endDate));
+
+        setDate = LocalDate.of(2023, 6, 12);
+        eatingOut.setDate(setDate);
+        assertEquals(0, ecTest1.addTotalAmount(startDate, endDate));
     }
 
     @Test
@@ -88,6 +92,7 @@ class ExpenseCategoryTest {
 
         ecTest1.removeSingle(15);
         assertEquals(emptyList(), ecTest1.getSingle());
+        assertFalse(ecTest1.removeSingle(25));
     }
 
     @Test

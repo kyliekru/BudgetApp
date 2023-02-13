@@ -36,4 +36,7 @@ class SingleIncomeTest {
         siTest1.setCat(oddJobs);
         assertEquals(oddJobs, siTest1.getCat());
     }
+
+
+
 }

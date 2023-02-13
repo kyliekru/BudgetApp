@@ -11,16 +11,19 @@ class RecurringExpenseTest {
 
     private RecurringExpense reTest1;
     private RecurringExpense reTest2;
+    private RecurringExpense reTest3;
     private ExpenseCategory utilities = new ExpenseCategory("utilities");
     private ExpenseCategory rent = new ExpenseCategory("rent");
     private LocalDate endDate = LocalDate.of(2023, 6, 11);
     private LocalDate startDate = LocalDate.of(2023, 2, 4);
     private LocalDate setDate = LocalDate.of(2023, 2, 8);
+    private LocalDate afterEndDate = LocalDate.of(2024, 4, 3);
 
     @BeforeEach
     void runBefore() {
         reTest1 = new RecurringExpense("Rent Payment", rent, 1500, "monthly");
         reTest2 = new RecurringExpense("Water", utilities, 150, "bi-weekly");
+        reTest3 = new RecurringExpense("stuff", utilities, 50, "monthly");
     }
 
     @Test
@@ -40,9 +43,12 @@ class RecurringExpenseTest {
 
     @Test
     void calculateRecurringExpenseTest() {
+
         reTest1.setStartDate(setDate);
         reTest2.setStartDate(setDate);
         assertEquals(4*1500, reTest1.calculate(startDate, endDate));
         assertEquals(8*150, reTest2.calculate(startDate, endDate));
+
+
     }
 }

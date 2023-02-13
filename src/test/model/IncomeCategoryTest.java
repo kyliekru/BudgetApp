@@ -73,6 +73,11 @@ class IncomeCategoryTest {
 
         assertEquals(16000, icTest1.addTotalAmount(startDate, endDate));
 
+        setDate = LocalDate.of(2023, 7, 11);
+        singleHelper.setDate(setDate);
+        singleHelper2.setDate(setDate);
+        assertEquals(850, icTest2.addTotalAmount(startDate, endDate));
+
     }
 
     @Test
