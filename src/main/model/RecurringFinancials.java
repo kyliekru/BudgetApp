@@ -38,7 +38,7 @@ public abstract class RecurringFinancials extends IncomeOrExpense {
         if (thisStartDate.isAfter(startDate)) {
             numDaysBetween = DAYS.between(this.getStartDate(), endDate);
         } else {
-                numDaysBetween = DAYS.between(startDate, endDate);
+            numDaysBetween = DAYS.between(startDate, endDate);
         }
 
         double multiplier = calculateMultiplier(numDaysBetween, startDate, endDate);
