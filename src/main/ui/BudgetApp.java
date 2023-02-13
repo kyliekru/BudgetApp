@@ -7,10 +7,11 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import exceptions.InvalidValue;
 import exceptions.WrongID;
 import model.*;
 
-import static java.lang.Math.round;
+import static java.lang.Math.*;
 
 //Budget Application
 public class BudgetApp {
@@ -109,7 +110,7 @@ public class BudgetApp {
             System.out.println("No budget created! Redirecting to budget creation screen...");
             selectBudgetOption();
         } else {
-            viewBudgetMenu();
+            viewOverallBudgetMenu();
         }
     }
 
@@ -138,8 +139,8 @@ public class BudgetApp {
     public void displayBudgetMenu() {
         System.out.println("Congratulations on starting a budget!");
         System.out.println("\nWould you like to view the default categories or make your own?");
-        System.out.println("\ty -> View default");
-        System.out.println("\tn -> Create custom categories");
+        System.out.println("\ty -> view default");
+        System.out.println("\tn -> create custom categories");
         System.out.println("\tq -> return to main menu");
     }
 
@@ -254,14 +255,31 @@ public class BudgetApp {
         double expenseTotal = expenses.addTotalAmount(startDate, endDate);
         double savingsCutoff = incomeTotal * 0.2;
         double savings = incomeTotal - expenseTotal;
-        String stringIncome = df.format(incomeTotal);
-        String stringExpense = df.format(expenseTotal);
-        String stringSavings = df.format(savings);
+
         String msg = getMessageForSavings(savings, savingsCutoff, "week", "last");
         displayIndividualCategoryAmounts(startDate, endDate, incomeTotal, expenseTotal);
 
+        printBudgetOverview(incomeTotal, expenseTotal, savings, msg);
+
+    }
+
+    //EFFECTS: prints overview of budget based on income, expenses, savings, and msg
+    public void printBudgetOverview(double incomeT, double expenseT, double savings, String msg) {
+        String lostOrSaved = "saved";
+        String stringSavings;
+        String stringExpense;
+        String stringIncome;
+        if (savings < 0) {
+            lostOrSaved = "lost";
+            stringSavings = df.format(abs(savings));
+        } else {
+            stringSavings = df.format(savings);
+        }
+        stringExpense = df.format(expenseT);
+        stringIncome = df.format(incomeT);
+
         System.out.println("You made $" + stringIncome + " last week and spent $" + stringExpense + ".");
-        System.out.println("Overall you saved $" + stringSavings + "! " + msg);
+        System.out.println("Overall you " + lostOrSaved + " $" + stringSavings + "! " + msg);
 
     }
 
@@ -291,13 +309,9 @@ public class BudgetApp {
         double expenseTotal = expenses.addTotalAmount(startDate, endDate);
         double savingsCutoff = incomeTotal * 0.2;
         double savings = incomeTotal - expenseTotal;
-        String stringIncome = df.format(incomeTotal);
-        String stringExpense = df.format(expenseTotal);
-        String stringSavings = df.format(savings);
         msg = getMessageForSavings(savings, savingsCutoff, "year", "last");
         displayIndividualCategoryAmounts(startDate, endDate, incomeTotal, expenseTotal);
-        System.out.println("You made $" + stringIncome + " last year and spent $" + stringExpense + ".");
-        System.out.println("Overall you saved $" + stringSavings + "! " + msg);
+        printBudgetOverview(incomeTotal, expenseTotal, savings, msg);
 
     }
 
@@ -312,17 +326,16 @@ public class BudgetApp {
         int year = dateMonth.getYear();
         startDate = LocalDate.of(year, month, 1);
         endDate = startDate.withDayOfMonth(startDate.getMonth().length(startDate.isLeapYear()));
+
         double incomeTotal = incomes.addTotalAmount(startDate, endDate);
         double expenseTotal = expenses.addTotalAmount(startDate, endDate);
         double savingsCutoff = incomeTotal * 0.2;
         double savings = incomeTotal - expenseTotal;
-        String stringIncome = df.format(incomeTotal);
-        String stringExpense = df.format(expenseTotal);
-        String stringSavings = df.format(savings);
+
         msg = getMessageForSavings(savings, savingsCutoff, "month", "last");
         displayIndividualCategoryAmounts(startDate, endDate, incomeTotal, expenseTotal);
-        System.out.println("You made $" + stringIncome + " last month and spent $" + stringExpense + ".");
-        System.out.println("Overall you saved $" + stringSavings + "! " + msg);
+
+        printBudgetOverview(incomeTotal, expenseTotal, savings, msg);
 
     }
 
@@ -351,15 +364,11 @@ public class BudgetApp {
         double expenseTotal = expenses.addTotalAmount(startDate, date);
         double savingsCutoff = (incomeTotal * 0.20);
         double savings = incomeTotal - expenseTotal;
-        String stringIncome = df.format(incomeTotal);
-        String stringExpense = df.format(expenseTotal);
-        String stringSavings = df.format(savings);
         String msg;
 
         msg = getMessageForSavings(savings, savingsCutoff, "week", "this");
         displayIndividualCategoryAmounts(startDate, date, incomeTotal, expenseTotal);
-        System.out.println("You've made $" + stringIncome + " so far this week and spent $" + stringExpense + ".");
-        System.out.println("Overall you've saved $" + stringSavings + "! " + msg);
+        printBudgetOverview(incomeTotal, expenseTotal, savings, msg);
     }
 
     //EFFECTS: displays income/expenses for current month
@@ -369,15 +378,12 @@ public class BudgetApp {
         double expenseTotal = expenses.addTotalAmount(startDate, date);
         double savingsCutoff = (incomeTotal * 0.20);
         double savings = incomeTotal - expenseTotal;
-        String stringIncome = df.format(incomeTotal);
-        String stringExpense = df.format(expenseTotal);
-        String stringSavings = df.format(savings);
         String msg;
 
         msg = getMessageForSavings(savings, savingsCutoff, "month", "this");
         displayIndividualCategoryAmounts(startDate, date, incomeTotal, expenseTotal);
-        System.out.println("You've made $" + stringIncome + " so far this month and spent $" + stringExpense + ".");
-        System.out.println("Overall you've saved $" + stringSavings + "! " + msg);
+
+        printBudgetOverview(incomeTotal, expenseTotal, savings, msg);
 
     }
 
@@ -388,14 +394,10 @@ public class BudgetApp {
         double expenseTotal = expenses.addTotalAmount(startDate, date);
         double savingsCutoff = (incomeTotal * 0.20);
         double savings = incomeTotal - expenseTotal;
-        String stringIncome = df.format(incomeTotal);
-        String stringExpense = df.format(expenseTotal);
-        String stringSavings = df.format(savings);
         String msg = getMessageForSavings(savings, savingsCutoff, "year", "this");
         displayIndividualCategoryAmounts(startDate, date, incomeTotal, expenseTotal);
 
-        System.out.println("You've made $" + stringIncome + " so far this year and spent $" + stringExpense + ".");
-        System.out.println("Overall you've saved $" + stringSavings + "! " + msg);
+        printBudgetOverview(incomeTotal, expenseTotal, savings, msg);
 
     }
 
@@ -421,26 +423,6 @@ public class BudgetApp {
             }
         }
     }
-
-
-    //EFFECTS: displays menu options for viewing a budget
-    public void viewBudgetMenu() {
-        boolean keepGoing = true;
-        while (keepGoing) {
-            displayCategoryMenu();
-            System.out.println("\n");
-            System.out.println("\to -> view overall budget");
-            System.out.println("\tq -> return to main menu");
-            String command = input.next();
-            command = command.toLowerCase();
-            if (command.equals("q")) {
-                keepGoing = false;
-            } else if (command.equals("o")) {
-                viewOverallBudgetMenu();
-            }
-        }
-    }
-
 
 
     //EFFECTS: return period user wants to view budget in
@@ -722,7 +704,7 @@ public class BudgetApp {
     public void displayIncomeOrExpenseMenu() {
         System.out.println("\nEnter ID to delete OR:");
         System.out.println("\ta -> add new");
-        System.out.println("\te -> edit");
+        System.out.println("\te -> edit name");
         System.out.println("\tq -> quit");
     }
 
@@ -937,16 +919,86 @@ public class BudgetApp {
         int year;
         int month;
         int day;
-        LocalDate date;
-        System.out.println("What year did it start/occur?");
-        year = Integer.parseInt(input.next());
-        System.out.println("What month did it start/occur?");
-        month = Integer.parseInt(input.next());
-        System.out.println("Finally, what day?");
-        day = Integer.parseInt(input.next());
+        boolean keepGoing = true;
+        LocalDate date = java.time.LocalDate.now();
+
+        year = askYear();
+        month = askMonth();
+        day = askDay();
 
         date = LocalDate.of(year, month, day);
+
         return date;
+    }
+
+    //EFFECTS: returns valid day value obtained from user
+    public int askDay() {
+        boolean keepGoing = true;
+        int day = java.time.LocalDate.now().getDayOfMonth();
+
+        System.out.println("Finally, what day?");
+
+        while (keepGoing) {
+            day = Integer.parseInt(input.next());
+            try {
+                if (day >= 1 && day <= 31) {
+                    keepGoing = false;
+                } else {
+                    throw new InvalidValue();
+                }
+            } catch (InvalidValue e) {
+                System.out.println("Invalid day! Try again:");
+            }
+
+        }
+        return day;
+    }
+
+    //EFFECTS: returns valid month value obtained from user
+    public int askMonth() {
+        boolean keepGoing = true;
+        int month = java.time.LocalDate.now().getMonthValue();
+
+        System.out.println("month?");
+
+        while (keepGoing) {
+            month = Integer.parseInt(input.next());
+            try {
+                if (month >= 1 && month <= 12) {
+                    keepGoing = false;
+                } else {
+                    throw new InvalidValue();
+                }
+            } catch (InvalidValue e) {
+                System.out.println("Invalid month! Try again:");
+            }
+
+        }
+
+        return month;
+    }
+
+    //EFFECTS: returns valid year obtained from user
+    public int askYear() {
+        boolean keepGoing = true;
+        int year = java.time.LocalDate.now().getYear();
+        System.out.println("What year did it start/occur?");
+
+        while (keepGoing) {
+            year = Integer.parseInt(input.next());
+            try {
+                if (year >= 1000 && year <= 3000) {
+                    keepGoing = false;
+                } else {
+                    throw new InvalidValue();
+                }
+            } catch (InvalidValue e) {
+                System.out.println("Invalid year! Try again:");
+            }
+
+        }
+        return year;
+
     }
 
     //EFFECTS: return true if income/expense is recurring

@@ -19,8 +19,9 @@ class IncomeCategoryTest {
     private SingleIncome singleHelper2 = new SingleIncome("washed car", icTest2, 50);
     private RecurringIncome helper3 = new RecurringIncome("babysitting", 50, icTest2, "weekly");
 
-    LocalDate endDate = LocalDate.of(2023, 6, 11);
-    LocalDate startDate = LocalDate.of(2023, 2, 4);
+    private LocalDate endDate = LocalDate.of(2023, 6, 11);
+    private LocalDate startDate = LocalDate.of(2023, 2, 4);
+    private LocalDate setDate = LocalDate.of(2023, 2, 8);
     @Test
     public void incomeCategoryTest() {
         assertEquals(emptyList(), icTest1.getRecurring());
@@ -57,6 +58,10 @@ class IncomeCategoryTest {
 
     @Test
     public void addTotalAmountTest() {
+        singleHelper.setDate(setDate);
+        singleHelper2.setDate(setDate);
+        helper3.setStartDate(setDate);
+
         icTest2.addSingle(singleHelper);
         icTest2.addSingle(singleHelper2);
         icTest2.addRecurring(helper3);

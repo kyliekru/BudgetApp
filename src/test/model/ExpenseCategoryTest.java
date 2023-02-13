@@ -20,6 +20,7 @@ class ExpenseCategoryTest {
 
     private LocalDate endDate;
     private LocalDate startDate;
+    private LocalDate setDate;
 
     @BeforeEach
     void runBefore() {
@@ -32,6 +33,8 @@ class ExpenseCategoryTest {
 
         endDate = LocalDate.of(2023, 5, 12);
         startDate = LocalDate.of(2023, 2, 4);
+        setDate = LocalDate.of(2023, 2, 8);
+
     }
 
     @Test
@@ -66,6 +69,9 @@ class ExpenseCategoryTest {
 
     @Test
     void addTotalAmountTest() {
+        eatingOut.setDate(setDate);
+        hairProducts.setStartDate(setDate);
+        makeup.setStartDate(setDate);
         ecTest1.addSingle(eatingOut);
         ecTest2.addRecurring(hairProducts);
         ecTest2.addRecurring(makeup);

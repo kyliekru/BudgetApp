@@ -18,9 +18,7 @@ public abstract class RecurringFinancials extends IncomeOrExpense {
 
     }
 
-    public String getPeriod() {
-        return this.period;
-    }
+    public abstract String getPeriod();
 
 
     public void setStartDate(LocalDate date) {

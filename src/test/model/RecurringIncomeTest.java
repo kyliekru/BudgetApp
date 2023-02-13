@@ -12,8 +12,11 @@ class RecurringIncomeTest {
     private RecurringIncome riTest1 = new RecurringIncome("paycheck", 1500, salary, "bi-weekly");
     private RecurringIncome riTest2 = new RecurringIncome("renter's payment", 1100, renters, "monthly");
 
-    LocalDate endDate = LocalDate.of(2023, 6, 11);
-    LocalDate startDate = LocalDate.of(2023, 2, 4);
+    private LocalDate endDate = LocalDate.of(2023, 6, 11);
+    private LocalDate startDate = LocalDate.of(2023, 2, 4);
+    private LocalDate setDate = LocalDate.of(2023, 2, 8);
+    private LocalDate startDate2 = LocalDate.of(2023, 6, 7);
+
 
     @Test
     void recurringIncomeTest() {
@@ -35,11 +38,12 @@ class RecurringIncomeTest {
 
     @Test
     void calculateRecurringIncomeTest() {
-
-        riTest1.setStartDate(LocalDate.of(2023, 2, 8));
-        riTest2.setStartDate(LocalDate.of(2023, 2, 8));
+        riTest1.setStartDate(setDate);
+        riTest2.setStartDate(LocalDate.of(2023, 2, 3));
 
         assertEquals(8*1500, riTest1.calculate(startDate, endDate));
         assertEquals(4*1100, riTest2.calculate(startDate, endDate));
+
+        assertEquals(((4.0 / 30.0) * 1100), riTest2.calculate(startDate2, endDate));
     }
 }

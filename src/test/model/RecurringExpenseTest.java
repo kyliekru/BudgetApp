@@ -15,6 +15,7 @@ class RecurringExpenseTest {
     private ExpenseCategory rent = new ExpenseCategory("rent");
     private LocalDate endDate = LocalDate.of(2023, 6, 11);
     private LocalDate startDate = LocalDate.of(2023, 2, 4);
+    private LocalDate setDate = LocalDate.of(2023, 2, 8);
 
     @BeforeEach
     void runBefore() {
@@ -39,6 +40,8 @@ class RecurringExpenseTest {
 
     @Test
     void calculateRecurringExpenseTest() {
+        reTest1.setStartDate(setDate);
+        reTest2.setStartDate(setDate);
         assertEquals(4*1500, reTest1.calculate(startDate, endDate));
         assertEquals(8*150, reTest2.calculate(startDate, endDate));
     }
