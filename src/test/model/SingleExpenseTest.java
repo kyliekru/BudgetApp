@@ -13,6 +13,10 @@ class SingleExpenseTest {
     private ExpenseCategory schoolSupplies = new ExpenseCategory("SchoolSupplies");
     private SingleExpense seTest1;
     private SingleExpense seTest2;
+    private LocalDate startDate = LocalDate.of(2023, 02, 4);
+    private LocalDate endDate = LocalDate.of(2023, 6, 11);
+    private LocalDate setDate = LocalDate.of(2023, 7, 8);
+    private LocalDate currentDate = LocalDate.of(2023, 2, 13);
 
     @BeforeEach
     void runBefore() {
@@ -43,5 +47,13 @@ class SingleExpenseTest {
 
         seTest2.setCat(eatingOut);
         assertEquals(eatingOut, seTest2.getCat());
+    }
+
+    @Test
+    void calculateTest() {
+        seTest1.setDate(currentDate);
+        assertEquals(10, seTest1.calculate(startDate, endDate));
+        seTest1.setDate(setDate);
+        assertEquals(0, seTest1.calculate(startDate, endDate));
     }
 }

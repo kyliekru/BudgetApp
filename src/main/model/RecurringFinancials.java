@@ -52,9 +52,7 @@ public abstract class RecurringFinancials extends IncomeOrExpense {
 
         }
 
-        if (multiplier > 1) {
-            multiplier = floor(multiplier);
-        }
+        multiplier = floor(multiplier);
         return multiplier;
     }
 }

@@ -23,7 +23,7 @@ class RecurringExpenseTest {
     void runBefore() {
         reTest1 = new RecurringExpense("Rent Payment", rent, 1500, "monthly");
         reTest2 = new RecurringExpense("Water", utilities, 150, "bi-weekly");
-        reTest3 = new RecurringExpense("stuff", utilities, 50, "monthly");
+        reTest3 = new RecurringExpense("stuff", utilities, 50, "weekly");
     }
 
     @Test

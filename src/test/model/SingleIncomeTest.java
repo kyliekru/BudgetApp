@@ -2,6 +2,9 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SingleIncomeTest {
@@ -10,6 +13,10 @@ class SingleIncomeTest {
     private IncomeCategory oddJobs;
     private SingleIncome siTest1;
     private SingleIncome siTest2;
+    private LocalDate startDate = LocalDate.of(2023, 02, 4);
+    private LocalDate endDate = LocalDate.of(2023, 6, 11);
+    private LocalDate setDate = LocalDate.of(2023, 7, 8);
+    private LocalDate currentDate = LocalDate.of(2023, 2, 13);
 
     @BeforeEach
     void runBefore() {
@@ -35,6 +42,15 @@ class SingleIncomeTest {
     void setCatTest() {
         siTest1.setCat(oddJobs);
         assertEquals(oddJobs, siTest1.getCat());
+    }
+
+    @Test
+    void calculateTest() {
+        siTest1.setDate(currentDate);
+        assertEquals(500, siTest1.calculate(startDate, endDate));
+
+        siTest1.setDate(setDate);
+        assertEquals(0, siTest1.calculate(startDate, endDate));
     }
 
 

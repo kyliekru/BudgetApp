@@ -85,11 +85,12 @@ class IncomeCategoryTest {
     @Test
     void removeSingleIncomeTest() {
         icTest2.addSingle(singleHelper);
+        icTest2.addSingle(singleHelper2);
         assertEquals(singleHelper, icTest2.getSingle().get(0));
 
 
-        assertTrue(icTest2.removeSingle(50));
-        assertEquals(emptyList(), icTest2.getSingle());
+        assertTrue(icTest2.removeSingle(55));
+        assertEquals(singleHelper2, icTest2.getSingle().get(0));
         assertFalse(icTest2.removeSingle(1));
         assertFalse(icTest3.removeSingle(1));
     }
@@ -97,12 +98,33 @@ class IncomeCategoryTest {
     @Test
     void removeRecurringIncomeTest() {
         icTest1.addRecurring(helper);
+        icTest1.addRecurring(helper2);
         assertEquals(helper, icTest1.getRecurring().get(0));
 
-        assertTrue(icTest1.removeRecurring(43));
-        assertEquals(emptyList(), icTest1.getRecurring());
+        assertTrue(icTest1.removeRecurring(48));
+        assertEquals(helper2, icTest1.getRecurring().get(0));
         assertFalse(icTest1.removeRecurring(2));
         assertFalse(icTest3.removeRecurring(4));
+    }
+
+    @Test
+    void addSingleAmountTest() {
+        assertEquals(0, icTest3.addSingleAmount(startDate, endDate));
+        icTest2.addSingle(singleHelper);
+        icTest2.addSingle(singleHelper2);
+        icTest2.addRecurring(helper2);
+        assertEquals(150, icTest2.addSingleAmount(startDate, endDate));
+    }
+
+    @Test
+    void addRecurringAmountTest() {
+        assertEquals(0, icTest3.addRecurringAmount(startDate, endDate));
+        icTest1.addSingle(singleHelper);
+        icTest2.addRecurring(helper);
+        icTest2.addRecurring(helper2);
+        assertEquals(16000, icTest2.addRecurringAmount(startDate, endDate));
+
+
     }
 
 
