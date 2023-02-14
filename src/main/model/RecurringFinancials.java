@@ -9,22 +9,8 @@ import static java.time.temporal.ChronoUnit.MONTHS;
 //Abstract class for Recurring expenses and incomes
 public abstract class RecurringFinancials extends IncomeOrExpense {
 
-    protected LocalDate date;
-    protected String period;
-
-
-    public LocalDate getStartDate() {
-        return this.date;
-
-    }
 
     public abstract String getPeriod();
-
-
-    public void setStartDate(LocalDate date) {
-        this.date = date;
-
-    }
 
 
     //EFFECTS: produce total income over a given period, based on this
@@ -32,12 +18,14 @@ public abstract class RecurringFinancials extends IncomeOrExpense {
     public double calculate(LocalDate startDate, LocalDate endDate) {
         double amount = 0;
         double numDaysBetween = 0;
-        LocalDate thisStartDate = this.getStartDate();
+        LocalDate thisStartDate = this.getDate();
+        int dayOfMonth = thisStartDate.getDayOfMonth();
 
         if (thisStartDate.isBefore(endDate)) {
             if (thisStartDate.isAfter(startDate)) {
-                numDaysBetween = DAYS.between(this.getStartDate(), endDate);
-            } else {
+                numDaysBetween = DAYS.between(this.getDate(), endDate);
+            } else if (thisStartDate.isBefore(startDate)) {
+                startDate = startDate.withDayOfMonth(dayOfMonth);
                 numDaysBetween = DAYS.between(startDate, endDate);
             }
         }
@@ -53,18 +41,17 @@ public abstract class RecurringFinancials extends IncomeOrExpense {
     //EFFECTS: returns multiplier for calculation based on period
     public double calculateMultiplier(double numDaysBetween, LocalDate startDate, LocalDate endDate) {
         double multiplier;
-        int daysInMonth = startDate.getMonth().length(startDate.isLeapYear());
-
-        if (this.getPeriod().equals("weekly")) {
+        if (numDaysBetween == 0) {
+            multiplier = 0;
+        } else if (this.getPeriod().equals("weekly")) {
             multiplier = numDaysBetween / 7;
         } else if (this.getPeriod().equals("bi-weekly")) {
             multiplier = (numDaysBetween / 7) / 2;
         } else {
             multiplier = MONTHS.between(startDate, endDate);
-            if (multiplier < 1) {
-                multiplier = numDaysBetween / daysInMonth;
-            }
+
         }
+
         if (multiplier > 1) {
             multiplier = floor(multiplier);
         }

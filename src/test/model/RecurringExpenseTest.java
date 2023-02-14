@@ -44,10 +44,12 @@ class RecurringExpenseTest {
     @Test
     void calculateRecurringExpenseTest() {
 
-        reTest1.setStartDate(setDate);
-        reTest2.setStartDate(setDate);
+        reTest1.setDate(setDate);
+        reTest2.setDate(setDate);
         assertEquals(4*1500, reTest1.calculate(startDate, endDate));
         assertEquals(8*150, reTest2.calculate(startDate, endDate));
+        reTest2.setDate(afterEndDate);
+        assertEquals(0, reTest2.calculate(startDate, endDate));
 
 
     }

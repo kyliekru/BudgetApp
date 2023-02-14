@@ -76,8 +76,8 @@ class ExpenseCategoryTest {
     @Test
     void addTotalAmountTest() {
         eatingOut.setDate(setDate);
-        hairProducts.setStartDate(setDate);
-        makeup.setStartDate(setDate);
+        hairProducts.setDate(setDate);
+        makeup.setDate(setDate);
         ecTest1.addSingle(eatingOut);
         ecTest2.addRecurring(hairProducts);
         ecTest2.addRecurring(makeup);

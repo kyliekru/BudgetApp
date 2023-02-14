@@ -5,10 +5,10 @@ import java.time.LocalDate;
 //Abstract class for recurring and single expenses and incomes
 public abstract class IncomeOrExpense {
 
-    String name;
-    double amount;
-    LocalDate date;
-    int id;
+    protected String name;
+    protected double amount;
+    protected LocalDate date;
+    protected int id;
     protected static int nextIncomeOrExpenseID = 1;
 
 
@@ -26,6 +26,10 @@ public abstract class IncomeOrExpense {
     public double getAmount() {
         return this.amount;
 
+    }
+
+    public LocalDate getDate() {
+        return this.date;
     }
 
 

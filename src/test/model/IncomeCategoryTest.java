@@ -61,7 +61,7 @@ class IncomeCategoryTest {
     public void addTotalAmountTest() {
         singleHelper.setDate(setDate);
         singleHelper2.setDate(setDate);
-        helper3.setStartDate(setDate);
+        helper3.setDate(setDate);
 
         icTest2.addSingle(singleHelper);
         icTest2.addSingle(singleHelper2);
