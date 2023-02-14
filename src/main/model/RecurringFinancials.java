@@ -22,9 +22,9 @@ public abstract class RecurringFinancials extends IncomeOrExpense {
         int dayOfMonth = thisStartDate.getDayOfMonth();
 
         if (thisStartDate.isBefore(endDate)) {
-            if (thisStartDate.isAfter(startDate)) {
+            if (thisStartDate.isAfter(startDate) || thisStartDate.isEqual(startDate)) {
                 numDaysBetween = DAYS.between(this.getDate(), endDate);
-            } else if (thisStartDate.isBefore(startDate)) {
+            } else {
                 startDate = startDate.withDayOfMonth(dayOfMonth);
                 numDaysBetween = DAYS.between(startDate, endDate);
             }

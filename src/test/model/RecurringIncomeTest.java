@@ -49,6 +49,8 @@ class RecurringIncomeTest {
         assertEquals(4*1100, riTest2.calculate(startDate, endDate));
 
         assertEquals(0, riTest2.calculate(startDate2, endDate));
+        riTest3.setDate(startDate);
+        assertEquals(900, riTest3.calculate(startDate, endDate));
 
     }
 }
