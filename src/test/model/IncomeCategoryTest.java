@@ -13,6 +13,7 @@ class IncomeCategoryTest {
 
     private IncomeCategory icTest1 = new IncomeCategory("salary");
     private IncomeCategory icTest2 = new IncomeCategory("odd jobs");
+    private IncomeCategory icTest3 = new IncomeCategory("stuff");
     private RecurringIncome helper = new RecurringIncome("salary", 1500, icTest1, "bi-weekly");
     private RecurringIncome helper2 = new RecurringIncome("serving job", 500, icTest1, "bi-weekly");
     private SingleIncome singleHelper = new SingleIncome("washed windows", icTest2, 100);
@@ -77,6 +78,7 @@ class IncomeCategoryTest {
         singleHelper.setDate(setDate);
         singleHelper2.setDate(setDate);
         assertEquals(850, icTest2.addTotalAmount(startDate, endDate));
+        assertEquals(0, icTest3.addTotalAmount(startDate, endDate));
 
     }
 

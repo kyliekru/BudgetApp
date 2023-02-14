@@ -13,6 +13,7 @@ class ExpenseCategoryTest {
 
     private ExpenseCategory ecTest1;
     private ExpenseCategory ecTest2;
+    private ExpenseCategory ecTest3;
 
     private SingleExpense eatingOut;
     private RecurringExpense hairProducts;
@@ -26,6 +27,8 @@ class ExpenseCategoryTest {
     void runBefore() {
         ecTest1 = new ExpenseCategory("food");
         ecTest2 = new ExpenseCategory("personal products");
+        ecTest3 = new ExpenseCategory("bills");
+
 
         eatingOut = new SingleExpense("Dinner & Drinks", ecTest1, 75);
         hairProducts = new RecurringExpense("Shampoo&Conditioner", ecTest2, 50, "monthly");
@@ -83,6 +86,9 @@ class ExpenseCategoryTest {
         setDate = LocalDate.of(2023, 6, 12);
         eatingOut.setDate(setDate);
         assertEquals(0, ecTest1.addTotalAmount(startDate, endDate));
+        assertEquals(0, ecTest3.addTotalAmount(startDate, endDate));
+        ecTest2.addSingle(eatingOut);
+        assertEquals(300, ecTest2.addTotalAmount(startDate, endDate));
     }
 
     @Test
@@ -112,4 +118,6 @@ class ExpenseCategoryTest {
 
         assertFalse(ecTest1.removeRecurring(50));
     }
+
+
 }
