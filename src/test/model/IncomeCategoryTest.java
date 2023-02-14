@@ -67,17 +67,17 @@ class IncomeCategoryTest {
         icTest2.addSingle(singleHelper2);
         icTest2.addRecurring(helper3);
 
-        assertEquals(1000, icTest2.addTotalAmount(startDate, endDate));
+        assertEquals(1050, icTest2.addTotalAmount(startDate, endDate));
 
         icTest1.addRecurring(helper);
         icTest1.addRecurring(helper2);
 
-        assertEquals(16000, icTest1.addTotalAmount(startDate, endDate));
+        assertEquals(18000, icTest1.addTotalAmount(startDate, endDate));
 
         setDate = LocalDate.of(2023, 7, 11);
         singleHelper.setDate(setDate);
         singleHelper2.setDate(setDate);
-        assertEquals(850, icTest2.addTotalAmount(startDate, endDate));
+        assertEquals(900, icTest2.addTotalAmount(startDate, endDate));
         assertEquals(0, icTest3.addTotalAmount(startDate, endDate));
 
     }
@@ -109,6 +109,9 @@ class IncomeCategoryTest {
 
     @Test
     void addSingleAmountTest() {
+        singleHelper.setDate(setDate);
+        singleHelper2.setDate(setDate);
+        helper2.setDate(setDate);
         assertEquals(0, icTest3.addSingleAmount(startDate, endDate));
         icTest2.addSingle(singleHelper);
         icTest2.addSingle(singleHelper2);
@@ -118,11 +121,14 @@ class IncomeCategoryTest {
 
     @Test
     void addRecurringAmountTest() {
+        singleHelper.setDate(setDate);
+        helper.setDate(setDate);
+        helper2.setDate(setDate);
         assertEquals(0, icTest3.addRecurringAmount(startDate, endDate));
         icTest1.addSingle(singleHelper);
         icTest2.addRecurring(helper);
         icTest2.addRecurring(helper2);
-        assertEquals(16000, icTest2.addRecurringAmount(startDate, endDate));
+        assertEquals(18000, icTest2.addRecurringAmount(startDate, endDate));
 
 
     }

@@ -275,7 +275,7 @@ public class BudgetApp {
         }
         if (savin < 0) {
             lostOrSaved = "lost";
-            stringSavings = df.format(abs(savin));
+            stringSavings = df.format(savin * -1);
         } else {
             stringSavings = df.format(savin);
         }

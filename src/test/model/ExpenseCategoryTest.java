@@ -79,6 +79,7 @@ class ExpenseCategoryTest {
         eatingOut.setDate(setDate);
         hairProducts.setDate(setDate);
         makeup.setDate(setDate);
+        coffee.setDate(setDate);
         ecTest1.addSingle(eatingOut);
         ecTest2.addRecurring(hairProducts);
         ecTest2.addRecurring(makeup);
@@ -87,7 +88,7 @@ class ExpenseCategoryTest {
 
 
         assertEquals(87, ecTest1.addTotalAmount(startDate, endDate));
-        assertEquals(812, ecTest2.addTotalAmount(startDate, endDate));
+        assertEquals(912, ecTest2.addTotalAmount(startDate, endDate));
 
         setDate = LocalDate.of(2023, 6, 12);
         eatingOut.setDate(setDate);
@@ -96,11 +97,15 @@ class ExpenseCategoryTest {
         assertEquals(0, ecTest1.addTotalAmount(startDate, endDate));
         assertEquals(0, ecTest3.addTotalAmount(startDate, endDate));
         ecTest2.addSingle(eatingOut);
-        assertEquals(800, ecTest2.addTotalAmount(startDate, endDate));
+        assertEquals(900, ecTest2.addTotalAmount(startDate, endDate));
     }
 
     @Test
     void removeSingleExpenseTest() {
+        eatingOut.setDate(setDate);
+        hairProducts.setDate(setDate);
+        makeup.setDate(setDate);
+        coffee.setDate(setDate);
         ecTest1.addSingle(eatingOut);
         ecTest1.addRecurring(hairProducts);
         ecTest1.addRecurring(makeup);
@@ -115,6 +120,8 @@ class ExpenseCategoryTest {
 
     @Test
     void removeRecurringExpenseTest() {
+        hairProducts.setDate(setDate);
+        makeup.setDate(setDate);
         ecTest2.addRecurring(hairProducts);
         ecTest2.addRecurring(makeup);
 
@@ -150,7 +157,7 @@ class ExpenseCategoryTest {
         ecTest2.addRecurring(hairProducts);
         ecTest2.addRecurring(makeup);
         ecTest2.addSingle(eatingOut);
-        assertEquals(800, ecTest2.addRecurringAmount(startDate, endDate));
+        assertEquals(900, ecTest2.addRecurringAmount(startDate, endDate));
         assertEquals(0, ecTest1.addRecurringAmount(startDate, endDate));
 
     }

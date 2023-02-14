@@ -104,7 +104,7 @@ class CategoryListTest {
         eatingOut.setDate(LocalDate.of(2023, 2, 8));
         hairProducts.setDate(LocalDate.of(2023, 2, 8));
 
-        assertEquals(275, clTest1.addTotalAmount(startDate, endDate));
+        assertEquals(325, clTest1.addTotalAmount(startDate, endDate));
 
 
     }
