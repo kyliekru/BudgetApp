@@ -11,7 +11,7 @@ class RecurringIncomeTest {
     private IncomeCategory renters = new IncomeCategory("renter's check");
     private RecurringIncome riTest1 = new RecurringIncome("paycheck", 1500, salary, "bi-weekly");
     private RecurringIncome riTest2 = new RecurringIncome("renter's", 1100, renters, "monthly");
-    private RecurringIncome riTest3 = new RecurringIncome("fun money", 50, salary, "monthly");
+    private RecurringIncome riTest3 = new RecurringIncome("fun money", 50, salary, "weekly");
 
     private LocalDate endDate = LocalDate.of(2023, 6, 11);
     private LocalDate startDate = LocalDate.of(2023, 2, 4);

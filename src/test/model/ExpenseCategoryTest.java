@@ -33,7 +33,7 @@ class ExpenseCategoryTest {
 
         eatingOut = new SingleExpense("Dinner & Drinks", ecTest1, 75);
         hairProducts = new RecurringExpense("Shampoo&Conditioner", ecTest2, 50, "monthly");
-        makeup = new RecurringExpense("makeup", ecTest2, 50, "monthly");
+        makeup = new RecurringExpense("makeup", ecTest2, 50, "weekly");
         coffee = new SingleExpense("Starbucks", ecTest1, 12);
 
         endDate = LocalDate.of(2023, 5, 12);
@@ -84,14 +84,14 @@ class ExpenseCategoryTest {
 
 
         assertEquals(75, ecTest1.addTotalAmount(startDate, endDate));
-        assertEquals(300, ecTest2.addTotalAmount(startDate, endDate));
+        assertEquals(800, ecTest2.addTotalAmount(startDate, endDate));
 
         setDate = LocalDate.of(2023, 6, 12);
         eatingOut.setDate(setDate);
         assertEquals(0, ecTest1.addTotalAmount(startDate, endDate));
         assertEquals(0, ecTest3.addTotalAmount(startDate, endDate));
         ecTest2.addSingle(eatingOut);
-        assertEquals(300, ecTest2.addTotalAmount(startDate, endDate));
+        assertEquals(800, ecTest2.addTotalAmount(startDate, endDate));
     }
 
     @Test
@@ -113,16 +113,39 @@ class ExpenseCategoryTest {
 
 
 
-        ecTest2.removeRecurring(23);
+        ecTest2.removeRecurring(27);
 
         List list = ecTest2.getRecurring();
         assertEquals(hairProducts, list.get(0));
-        ecTest2.removeRecurring(22);
+        ecTest2.removeRecurring(26);
         List list1 = ecTest2.getRecurring();
         assertEquals(emptyList(), list1);
 
         assertFalse(ecTest1.removeRecurring(50));
         assertFalse(ecTest3.removeRecurring(23));
+    }
+
+    @Test
+    void addSingleAmountTest() {
+        coffee.setDate(setDate);
+        ecTest1.addSingle(coffee);
+        eatingOut.setDate(setDate);
+        ecTest1.addSingle(eatingOut);
+        ecTest1.addRecurring(hairProducts);
+        assertEquals(87, ecTest1.addSingleAmount(startDate, endDate));
+        assertEquals(0, ecTest2.addSingleAmount(startDate, endDate));
+    }
+
+    @Test
+    void addRecurringAmountTest() {
+        hairProducts.setDate(setDate);
+        makeup.setDate(setDate);
+        ecTest2.addRecurring(hairProducts);
+        ecTest2.addRecurring(makeup);
+        ecTest2.addSingle(eatingOut);
+        assertEquals(800, ecTest2.addRecurringAmount(startDate, endDate));
+        assertEquals(0, ecTest1.addRecurringAmount(startDate, endDate));
+
     }
 
 

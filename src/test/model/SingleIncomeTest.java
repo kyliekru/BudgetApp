@@ -17,6 +17,7 @@ class SingleIncomeTest {
     private LocalDate endDate = LocalDate.of(2023, 6, 11);
     private LocalDate setDate = LocalDate.of(2023, 7, 8);
     private LocalDate currentDate = LocalDate.of(2023, 2, 13);
+    private LocalDate setDate2 = LocalDate.of(2023, 1, 1);
 
     @BeforeEach
     void runBefore() {
@@ -32,16 +33,20 @@ class SingleIncomeTest {
         assertEquals("guitar", siTest1.getName());
         assertEquals(soldItem, siTest1.getCat());
         assertEquals(500, siTest1.getAmount());
+        assertEquals(java.time.LocalDate.now(), siTest1.getDate());
 
         assertEquals("mowed lawn", siTest2.getName());
         assertEquals(oddJobs, siTest2.getCat());
         assertEquals(25, siTest2.getAmount());
+        assertEquals(java.time.LocalDate.now(), siTest2.getDate());
     }
 
     @Test
     void setCatTest() {
         siTest1.setCat(oddJobs);
         assertEquals(oddJobs, siTest1.getCat());
+        siTest2.setCat(soldItem);
+        assertEquals(soldItem, siTest2.getCat());
     }
 
     @Test
@@ -51,7 +56,11 @@ class SingleIncomeTest {
 
         siTest1.setDate(setDate);
         assertEquals(0, siTest1.calculate(startDate, endDate));
+        siTest2.setDate(setDate2);
+        assertEquals(0, siTest2.calculate(startDate, endDate));
     }
+
+
 
 
 
