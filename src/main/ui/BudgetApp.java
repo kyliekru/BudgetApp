@@ -560,7 +560,12 @@ public class BudgetApp {
     //EFFECTS: process user input from category menu
     public void processCategoryMenu(String command) {
         boolean idExists;
-        int newCommand = Integer.parseInt(command);
+        int newCommand = 0;
+        try {
+            newCommand = Integer.parseInt(command);
+        } catch (NumberFormatException ex) {
+            System.out.println("Not a valid string input.");
+        }
 
         LinkedList<IncomeCategory> incomeList = incomes.getCatList();
         LinkedList<ExpenseCategory> expenseList = expenses.getCatList();
@@ -849,7 +854,7 @@ public class BudgetApp {
         return sure;
     }
 
-    //REQUIRES: user enters valid year, month, and day values
+    //REQUIRES: user enters a non-empty string
     //MODIFIES: this
     //EFFECTS: gets user input then adds income to income list
     public void addIncome() {
@@ -883,6 +888,7 @@ public class BudgetApp {
 
     }
 
+    //REQUIRES: user enters non-empty string
     //MODIFIES: this, currentCategory
     //EFFECTS: creates an expense from user input and adds it to currentCategory
     public void addExpense() {

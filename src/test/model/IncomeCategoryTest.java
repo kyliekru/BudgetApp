@@ -88,11 +88,10 @@ class IncomeCategoryTest {
         assertEquals(singleHelper, icTest2.getSingle().get(0));
 
 
-
-
-        assertTrue(icTest2.removeSingle(44));
+        assertTrue(icTest2.removeSingle(50));
         assertEquals(emptyList(), icTest2.getSingle());
         assertFalse(icTest2.removeSingle(1));
+        assertFalse(icTest3.removeSingle(1));
     }
 
     @Test
@@ -100,9 +99,10 @@ class IncomeCategoryTest {
         icTest1.addRecurring(helper);
         assertEquals(helper, icTest1.getRecurring().get(0));
 
-        assertTrue(icTest1.removeRecurring(37));
+        assertTrue(icTest1.removeRecurring(43));
         assertEquals(emptyList(), icTest1.getRecurring());
         assertFalse(icTest1.removeRecurring(2));
+        assertFalse(icTest3.removeRecurring(4));
     }
 
 

@@ -16,6 +16,7 @@ class ExpenseCategoryTest {
     private ExpenseCategory ecTest3;
 
     private SingleExpense eatingOut;
+    private SingleExpense coffee;
     private RecurringExpense hairProducts;
     private RecurringExpense makeup;
 
@@ -33,6 +34,7 @@ class ExpenseCategoryTest {
         eatingOut = new SingleExpense("Dinner & Drinks", ecTest1, 75);
         hairProducts = new RecurringExpense("Shampoo&Conditioner", ecTest2, 50, "monthly");
         makeup = new RecurringExpense("makeup", ecTest2, 50, "monthly");
+        coffee = new SingleExpense("Starbucks", ecTest1, 12);
 
         endDate = LocalDate.of(2023, 5, 12);
         startDate = LocalDate.of(2023, 2, 4);
@@ -66,6 +68,7 @@ class ExpenseCategoryTest {
     @Test
     void addSingleExpenseTest() {
         ecTest1.addSingle(eatingOut);
+        ecTest1.addSingle(coffee);
         List list = ecTest1.getSingle();
         assertEquals(eatingOut, list.get(0));
     }
@@ -94,11 +97,13 @@ class ExpenseCategoryTest {
     @Test
     void removeSingleExpenseTest() {
         ecTest1.addSingle(eatingOut);
+        ecTest1.addRecurring(hairProducts);
 
 
-        ecTest1.removeSingle(15);
-        assertEquals(emptyList(), ecTest1.getSingle());
+        ecTest1.removeSingle(16);
+        assertEquals(eatingOut, ecTest1.getSingle().get(0));
         assertFalse(ecTest1.removeSingle(25));
+        assertFalse(ecTest3.removeSingle(1));
     }
 
     @Test
@@ -108,15 +113,16 @@ class ExpenseCategoryTest {
 
 
 
-        ecTest2.removeRecurring(20);
+        ecTest2.removeRecurring(23);
 
         List list = ecTest2.getRecurring();
         assertEquals(hairProducts, list.get(0));
-        ecTest2.removeRecurring(19);
+        ecTest2.removeRecurring(22);
         List list1 = ecTest2.getRecurring();
         assertEquals(emptyList(), list1);
 
         assertFalse(ecTest1.removeRecurring(50));
+        assertFalse(ecTest3.removeRecurring(23));
     }
 
 

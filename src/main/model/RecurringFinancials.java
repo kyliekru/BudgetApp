@@ -34,11 +34,12 @@ public abstract class RecurringFinancials extends IncomeOrExpense {
         double numDaysBetween = 0;
         LocalDate thisStartDate = this.getStartDate();
 
-
-        if (thisStartDate.isAfter(startDate)) {
-            numDaysBetween = DAYS.between(this.getStartDate(), endDate);
-        } else {
-            numDaysBetween = DAYS.between(startDate, endDate);
+        if (thisStartDate.isBefore(endDate)) {
+            if (thisStartDate.isAfter(startDate)) {
+                numDaysBetween = DAYS.between(this.getStartDate(), endDate);
+            } else {
+                numDaysBetween = DAYS.between(startDate, endDate);
+            }
         }
 
         double multiplier = calculateMultiplier(numDaysBetween, startDate, endDate);
