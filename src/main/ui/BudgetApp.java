@@ -204,6 +204,7 @@ public class BudgetApp {
         categoryMenu();
     }
 
+    //MODIFIES: this
     //EFFECTS: displays budget in the latest full given period
     public void viewPastBudget(String period) {
         LocalDate currentDate = java.time.LocalDate.now();
@@ -220,6 +221,8 @@ public class BudgetApp {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: Displays income and expenses for each category
     public void displayIndividualCategoryAmounts(LocalDate startDate, LocalDate endDate, double totalI, double totalE) {
         LinkedList<IncomeCategory> incomeList = incomes.getCatList();
         LinkedList<ExpenseCategory> expenseList = expenses.getCatList();
@@ -244,6 +247,7 @@ public class BudgetApp {
         }
     }
 
+    //MODIFIES: this
     //EFFECTS: display past week's income and expenses
     public void processWeekly(LocalDate date) {
         LocalDate startDate;
@@ -263,6 +267,7 @@ public class BudgetApp {
 
     }
 
+    //MODIFIES: this
     //EFFECTS: prints overview of budget based on income, expenses, savings, and msg
     public void printBudgetOverview(double income, double expens, double savin, String msg, boolean curr, String when) {
         String lostOrSaved = "saved";
@@ -287,6 +292,7 @@ public class BudgetApp {
 
     }
 
+    //MODIFIES: this
     //EFFECTS: return message for viewing budget based on savings and savingsCutoff
     public String getMessageForSavings(double savings, double savingsCutoff, String period, String when) {
         String msg;
@@ -301,6 +307,7 @@ public class BudgetApp {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: display past year's income and expenses
     public void processYearly(LocalDate date) {
         LocalDate startDate;
@@ -320,6 +327,7 @@ public class BudgetApp {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: display past month's income and expenses
     public void processMonthly(LocalDate date) {
         LocalDate startDate;
@@ -344,6 +352,7 @@ public class BudgetApp {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: displays budget in the current partial period
     public void viewCurrentBudget(String period) {
         LocalDate currentDate = java.time.LocalDate.now();
@@ -361,6 +370,7 @@ public class BudgetApp {
 
     }
 
+    //MODIFIES: this
     //EFFECTS: displays income/expenses for current week
     public void processCurrentWeek(LocalDate date) {
         LocalDate startDate = date.with(DayOfWeek.SUNDAY).minusWeeks(1);
@@ -375,6 +385,7 @@ public class BudgetApp {
         printBudgetOverview(incomeTotal, expenseTotal, savings, msg, true, "week");
     }
 
+    //MODIFIES: this
     //EFFECTS: displays income/expenses for current month
     public void processCurrentMonth(LocalDate date) {
         LocalDate startDate = date.withDayOfMonth(1);
@@ -391,6 +402,7 @@ public class BudgetApp {
 
     }
 
+    //MODIFIES: this
     //EFFECTS: displays total income/expenses for current year
     public void processCurrentYear(LocalDate date) {
         LocalDate startDate = date.withDayOfYear(1);
@@ -405,6 +417,8 @@ public class BudgetApp {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: displays budget options and processes user input
     public void viewOverallBudgetMenu() {
         boolean keepGoing = true;
         while (keepGoing) {
@@ -429,6 +443,7 @@ public class BudgetApp {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: return period user wants to view budget in
     public String askBudgetPeriod() {
         System.out.println("In what time frame?");
@@ -480,6 +495,7 @@ public class BudgetApp {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: process input from create category menu
     public void processCreateCategoryMenu(int command) {
         switch (command) {
@@ -561,6 +577,7 @@ public class BudgetApp {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: process user input from category menu
     public void processCategoryMenu(String command) {
         boolean idExists;
@@ -588,6 +605,7 @@ public class BudgetApp {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: returns true if ID is in either income or expense list
     public boolean checkCatID(LinkedList<IncomeCategory> incomes, LinkedList<ExpenseCategory> expenses, int command) {
         boolean idExists = false;
@@ -611,6 +629,7 @@ public class BudgetApp {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: Process user input and displays income/expense menu
     public void createExpenseMenu() {
         boolean keepGoing = true;
@@ -631,6 +650,7 @@ public class BudgetApp {
         }
     }
 
+    //MODIFIES: this
     //EFFECTS: display expenses in category
     public void displayExpenseMenu() {
         LinkedList<SingleExpense> singleExpenses = currentCategory.getSingle();
@@ -654,6 +674,7 @@ public class BudgetApp {
 
     }
 
+    //MODIFIES: this
     //EFFECTS: Processes user input from expense menu and redirects user
     public void processExpenseMenu(String command) {
         if (command.equals("a")) {
@@ -667,6 +688,7 @@ public class BudgetApp {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: Process user input and displays income/expense menu
     public void createIncomeMenu() {
         boolean keepGoing = true;
@@ -687,6 +709,7 @@ public class BudgetApp {
         }
     }
 
+    //MODIFIES: this
     //EFFECTS: displays incomes in currentCategory
     public void displayIncomeMenu() {
         LinkedList<SingleIncome> singleIncomes = currentCategory.getSingle();
@@ -709,6 +732,7 @@ public class BudgetApp {
         }
     }
 
+
     //EFFECTS: displays income/expense menu
     public void displayIncomeOrExpenseMenu() {
         System.out.println("\nEnter ID to delete OR:");
@@ -717,7 +741,7 @@ public class BudgetApp {
         System.out.println("\tq -> quit");
     }
 
-
+    //MODIFIES: this
     //EFFECTS: processes user command from Income Menu
     public void processIncomeMenu(String command) {
         if (command.equals("a")) {
@@ -846,6 +870,7 @@ public class BudgetApp {
 
     }
 
+    //MODIFIES: this
     //EFFECTS: ask user if they want to delete, if yes return true else return false
     public boolean checkSure() {
         boolean sure;
@@ -924,6 +949,7 @@ public class BudgetApp {
 
     }
 
+    //MODIFIES: this
     //EFFECTS: gets date value from user then creates LocalDate from value
     public LocalDate askDate() {
         int year;
@@ -941,6 +967,7 @@ public class BudgetApp {
         return date;
     }
 
+    //MODIFIES: this
     //EFFECTS: returns valid day value obtained from user
     public int askDay() {
         boolean keepGoing = true;
@@ -964,6 +991,7 @@ public class BudgetApp {
         return day;
     }
 
+    //MODIFIES: this
     //EFFECTS: returns valid month value obtained from user
     public int askMonth() {
         boolean keepGoing = true;
@@ -988,6 +1016,7 @@ public class BudgetApp {
         return month;
     }
 
+    //MODIFIES: this
     //EFFECTS: returns valid year obtained from user
     public int askYear() {
         boolean keepGoing = true;
@@ -1011,6 +1040,7 @@ public class BudgetApp {
 
     }
 
+    //MODIFIES: this
     //EFFECTS: return true if income/expense is recurring
     public boolean askRecurring() {
         boolean keepGoing = true;
@@ -1038,6 +1068,7 @@ public class BudgetApp {
         return isRecurring;
     }
 
+    //MODIFIES: this
     //EFFECTS: returns period of weekly, bi-weekly, or monthly.
     public String askPeriod() {
         String period = null;
@@ -1065,6 +1096,7 @@ public class BudgetApp {
     }
 
 
+    //MODIFIES: this
     //EFFECTS: returns period relating to given command
     public String processPeriod(String command) {
         String period = null;
@@ -1082,6 +1114,7 @@ public class BudgetApp {
         return period;
     }
 
+    //EFFECTS: displays options for periods
     public void displayPeriodOptions() {
         System.out.println("How often will it recur?");
         System.out.println("\tw -> weekly");
