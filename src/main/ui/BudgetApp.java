@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import exceptions.InvalidValue;
-import exceptions.WrongID;
+import ui.exceptions.InvalidValue;
+import ui.exceptions.WrongID;
 import model.*;
 
 import static java.lang.Math.*;
@@ -1040,13 +1040,34 @@ public class BudgetApp {
 
     //EFFECTS: returns period of weekly, bi-weekly, or monthly.
     public String askPeriod() {
-        System.out.println("How often will it recur?");
-        System.out.println("\tw -> weekly");
-        System.out.println("\tb -> bi-weekly");
-        System.out.println("\tm -> monthly");
         String period = null;
-        String command = input.next();
-        command = command.toLowerCase();
+        boolean keepGoing = true;
+        String command = null;
+        while (keepGoing) {
+            displayPeriodOptions();
+            command = input.next();
+            command = command.toLowerCase();
+
+            try {
+                if (command.equals("w") || command.equals("m") || command.equals("b")) {
+                    keepGoing = false;
+                } else {
+                    throw new InvalidValue();
+                }
+            } catch (InvalidValue e) {
+                System.out.println("Invalid entry! Try again.");
+            }
+        }
+        period = processPeriod(command);
+
+
+        return period;
+    }
+
+
+    //EFFECTS: returns period relating to given command
+    public String processPeriod(String command) {
+        String period = null;
         switch (command) {
             case "w":
                 period = "weekly";
@@ -1059,6 +1080,13 @@ public class BudgetApp {
                 break;
         }
         return period;
+    }
+
+    public void displayPeriodOptions() {
+        System.out.println("How often will it recur?");
+        System.out.println("\tw -> weekly");
+        System.out.println("\tb -> bi-weekly");
+        System.out.println("\tm -> monthly");
     }
 
 
