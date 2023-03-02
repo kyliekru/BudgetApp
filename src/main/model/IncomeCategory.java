@@ -50,11 +50,15 @@ public class IncomeCategory extends Category {
 
     }
 
+    //MODIFIES: singleIncomes
+    //EFFECTS: adds one-off income to single incomes list
     public void addSingle(IncomeOrExpense income) {
         singleIncomes.addLast((SingleIncome) income);
 
     }
 
+    //MODIFIES: recurringIncomes
+    //EFFECTS: adds recurring income to recurring incomes list
     public void addRecurring(IncomeOrExpense income) {
         recurringIncomes.addLast((RecurringIncome) income);
     }
@@ -102,6 +106,8 @@ public class IncomeCategory extends Category {
         return singleAmount;
     }
 
+    //EFFECTS: produce total amount of recurring incomes (in $) in category in
+    //         a given period
     public double addRecurringAmount(LocalDate startDate, LocalDate endDate) {
         double recurringAmount = 0;
 

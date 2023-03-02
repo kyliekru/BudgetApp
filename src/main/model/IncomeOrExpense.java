@@ -49,6 +49,7 @@ public abstract class IncomeOrExpense {
 
     }
 
+    //EFFECTS: calculate how much a given income/expense amounted to in a given period
     abstract double calculate(LocalDate startDate, LocalDate date);
 
 

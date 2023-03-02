@@ -27,11 +27,13 @@ public class SingleIncome extends IncomeOrExpense {
     }
 
 
+    //GETTER
     public Category getCat() {
         return this.cat;
 
     }
 
+    //SETTER
     public void setCat(IncomeCategory cat) {
         this.cat = cat;
 
@@ -40,6 +42,7 @@ public class SingleIncome extends IncomeOrExpense {
 
     @Override
 
+    //EFFECTS: return amount if date is in given period
     public double calculate(LocalDate startDate, LocalDate endDate) {
         double amount = 0;
         if (this.date.isAfter(startDate) && this.date.isBefore(endDate)) {

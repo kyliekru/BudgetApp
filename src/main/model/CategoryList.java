@@ -37,11 +37,16 @@ public class CategoryList {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: add cat to Category list
     public void addCat(Category cat) {
         categories.addFirst(cat);
 
     }
 
+    //REQUIRES: id matches an id in Category list
+    //MODIFIES: this
+    //EFFECTS: removes category from category list
     public boolean removeCat(int id) {
         boolean outcome = false;
         for (Category cat : categories) {

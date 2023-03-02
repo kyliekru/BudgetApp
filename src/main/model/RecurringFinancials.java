@@ -10,6 +10,7 @@ import static java.time.temporal.ChronoUnit.MONTHS;
 public abstract class RecurringFinancials extends IncomeOrExpense {
 
 
+    //GETTER
     public abstract String getPeriod();
 
 

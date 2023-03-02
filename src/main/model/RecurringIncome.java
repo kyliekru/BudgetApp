@@ -24,6 +24,7 @@ public class RecurringIncome extends RecurringFinancials {
     }
 
 
+    //GETTERS
 
     public Category getCat() {
         return this.cat;
@@ -35,8 +36,7 @@ public class RecurringIncome extends RecurringFinancials {
 
     }
 
-    //Setters
-
+    //SETTER
 
     public void setCat(IncomeCategory cat) {
         this.cat = cat;

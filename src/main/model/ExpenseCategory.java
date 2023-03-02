@@ -52,16 +52,21 @@ public class ExpenseCategory extends Category {
 
     }
 
+    //MODIFIES: singleExpenses
+    //EFFECTS: adds single expense to one-off expense list
     public void addSingle(IncomeOrExpense expense) {
         singleExpenses.addLast((SingleExpense) expense);
 
     }
 
+    //MODIFIES: recurringExpenses
+    //EFFECTS: add recurring expense to recurring expense list
     public void addRecurring(IncomeOrExpense expense) {
         recurringExpenses.addLast((RecurringExpense) expense);
 
     }
 
+    //MODIFIES: singleExpenses
     //EFFECTS: Searches for SingleExpense in singleExpenses list with given ID,
     //         if found it is removed and returns true, else returns false.
     public boolean removeSingle(int id) {
@@ -78,6 +83,7 @@ public class ExpenseCategory extends Category {
 
     }
 
+    //MODIFIES: recurringExpenses
     //EFFECTS: Searches for RecurringExpense in recurringExpenses list with given ID,
     //         if found it is removed and returns true, else returns false.
     public boolean removeRecurring(int id) {
