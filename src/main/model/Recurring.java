@@ -1,14 +1,17 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.time.LocalDate;
 
 import static java.lang.Math.floor;
 import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
 
 //Abstract class for Recurring expenses and incomes
-public abstract class RecurringFinancials extends IncomeOrExpense {
+public abstract class Recurring extends IncomeExpense implements Writable {
 
+    protected String period;
 
     //GETTER
     public abstract String getPeriod();
@@ -74,6 +77,21 @@ public abstract class RecurringFinancials extends IncomeOrExpense {
             }
         }
         return multiplier;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", this.name);
+        json.put("amount", this.amount);
+        json.put("id", this.id);
+        json.put("period", this.period);
+        json.put("year", this.date.getYear());
+        json.put("month", this.date.getMonth());
+        json.put("day", this.date.getDayOfMonth());
+
+        return json;
+
     }
 }
 

@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 
@@ -52,16 +55,20 @@ public class ExpenseCategory extends Category {
 
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     //MODIFIES: singleExpenses
     //EFFECTS: adds single expense to one-off expense list
-    public void addSingle(IncomeOrExpense expense) {
+    public void addSingle(IncomeExpense expense) {
         singleExpenses.addLast((SingleExpense) expense);
 
     }
 
     //MODIFIES: recurringExpenses
     //EFFECTS: add recurring expense to recurring expense list
-    public void addRecurring(IncomeOrExpense expense) {
+    public void addRecurring(IncomeExpense expense) {
         recurringExpenses.addLast((RecurringExpense) expense);
 
     }
@@ -131,6 +138,38 @@ public class ExpenseCategory extends Category {
         double totalSingles = this.addSingleAmount(startDate, endDate);
 
         return totalRecurring + totalSingles;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", this.name);
+        json.put("id", this.id);
+        json.put("recurringExpenses", recurExpensesToJson());
+        json.put("singleExpenses", singleExpensesToJson());
+
+        return json;
+
+    }
+
+    private JSONArray recurExpensesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (RecurringExpense recur : recurringExpenses) {
+            jsonArray.put(recur.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    private JSONArray singleExpensesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (SingleExpense single : singleExpenses) {
+            jsonArray.put(single.toJson());
+        }
+        return jsonArray;
+
     }
 
 

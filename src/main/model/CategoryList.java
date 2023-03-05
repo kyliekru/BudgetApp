@@ -1,11 +1,15 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 
 //Represents a category list with a label of expense or income (0 = expense), and list of categories
 //associated with it
-public class CategoryList {
+public class CategoryList implements Writable {
 
     private int label;
     private LinkedList<Category> categories;
@@ -40,7 +44,7 @@ public class CategoryList {
     //MODIFIES: this
     //EFFECTS: add cat to Category list
     public void addCat(Category cat) {
-        categories.addFirst(cat);
+        categories.addLast(cat);
 
     }
 
@@ -66,6 +70,16 @@ public class CategoryList {
             amount += cat.addTotalAmount(startDate, endDate);
         }
         return amount;
+    }
+
+    @Override
+    //TODO: toJson CatList
+    public JSONObject toJson() {
+        return null;
+    }
+
+    private JSONArray categoriesToJson() {
+        return null;
     }
 
 }

@@ -37,8 +37,8 @@ class CategoryListTest {
         rent = new ExpenseCategory("rent payments");
         clTest1 = new CategoryList(0);
         clTest2 = new CategoryList(1);
-        eatingOut = new SingleExpense("Dinner & Drinks", utilities, 75);
-        hairProducts = new RecurringExpense("Shampoo&Conditioner", rent, 50, "monthly");
+        eatingOut = new SingleExpense("Dinner & Drinks", 75);
+        hairProducts = new RecurringExpense("Shampoo&Conditioner", 50, "monthly");
 
 
     }
@@ -60,15 +60,15 @@ class CategoryListTest {
         clTest1.addCat(rent);
 
         List list = clTest1.getCatList();
-        assertEquals(rent, list.get(0));
-        assertEquals(utilities, list.get(1));
+        assertEquals(rent, list.get(1));
+        assertEquals(utilities, list.get(0));
 
         clTest2.addCat(allowance);
         clTest2.addCat(salary);
 
         List list1 = clTest2.getCatList();
-        assertEquals(allowance, list1.get(1));
-        assertEquals(salary, list1.get(0));
+        assertEquals(allowance, list1.get(0));
+        assertEquals(salary, list1.get(1));
     }
 
     @Test

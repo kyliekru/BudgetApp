@@ -21,9 +21,9 @@ class RecurringExpenseTest {
 
     @BeforeEach
     void runBefore() {
-        reTest1 = new RecurringExpense("Rent Payment", rent, 1500, "monthly");
-        reTest2 = new RecurringExpense("Water", utilities, 150, "bi-weekly");
-        reTest3 = new RecurringExpense("stuff", utilities, 50, "weekly");
+        reTest1 = new RecurringExpense("Rent Payment", 1500, "monthly");
+        reTest2 = new RecurringExpense("Water", 150, "bi-weekly");
+        reTest3 = new RecurringExpense("stuff", 50, "weekly");
     }
 
     @Test
@@ -36,9 +36,6 @@ class RecurringExpenseTest {
         assertEquals(150, reTest2.getAmount());
         assertEquals("bi-weekly", reTest2.getPeriod());
 
-        reTest1.setCat(utilities);
-        assertEquals(utilities, reTest1.getCat());
-        assertEquals(utilities, reTest2.getCat());
     }
 
     @Test

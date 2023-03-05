@@ -31,10 +31,10 @@ class ExpenseCategoryTest {
         ecTest3 = new ExpenseCategory("bills");
 
 
-        eatingOut = new SingleExpense("Dinner & Drinks", ecTest1, 75);
-        hairProducts = new RecurringExpense("Shampoo&Conditioner", ecTest2, 50, "monthly");
-        makeup = new RecurringExpense("makeup", ecTest2, 50, "weekly");
-        coffee = new SingleExpense("Starbucks", ecTest1, 12);
+        eatingOut = new SingleExpense("Dinner & Drinks", 75);
+        hairProducts = new RecurringExpense("Shampoo&Conditioner", 50, "monthly");
+        makeup = new RecurringExpense("makeup", 50, "weekly");
+        coffee = new SingleExpense("Starbucks", 12);
 
         endDate = LocalDate.of(2023, 5, 12);
         startDate = LocalDate.of(2023, 2, 4);

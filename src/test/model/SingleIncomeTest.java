@@ -23,31 +23,22 @@ class SingleIncomeTest {
     void runBefore() {
         soldItem = new IncomeCategory("sold item");
         oddJobs = new IncomeCategory("odd jobs");
-        siTest1 = new SingleIncome("guitar", soldItem, 500);
-        siTest2 = new SingleIncome("mowed lawn", oddJobs, 25);
+        siTest1 = new SingleIncome("guitar", 500);
+        siTest2 = new SingleIncome("mowed lawn", 25);
 
     }
 
     @Test
     void SingleIncomeTest() {
         assertEquals("guitar", siTest1.getName());
-        assertEquals(soldItem, siTest1.getCat());
         assertEquals(500, siTest1.getAmount());
         assertEquals(java.time.LocalDate.now(), siTest1.getDate());
 
         assertEquals("mowed lawn", siTest2.getName());
-        assertEquals(oddJobs, siTest2.getCat());
         assertEquals(25, siTest2.getAmount());
         assertEquals(java.time.LocalDate.now(), siTest2.getDate());
     }
 
-    @Test
-    void setCatTest() {
-        siTest1.setCat(oddJobs);
-        assertEquals(oddJobs, siTest1.getCat());
-        siTest2.setCat(soldItem);
-        assertEquals(soldItem, siTest2.getCat());
-    }
 
     @Test
     void calculateTest() {

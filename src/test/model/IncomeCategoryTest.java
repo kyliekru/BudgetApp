@@ -14,11 +14,11 @@ class IncomeCategoryTest {
     private IncomeCategory icTest1 = new IncomeCategory("salary");
     private IncomeCategory icTest2 = new IncomeCategory("odd jobs");
     private IncomeCategory icTest3 = new IncomeCategory("stuff");
-    private RecurringIncome helper = new RecurringIncome("salary", 1500, icTest1, "bi-weekly");
-    private RecurringIncome helper2 = new RecurringIncome("serving job", 500, icTest1, "bi-weekly");
-    private SingleIncome singleHelper = new SingleIncome("washed windows", icTest2, 100);
-    private SingleIncome singleHelper2 = new SingleIncome("washed car", icTest2, 50);
-    private RecurringIncome helper3 = new RecurringIncome("babysitting", 50, icTest2, "weekly");
+    private RecurringIncome helper = new RecurringIncome("salary", 1500, "bi-weekly");
+    private RecurringIncome helper2 = new RecurringIncome("serving job", 500, "bi-weekly");
+    private SingleIncome singleHelper = new SingleIncome("washed windows", 100);
+    private SingleIncome singleHelper2 = new SingleIncome("washed car", 50);
+    private RecurringIncome helper3 = new RecurringIncome("babysitting", 50, "weekly");
 
     private LocalDate endDate = LocalDate.of(2023, 6, 11);
     private LocalDate startDate = LocalDate.of(2023, 2, 4);

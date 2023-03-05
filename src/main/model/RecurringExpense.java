@@ -4,9 +4,8 @@ package model;
 //Represents a recurring expense that has a name, category, amount spent (in $),
 // a start date, the period it recurs in (weekly, monthly, or yearly), and an ID that is
 // unique to other RecurringExpenses.
-public class RecurringExpense extends RecurringFinancials {
+public class RecurringExpense extends Recurring {
 
-    private Category cat;
     private String period;
 
     //Constructor
@@ -15,10 +14,9 @@ public class RecurringExpense extends RecurringFinancials {
     //         and recurring period. Date is set to date object was initialized, and ID is a
     //         unique positive integer.
 
-    public RecurringExpense(String name, Category cat, double amount, String period) {
+    public RecurringExpense(String name, double amount, String period) {
         date = java.time.LocalDate.now();
         this.name = name;
-        this.cat = cat;
         this.amount = amount;
         this.period = period;
         this.id = nextIncomeOrExpenseID++;
@@ -26,10 +24,6 @@ public class RecurringExpense extends RecurringFinancials {
     }
 
     //Getters
-    public Category getCat() {
-        return this.cat;
-
-    }
 
     public String getPeriod() {
         return this.period;
@@ -37,11 +31,6 @@ public class RecurringExpense extends RecurringFinancials {
     }
 
 
-    //Setters
-    public void setCat(ExpenseCategory cat) {
-        this.cat = cat;
-
-    }
 
 
 

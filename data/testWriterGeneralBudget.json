@@ -1,0 +1,170 @@
+{
+  "name": "KYLIE'S BUDGET",
+  "catLists" : [
+    {
+      "incomeCatList": {
+        "label": 1,
+        "incomeCats": [
+          {
+            "name": "SALARY",
+            "id": 1,
+            "recurringIncomes": [
+              {
+                "name": "bonus",
+                "amount": 500,
+                "id": 1,
+                "period": "monthly",
+                "year": 2022,
+                "month": 11,
+                "day": 30
+              },
+              {
+                "name": "work",
+                "amount": 1500,
+                "id": 2,
+                "period": "bi-weekly",
+                "year": 2022,
+                "month": 12,
+                "day": 2
+              }
+            ],
+            "singleIncomes": [
+              {
+                "name": "one-time bonus",
+                "amount": 500,
+                "id": 3,
+                "year": 2023,
+                "month": 1,
+                "day": 20
+              }
+            ]
+          },
+          {
+            "name": "ODD JOBS",
+            "id": 2,
+            "recurringIncomes": [
+              {
+                "name": "babysitting",
+                "amount": 50,
+                "id": 4,
+                "period": "weekly",
+                "year": 2020,
+                "month": 1,
+                "day": 1
+              }
+            ],
+            "singleIncomes": [
+              {
+                "name": "acting gig",
+                "amount": 1000,
+                "id": 5,
+                "year": 2022,
+                "month": 5,
+                "day": 2
+              },
+              {
+                "name": "sold guitar",
+                "amount": 400,
+                "id": 6,
+                "year": 2023,
+                "month": 1,
+                "day": 20
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expenseCatList": {
+        "label": 0,
+        "expenseCats": [
+          {
+            "name": "GROCERIES",
+            "id": 3,
+            "recurringExpenses": [
+              {
+                "name": "costco trip",
+                "amount": 200,
+                "id": 7,
+                "period": "monthly",
+                "year": 2023,
+                "month": 1,
+                "day": 1
+              },
+              {
+                "name": "groceries",
+                "amount": 150,
+                "id": 8,
+                "period": "bi-weekly",
+                "year": 2023,
+                "month": 1,
+                "day": 1
+              }
+            ],
+            "singleExpenses": [
+              {
+                "name": "dinner extras",
+                "amount": 25,
+                "id": 9,
+                "year": 2023,
+                "month": 3,
+                "day": 1
+              },
+              {
+                "name": "baking",
+                "amount": 50,
+                "id": 10,
+                "year": 2023,
+                "month": 2,
+                "day": 25
+              }
+            ]
+          },
+          {
+            "name": "HOUSING",
+            "id": 4,
+            "recurringExpenses": [
+              {
+                "name": "water bill",
+                "amount": 100,
+                "id": 11,
+                "period": "monthly",
+                "year": 2023,
+                "month": 1,
+                "day": 1
+              },
+              {
+                "name": "rent",
+                "amount": 1500,
+                "id": 12,
+                "period": "monthly",
+                "year": 2023,
+                "month": 1,
+                "day": 1
+              }
+            ],
+            "singleExpenses": [
+              {
+                "name": "new flooring",
+                "amount": 10000,
+                "id": 13,
+                "year": 2023,
+                "month": 1,
+                "day": 1
+              },
+              {
+                "name": "roof repair",
+                "amount": 5000,
+                "id": 14,
+                "year": 2022,
+                "month": 12,
+                "day": 3
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

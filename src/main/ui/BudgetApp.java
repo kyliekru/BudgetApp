@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import persistence.JsonReader;
+import persistence.JsonWriter;
 import ui.exceptions.InvalidValue;
 import ui.exceptions.WrongID;
 import model.*;
@@ -15,12 +17,16 @@ import static java.lang.Math.*;
 
 //Budget Application
 public class BudgetApp {
+    private static final String JSON_STORE = "./data/budget.json";
     private Scanner input;
     private CategoryList incomes;
     private CategoryList expenses;
     private Category currentCategory;
     private ExpenseCategory currExpenseCat;
     private IncomeCategory currIncomeCat;
+    private Budget budget;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
@@ -28,6 +34,10 @@ public class BudgetApp {
 
     //EFFECTS: Runs the Budget Application
     public BudgetApp() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        input = new Scanner(System.in);
+        input.useDelimiter("\n");
         runBudget();
 
     }
@@ -36,10 +46,10 @@ public class BudgetApp {
     //         and an input scanner.
     public void init() {
 
-        incomes = new CategoryList(1);
-        expenses = new CategoryList(0);
-        input = new Scanner(System.in);
-        input.useDelimiter("\n");
+        budget = new Budget("unnamed");
+        getName();
+        budget.setIncomes(incomes);
+        budget.setExpenses(expenses);
 
 
     }
@@ -75,6 +85,8 @@ public class BudgetApp {
         System.out.println("\tv -> view budget");
         System.out.println("\te -> edit budget");
         System.out.println("\tc -> create new budget");
+        System.out.println("\tl -> load budget from file");
+        System.out.println("\ts -> save budget to file");
         System.out.println("\tx -> close application");
 
     }
@@ -90,17 +102,32 @@ public class BudgetApp {
                 selectBudgetOption();
                 break;
             case "e":
-                editBudgetMenu();
+                categoryMenu();
                 break;
+            case "l":
+                loadBudget();
+                break;
+            case "s":
+                saveBudget();
+                break;
+
         }
 
     }
 
-    //EFFECTS: processes user input for edit budget menu
-    public void editBudgetMenu() {
-        categoryMenu();
-
+    public void getName() {
+        System.out.println("What is your name?");
+        String name = input.next().toUpperCase();
+        budget.setName(name);
     }
+
+    //TODO: save budget
+    public void saveBudget() {}
+
+    //TODO: load budget
+    public void loadBudget() {}
+
+
 
     //EFFECTS: Checks if user has a budget made, if so gives option to view, else
     //          redirects to createBudget.
@@ -898,7 +925,7 @@ public class BudgetApp {
             period = askPeriod();
             System.out.println("How much will you earn " + period + "?");
             amount = Double.parseDouble(input.next());
-            RecurringIncome income = new RecurringIncome(name, amount, currentCategory, period);
+            RecurringIncome income = new RecurringIncome(name, amount, period);
             currentCategory.addRecurring(income);
             income.setDate(askDate());
 
@@ -906,7 +933,7 @@ public class BudgetApp {
         } else {
             System.out.println("How much did you earn?");
             amount = Double.parseDouble(input.next());
-            SingleIncome singleIncome = new SingleIncome(name, currentCategory, amount);
+            SingleIncome singleIncome = new SingleIncome(name, amount);
             currentCategory.addSingle(singleIncome);
             singleIncome.setDate(askDate());
             System.out.println("Successfully added " + singleIncome.getName() + " to " + catName);
@@ -932,7 +959,7 @@ public class BudgetApp {
             period = askPeriod();
             System.out.println("How much will you spend " + period + "?");
             amount = Double.parseDouble(input.next());
-            RecurringExpense expense = new RecurringExpense(name, currentCategory, amount, period);
+            RecurringExpense expense = new RecurringExpense(name, amount, period);
             expense.setDate(askDate());
             currentCategory.addRecurring(expense);
 
@@ -940,7 +967,7 @@ public class BudgetApp {
         } else {
             System.out.println("How much did you spend?");
             amount = Double.parseDouble(input.next());
-            SingleExpense singleExpense = new SingleExpense(name, currentCategory, amount);
+            SingleExpense singleExpense = new SingleExpense(name, amount);
             singleExpense.setDate(askDate());
             currentCategory.addSingle(singleExpense);
 

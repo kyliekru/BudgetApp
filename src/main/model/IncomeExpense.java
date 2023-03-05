@@ -1,9 +1,12 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.time.LocalDate;
 
 //Abstract class for recurring and single expenses and incomes
-public abstract class IncomeOrExpense {
+public abstract class IncomeExpense implements Writable {
 
     protected String name;
     protected double amount;
@@ -33,6 +36,7 @@ public abstract class IncomeOrExpense {
     }
 
 
+
     //Setters
     public void setDate(LocalDate date) {
         this.date = date;
@@ -43,6 +47,11 @@ public abstract class IncomeOrExpense {
 
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
 
     public void setAmount(double amount) {
         this.amount = amount;
@@ -52,5 +61,17 @@ public abstract class IncomeOrExpense {
     //EFFECTS: calculate how much a given income/expense amounted to in a given period
     abstract double calculate(LocalDate startDate, LocalDate date);
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", this.name);
+        json.put("amount", this.amount);
+        json.put("id", this.id);
+        json.put("year", this.date.getYear());
+        json.put("month", this.date.getMonth());
+        json.put("day", this.date.getDayOfMonth());
+
+        return json;
+    }
 
 }

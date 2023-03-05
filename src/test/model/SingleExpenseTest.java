@@ -21,19 +21,17 @@ class SingleExpenseTest {
 
     @BeforeEach
     void runBefore() {
-        seTest1 = new SingleExpense("Coffee", eatingOut, 10);
-        seTest2 = new SingleExpense("Calculator", schoolSupplies, 60);
+        seTest1 = new SingleExpense("Coffee", 10);
+        seTest2 = new SingleExpense("Calculator", 60);
     }
 
     @Test
     void singleExpenseTest() {
         assertEquals("Coffee", seTest1.getName());
-        assertEquals(eatingOut, seTest1.getCat());
         assertEquals(10, seTest1.getAmount());
         assertEquals(java.time.LocalDate.now(), seTest1.getDate());
 
         assertEquals("Calculator", seTest2.getName());
-        assertEquals(schoolSupplies, seTest2.getCat());
         assertEquals(60, seTest2.getAmount());
         assertEquals(java.time.LocalDate.now(), seTest2.getDate());
 
@@ -44,14 +42,6 @@ class SingleExpenseTest {
         assertEquals(7.50, seTest1.getAmount());
     }
 
-    @Test
-    void setCatTest() {
-        seTest1.setCat(schoolSupplies);
-        assertEquals(schoolSupplies, seTest1.getCat());
-
-        seTest2.setCat(eatingOut);
-        assertEquals(eatingOut, seTest2.getCat());
-    }
 
     @Test
     void calculateTest() {
