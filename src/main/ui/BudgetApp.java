@@ -1,6 +1,8 @@
 package ui;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,8 +21,6 @@ import static java.lang.Math.*;
 public class BudgetApp {
     private static final String JSON_STORE = "./data/budget.json";
     private Scanner input;
-    private CategoryList incomes;
-    private CategoryList expenses;
     private Category currentCategory;
     private ExpenseCategory currExpenseCat;
     private IncomeCategory currIncomeCat;
@@ -48,8 +48,6 @@ public class BudgetApp {
 
         budget = new Budget("unnamed");
         getName();
-        budget.setIncomes(incomes);
-        budget.setExpenses(expenses);
 
 
     }
@@ -69,6 +67,7 @@ public class BudgetApp {
             command = command.toLowerCase();
 
             if (command.equals("x")) {
+                askToSave();
                 mainRunning = false;
             } else {
                 processDisplayMenu(command);
@@ -115,6 +114,24 @@ public class BudgetApp {
 
     }
 
+    public void askToSave() {
+        boolean keepGoing = true;
+        String command;
+
+        while (keepGoing) {
+            System.out.println("\nSave file?");
+            System.out.println("\ts -> save");
+            System.out.println("\tx -> quit without saving");
+            command = input.next().toLowerCase();
+            if (command.equals("x")) {
+                keepGoing = false;
+            } else if (command.equals("s")) {
+                saveBudget();
+                keepGoing = false;
+            }
+        }
+    }
+
     public void getName() {
         System.out.println("What is your name?");
         String name = input.next().toUpperCase();
@@ -122,10 +139,28 @@ public class BudgetApp {
     }
 
     //TODO: save budget
-    public void saveBudget() {}
+    public void saveBudget() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(budget);
+            jsonWriter.close();
+            System.out.println("Saved" + budget.getName() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
 
-    //TODO: load budget
-    public void loadBudget() {}
+    //MODIFIES: this
+    //EFFECTS: loads budget from file
+    public void loadBudget() {
+        try {
+            budget = jsonReader.read();
+            System.out.println("Loaded " + budget.getName() + " from " + JSON_STORE);
+
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
 
 
 
@@ -133,7 +168,7 @@ public class BudgetApp {
     //          redirects to createBudget.
     public void budgetIsMade() {
 
-        if (incomes.getCatList().isEmpty() && expenses.getCatList().isEmpty()) {
+        if (budget.getIncomes().getCatList().isEmpty() && budget.getExpenses().getCatList().isEmpty()) {
             System.out.println("No budget created! Redirecting to budget creation screen...");
             selectBudgetOption();
         } else {
@@ -221,12 +256,12 @@ public class BudgetApp {
         ExpenseCategory food = new ExpenseCategory("Food");
         ExpenseCategory fun = new ExpenseCategory("Entertainment");
 
-        incomes.addCat(salary);
-        incomes.addCat(oddJobs);
+        budget.getIncomes().addCat(salary);
+        budget.getIncomes().addCat(oddJobs);
 
-        expenses.addCat(bills);
-        expenses.addCat(food);
-        expenses.addCat(fun);
+        budget.getExpenses().addCat(bills);
+        budget.getExpenses().addCat(food);
+        budget.getExpenses().addCat(fun);
 
         categoryMenu();
     }
@@ -251,8 +286,8 @@ public class BudgetApp {
     //MODIFIES: this
     //EFFECTS: Displays income and expenses for each category
     public void displayIndividualCategoryAmounts(LocalDate startDate, LocalDate endDate, double totalI, double totalE) {
-        LinkedList<IncomeCategory> incomeList = incomes.getCatList();
-        LinkedList<ExpenseCategory> expenseList = expenses.getCatList();
+        LinkedList<IncomeCategory> incomeList = budget.getIncomes().getCatList();
+        LinkedList<ExpenseCategory> expenseList = budget.getExpenses().getCatList();
         String name;
         double amount;
         double percentage;
@@ -282,8 +317,8 @@ public class BudgetApp {
         int dayOfWeek = date.getDayOfWeek().getValue();
         startDate = date.minusDays(dayOfWeek + 6);
         endDate = date.minusDays(dayOfWeek - 1);
-        double incomeTotal = incomes.addTotalAmount(startDate, endDate);
-        double expenseTotal = expenses.addTotalAmount(startDate, endDate);
+        double incomeTotal = budget.getIncomes().addTotalAmount(startDate, endDate);
+        double expenseTotal = budget.getExpenses().addTotalAmount(startDate, endDate);
         double savingsCutoff = incomeTotal * 0.2;
         double savings = incomeTotal - expenseTotal;
 
@@ -343,8 +378,8 @@ public class BudgetApp {
         int year = date.minusYears(1).getYear();
         startDate = LocalDate.of(year, 1, 1);
         endDate = LocalDate.of(year, 12, 31);
-        double incomeTotal = incomes.addTotalAmount(startDate, endDate);
-        double expenseTotal = expenses.addTotalAmount(startDate, endDate);
+        double incomeTotal = budget.getIncomes().addTotalAmount(startDate, endDate);
+        double expenseTotal = budget.getExpenses().addTotalAmount(startDate, endDate);
         double savingsCutoff = incomeTotal * 0.2;
         double savings = incomeTotal - expenseTotal;
         msg = getMessageForSavings(savings, savingsCutoff, "year", "last");
@@ -366,8 +401,8 @@ public class BudgetApp {
         startDate = LocalDate.of(year, month, 1);
         endDate = startDate.withDayOfMonth(startDate.getMonth().length(startDate.isLeapYear()));
 
-        double incomeTotal = incomes.addTotalAmount(startDate, endDate);
-        double expenseTotal = expenses.addTotalAmount(startDate, endDate);
+        double incomeTotal = budget.getIncomes().addTotalAmount(startDate, endDate);
+        double expenseTotal = budget.getExpenses().addTotalAmount(startDate, endDate);
         double savingsCutoff = incomeTotal * 0.2;
         double savings = incomeTotal - expenseTotal;
 
@@ -401,8 +436,8 @@ public class BudgetApp {
     //EFFECTS: displays income/expenses for current week
     public void processCurrentWeek(LocalDate date) {
         LocalDate startDate = date.with(DayOfWeek.SUNDAY).minusWeeks(1);
-        double incomeTotal = incomes.addTotalAmount(startDate, date);
-        double expenseTotal = expenses.addTotalAmount(startDate, date);
+        double incomeTotal = budget.getIncomes().addTotalAmount(startDate, date);
+        double expenseTotal = budget.getExpenses().addTotalAmount(startDate, date);
         double savingsCutoff = (incomeTotal * 0.20);
         double savings = incomeTotal - expenseTotal;
         String msg;
@@ -416,8 +451,8 @@ public class BudgetApp {
     //EFFECTS: displays income/expenses for current month
     public void processCurrentMonth(LocalDate date) {
         LocalDate startDate = date.withDayOfMonth(1);
-        double incomeTotal = incomes.addTotalAmount(startDate, date);
-        double expenseTotal = expenses.addTotalAmount(startDate, date);
+        double incomeTotal = budget.getIncomes().addTotalAmount(startDate, date);
+        double expenseTotal = budget.getExpenses().addTotalAmount(startDate, date);
         double savingsCutoff = (incomeTotal * 0.20);
         double savings = incomeTotal - expenseTotal;
         String msg;
@@ -433,8 +468,8 @@ public class BudgetApp {
     //EFFECTS: displays total income/expenses for current year
     public void processCurrentYear(LocalDate date) {
         LocalDate startDate = date.withDayOfYear(1);
-        double incomeTotal = incomes.addTotalAmount(startDate, date);
-        double expenseTotal = expenses.addTotalAmount(startDate, date);
+        double incomeTotal = budget.getIncomes().addTotalAmount(startDate, date);
+        double expenseTotal = budget.getExpenses().addTotalAmount(startDate, date);
         double savingsCutoff = (incomeTotal * 0.20);
         double savings = incomeTotal - expenseTotal;
         String msg = getMessageForSavings(savings, savingsCutoff, "year", "this");
@@ -545,10 +580,10 @@ public class BudgetApp {
         userInput = input.next().toLowerCase();
         if (label == 1) {
             IncomeCategory newIncomeCat = new IncomeCategory(userInput);
-            incomes.addCat(newIncomeCat);
+            budget.getIncomes().addCat(newIncomeCat);
         } else {
             ExpenseCategory newExpenseCat = new ExpenseCategory(userInput);
-            expenses.addCat(newExpenseCat);
+            budget.getExpenses().addCat(newExpenseCat);
         }
 
 
@@ -584,8 +619,8 @@ public class BudgetApp {
 
     //EFFECTS: display category options to user
     public void displayCategoryMenu() {
-        LinkedList<IncomeCategory> incomeList = incomes.getCatList();
-        LinkedList<ExpenseCategory> expenseList = expenses.getCatList();
+        LinkedList<IncomeCategory> incomeList = budget.getIncomes().getCatList();
+        LinkedList<ExpenseCategory> expenseList = budget.getExpenses().getCatList();
 
         System.out.println("Here are your created categories:");
         System.out.println("Income Categories:");
@@ -615,8 +650,8 @@ public class BudgetApp {
             System.out.println("Not a valid string input.");
         }
 
-        LinkedList<IncomeCategory> incomeList = incomes.getCatList();
-        LinkedList<ExpenseCategory> expenseList = expenses.getCatList();
+        LinkedList<IncomeCategory> incomeList = budget.getIncomes().getCatList();
+        LinkedList<ExpenseCategory> expenseList = budget.getExpenses().getCatList();
 
         idExists = checkCatID(incomeList, expenseList, newCommand);
 
@@ -1200,8 +1235,8 @@ public class BudgetApp {
     //EFFECTS: checks id exists then process user input to delete given category
     public void processDeleteMenu(String command) {
         int newCommand = Integer.parseInt(command);
-        LinkedList<IncomeCategory> incomeList = incomes.getCatList();
-        LinkedList<ExpenseCategory> expenseList = expenses.getCatList();
+        LinkedList<IncomeCategory> incomeList = budget.getIncomes().getCatList();
+        LinkedList<ExpenseCategory> expenseList = budget.getExpenses().getCatList();
 
         boolean idExists = checkDeleteCatID(incomeList, expenseList, newCommand);
 
@@ -1252,7 +1287,7 @@ public class BudgetApp {
         if (command.equals("n")) {
             editCategoryList();
         } else {
-            incomes.removeCat(currIncomeCat.getID());
+            budget.getIncomes().removeCat(currIncomeCat.getID());
             System.out.println("Successfully deleted " + name + "!");
         }
     }
@@ -1270,7 +1305,7 @@ public class BudgetApp {
         if (command.equals("n")) {
             editCategoryList();
         } else {
-            expenses.removeCat(currExpenseCat.getID());
+            budget.getExpenses().removeCat(currExpenseCat.getID());
             System.out.println("Successfully deleted " + name + "!");
         }
 

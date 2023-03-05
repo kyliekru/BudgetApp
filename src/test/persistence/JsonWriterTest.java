@@ -75,10 +75,10 @@ public class JsonWriterTest extends JsonTest {
         Category expenseOne = expenses.get(0);
         Category expenseTwo = expenses.get(1);
 
-        checkCat("SALARY", 1, incomeOne.getRecurring(), incomeOne.getSingle(), incomeOne);
-        checkCat("ODD JOBS", 2, incomeTwo.getRecurring(), incomeTwo.getSingle(), incomeTwo);
-        checkCat("GROCERIES", 3, expenseOne.getRecurring(), expenseOne.getSingle(), expenseOne);
-        checkCat("HOUSING", 4, expenseTwo.getRecurring(), expenseTwo.getSingle(), expenseTwo);
+        checkCat("SALARY", 85, incomeOne.getRecurring(), incomeOne.getSingle(), incomeOne);
+        checkCat("ODD JOBS", 86, incomeTwo.getRecurring(), incomeTwo.getSingle(), incomeTwo);
+        checkCat("GROCERIES", 87, expenseOne.getRecurring(), expenseOne.getSingle(), expenseOne);
+        checkCat("HOUSING", 88, expenseTwo.getRecurring(), expenseTwo.getSingle(), expenseTwo);
 
         testCategoryOne(incomeOne);
         testCategoryTwo(incomeTwo);
@@ -93,9 +93,9 @@ public class JsonWriterTest extends JsonTest {
         LocalDate dateTwo = LocalDate.of(2022, 11, 30);
         LocalDate dateThree = LocalDate.of(2023, 1, 20);
 
-        checkRecur("work", "bi-weekly", 1500, dateOne, cat, 2, recurs.get(1));
-        checkRecur("bonus", "monthly", 500, dateTwo, cat, 1, recurs.get(0));
-        checkSingle("one-time bonus", 500, dateThree, cat, 3, single.get(0));
+        checkRecur("work", "bi-weekly", 1500, dateOne, cat, 116, recurs.get(1));
+        checkRecur("bonus", "monthly", 500, dateTwo, cat, 115, recurs.get(0));
+        checkSingle("one-time bonus", 500, dateThree, cat, 117, single.get(0));
 
     }
 
@@ -106,9 +106,9 @@ public class JsonWriterTest extends JsonTest {
         LocalDate dateTwo = LocalDate.of(2023, 1, 20);
         LocalDate dateThree = LocalDate.of(2022, 5, 2);
 
-        checkRecur("babysitting", "weekly", 50, dateOne, cat, 4, recurs.get(0));
-        checkSingle("sold guitar", 400, dateTwo, cat, 6, single.get(1));
-        checkSingle("acting gig", 1000, dateThree, cat, 5, single.get(0));
+        checkRecur("babysitting", "weekly", 50, dateOne, cat, 118, recurs.get(0));
+        checkSingle("sold guitar", 400, dateTwo, cat, 120, single.get(1));
+        checkSingle("acting gig", 1000, dateThree, cat, 119, single.get(0));
 
     }
 
@@ -120,10 +120,10 @@ public class JsonWriterTest extends JsonTest {
         LocalDate dateThree = LocalDate.of(2023, 2, 25);
         LocalDate dateFour = LocalDate.of(2023, 3, 1);
 
-        checkRecur("groceries", "bi-weekly", 150, dateOne, cat, 8, recurs.get(1));
-        checkRecur("costco trip", "monthly", 200, dateTwo, cat, 7, recurs.get(0));
-        checkSingle("baking", 50, dateThree, cat, 10, single.get(1));
-        checkSingle("dinner extras", 25, dateFour, cat, 9, single.get(0));
+        checkRecur("groceries", "bi-weekly", 150, dateOne, cat, 122, recurs.get(1));
+        checkRecur("costco trip", "monthly", 200, dateTwo, cat, 121, recurs.get(0));
+        checkSingle("baking", 50, dateThree, cat, 124, single.get(1));
+        checkSingle("dinner extras", 25, dateFour, cat, 123, single.get(0));
 
     }
 
@@ -134,10 +134,10 @@ public class JsonWriterTest extends JsonTest {
         LocalDate dateThree = LocalDate.of(2022, 12, 3);
 
 
-        checkRecur("rent", "monthly", 1500, dateOne, cat, 12, recurs.get(1));
-        checkRecur("water bill", "monthly", 100, dateOne, cat, 11, recurs.get(0));
-        checkSingle("roof repair", 5000, dateThree, cat, 14, single.get(1));
-        checkSingle("new flooring", 10000, dateOne, cat, 13, single.get(0));
+        checkRecur("rent", "monthly", 1500, dateOne, cat, 126, recurs.get(1));
+        checkRecur("water bill", "monthly", 100, dateOne, cat, 125, recurs.get(0));
+        checkSingle("roof repair", 5000, dateThree, cat, 128, single.get(1));
+        checkSingle("new flooring", 10000, dateOne, cat, 127, single.get(0));
 
     }
 

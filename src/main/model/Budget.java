@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -9,15 +10,15 @@ import static java.util.Collections.emptyList;
 
 //Represents budget: holds list of income categories and expense categories
 public class Budget implements Writable {
-    private CategoryList incomeCategories;
-    private CategoryList expenseCategories;
+    private CategoryList expenses;
+    private CategoryList incomes;
     private String name;
 
     //CONSTRUCTOR
     public Budget(String name) {
         this.name = name;
-        incomeCategories = new CategoryList(1);
-        expenseCategories = new CategoryList(0);
+        expenses = new CategoryList(0);
+        incomes = new CategoryList(1);
     }
 
     public String getName() {
@@ -25,11 +26,11 @@ public class Budget implements Writable {
     }
 
     public CategoryList getIncomes() {
-        return this.incomeCategories;
+        return this.incomes;
     }
 
     public CategoryList getExpenses() {
-        return this.expenseCategories;
+        return this.expenses;
     }
 
     public void setName(String name) {
@@ -37,16 +38,31 @@ public class Budget implements Writable {
     }
 
     public void setIncomes(CategoryList incomeList) {
-        incomeCategories = incomeList;
+        incomes = incomeList;
     }
 
     public void setExpenses(CategoryList expenseList) {
-        expenseCategories = expenseList;
+        expenses = expenseList;
     }
 
     @Override
-    //TODO: toJson budget
+
     public JSONObject toJson() {
-        return null;
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("catLists", catListsToJson());
+        return json;
+    }
+
+    public JSONArray catListsToJson() {
+        JSONArray jsonArray = new JSONArray();
+        LinkedList<CategoryList> catLists = new LinkedList<>();
+        catLists.add(incomes);
+        catLists.add(expenses);
+
+        for (CategoryList catList : catLists) {
+            jsonArray.put(catList.toJson());
+        }
+        return jsonArray;
     }
 }

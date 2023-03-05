@@ -6,7 +6,7 @@ package model;
 // unique to other RecurringExpenses.
 public class RecurringExpense extends Recurring {
 
-    private String period;
+
 
     //Constructor
     //REQUIRES: name is non-empty string, amount is > 0

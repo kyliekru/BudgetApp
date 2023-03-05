@@ -4,7 +4,7 @@ package model;
 //recurs in (bi-weekly, monthly, or yearly), and an ID unique to other RecurringIncomes.
 public class RecurringIncome extends Recurring {
 
-    private String period;
+
 
     //Constructor
     //REQUIRES: name is non-empty string and amount > 0

@@ -1,4 +1,13 @@
 {
-  "name": "My budget",
-  "catLists" : []
+    "name": "My budget",
+    "catLists": [
+        {
+            "cats": [],
+            "label": 1
+        },
+        {
+            "cats": [],
+            "label": 0
+        }
+    ]
 }

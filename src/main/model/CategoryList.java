@@ -73,13 +73,21 @@ public class CategoryList implements Writable {
     }
 
     @Override
-    //TODO: toJson CatList
     public JSONObject toJson() {
-        return null;
+        JSONObject json = new JSONObject();
+        json.put("label", label);
+        json.put("cats", categoriesToJson());
+        return json;
     }
 
     private JSONArray categoriesToJson() {
-        return null;
+        JSONArray jsonArray = new JSONArray();
+
+        for (Category cat : categories) {
+            jsonArray.put(cat.toJson());
+        }
+
+        return jsonArray;
     }
 
 }

@@ -87,7 +87,7 @@ public abstract class Recurring extends IncomeExpense implements Writable {
         json.put("id", this.id);
         json.put("period", this.period);
         json.put("year", this.date.getYear());
-        json.put("month", this.date.getMonth());
+        json.put("month", this.date.getMonthValue());
         json.put("day", this.date.getDayOfMonth());
 
         return json;

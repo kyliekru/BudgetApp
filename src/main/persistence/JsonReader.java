@@ -72,7 +72,7 @@ public class JsonReader {
     }
 
     private void addIncomeCatList(CategoryList list, JSONObject jsonObject) {
-        JSONArray array = jsonObject.getJSONArray("incomeCats");
+        JSONArray array = jsonObject.getJSONArray("cats");
         for (Object json : array) {
             JSONObject nextCat = (JSONObject) json;
             addIncomeCats(list, nextCat);
@@ -81,7 +81,7 @@ public class JsonReader {
     }
 
     private void addExpenseCatList(CategoryList list, JSONObject jsonObject) {
-        JSONArray array = jsonObject.getJSONArray("expenseCats");
+        JSONArray array = jsonObject.getJSONArray("cats");
         for (Object json : array) {
             JSONObject nextCat = (JSONObject) json;
             addExpenseCats(list, nextCat);
@@ -115,6 +115,7 @@ public class JsonReader {
         cat.setId(id);
         addRecurringExpenseList(cat, jsonObject);
         addSingleExpenseList(cat, jsonObject);
+        cats.addCat(cat);
 
     }
 

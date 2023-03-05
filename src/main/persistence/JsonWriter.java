@@ -21,12 +21,15 @@ public class JsonWriter {
     //EFFECTS: opens writer; throws FileNotFoundException if destination file
     //cannot be opened for writing
     public void open() throws FileNotFoundException {
+        writer = new PrintWriter(new File(destination));
 
     }
 
     //MODIFIES: this
     //EFFECTS: writes JSON representation of budget to file
     public void write(Budget budget) {
+        JSONObject json = budget.toJson();
+        saveToFile(json.toString(TAB));
 
     }
 

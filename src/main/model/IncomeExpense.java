@@ -68,7 +68,7 @@ public abstract class IncomeExpense implements Writable {
         json.put("amount", this.amount);
         json.put("id", this.id);
         json.put("year", this.date.getYear());
-        json.put("month", this.date.getMonth());
+        json.put("month", this.date.getMonthValue());
         json.put("day", this.date.getDayOfMonth());
 
         return json;

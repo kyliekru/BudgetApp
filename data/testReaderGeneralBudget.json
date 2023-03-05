@@ -3,7 +3,7 @@
   "catLists" : [
     {
         "label": 1,
-        "incomeCats": [
+        "cats": [
           {
             "name": "SALARY",
             "id": 1,
@@ -75,7 +75,7 @@
     },
     {
         "label": 0,
-        "expenseCats": [
+        "cats": [
           {
             "name": "GROCERIES",
             "id": 3,
