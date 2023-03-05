@@ -80,6 +80,7 @@ public abstract class Recurring extends IncomeExpense implements Writable {
     }
 
     @Override
+    //EFFECTS: returns RecurringIncome/RecurringExpense as a json object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", this.name);

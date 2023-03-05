@@ -15,7 +15,6 @@ public class SingleIncome extends IncomeExpense {
     //         amount earned. Date is set to day income was created and ID is a positive
     //         unique integer.
     public SingleIncome(String name, double amount) {
-
         date = java.time.LocalDate.now();
         this.name = name;
         this.amount = amount;

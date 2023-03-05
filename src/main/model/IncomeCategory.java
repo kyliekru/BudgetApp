@@ -70,6 +70,7 @@ public class IncomeCategory extends Category {
         recurringIncomes.addLast((RecurringIncome) income);
     }
 
+
     //EFFECTS: Searches for SingleIncome in singleIncomes list with given ID,
     //         if found it is removed and returns true, else returns false.
     public boolean removeSingle(int id) {
@@ -84,6 +85,7 @@ public class IncomeCategory extends Category {
 
         return outcome;
     }
+
 
     //EFFECTS: Searches for RecurringIncome in recurringIncomes list with given ID,
     //         if found it is removed and returns true, else returns false.
@@ -136,6 +138,7 @@ public class IncomeCategory extends Category {
     }
 
     @Override
+    //EFFECTS: returns IncomeCategory as a json object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", this.name);
@@ -147,6 +150,7 @@ public class IncomeCategory extends Category {
 
     }
 
+    //EFFECTS: returns recurringIncomes as a json array
     private JSONArray recurIncomesToJson() {
         JSONArray jsonArray = new JSONArray();
 
@@ -157,6 +161,7 @@ public class IncomeCategory extends Category {
         return jsonArray;
     }
 
+    //EFFECTS: returns singleIncomes as a json array
     private JSONArray singleIncomesToJson() {
         JSONArray jsonArray = new JSONArray();
 

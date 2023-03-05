@@ -141,6 +141,7 @@ public class ExpenseCategory extends Category {
     }
 
     @Override
+    //EFFECTS: returns ExpenseCategory as a json object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", this.name);
@@ -152,6 +153,7 @@ public class ExpenseCategory extends Category {
 
     }
 
+    //EFFECTS: returns recurringExpenses as a json array
     private JSONArray recurExpensesToJson() {
         JSONArray jsonArray = new JSONArray();
 
@@ -162,6 +164,7 @@ public class ExpenseCategory extends Category {
         return jsonArray;
     }
 
+    //EFFECTS: returns singleExpenses as json array
     private JSONArray singleExpensesToJson() {
         JSONArray jsonArray = new JSONArray();
 

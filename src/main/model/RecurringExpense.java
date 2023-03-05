@@ -24,7 +24,6 @@ public class RecurringExpense extends Recurring {
     }
 
     //Getters
-
     public String getPeriod() {
         return this.period;
 

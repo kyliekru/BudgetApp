@@ -71,6 +71,8 @@ public class JsonReader {
 
     }
 
+    //MODIFIES: budget
+    //EFFECTS: parses income category list from JSON object and adds it to budget
     private void addIncomeCatList(CategoryList list, JSONObject jsonObject) {
         JSONArray array = jsonObject.getJSONArray("cats");
         for (Object json : array) {
@@ -80,6 +82,8 @@ public class JsonReader {
 
     }
 
+    //MODIFIES: budget
+    //EFFECTS: parses expense category list from JSON object and adds it to budget
     private void addExpenseCatList(CategoryList list, JSONObject jsonObject) {
         JSONArray array = jsonObject.getJSONArray("cats");
         for (Object json : array) {

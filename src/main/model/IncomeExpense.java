@@ -62,6 +62,7 @@ public abstract class IncomeExpense implements Writable {
     abstract double calculate(LocalDate startDate, LocalDate date);
 
     @Override
+    //EFFECTS: returns SingleIncome/SingleExpense as a json object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", this.name);

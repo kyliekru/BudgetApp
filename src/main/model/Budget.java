@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 import static java.util.Collections.emptyList;
 
-//Represents budget: holds list of income categories and expense categories
+//Represents budget: holds list of income categories and expense categories and has a name
 public class Budget implements Writable {
     private CategoryList expenses;
     private CategoryList incomes;
@@ -21,6 +21,7 @@ public class Budget implements Writable {
         incomes = new CategoryList(1);
     }
 
+    //GETTERS
     public String getName() {
         return this.name;
     }
@@ -33,6 +34,7 @@ public class Budget implements Writable {
         return this.expenses;
     }
 
+    //SETTERS
     public void setName(String name) {
         this.name = name;
     }
@@ -46,7 +48,7 @@ public class Budget implements Writable {
     }
 
     @Override
-
+    //EFFECTS: returns budget as json object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", name);
@@ -54,6 +56,7 @@ public class Budget implements Writable {
         return json;
     }
 
+    //EFFECTS: returns incomes and expenses as a json array
     public JSONArray catListsToJson() {
         JSONArray jsonArray = new JSONArray();
         LinkedList<CategoryList> catLists = new LinkedList<>();

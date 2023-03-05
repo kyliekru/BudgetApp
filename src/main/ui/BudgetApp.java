@@ -27,6 +27,12 @@ public class BudgetApp {
     private Budget budget;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String RESET = "\u001B[0m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String CYAN = "\u001B[36m";
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
@@ -34,10 +40,6 @@ public class BudgetApp {
 
     //EFFECTS: Runs the Budget Application
     public BudgetApp() {
-        jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
-        input = new Scanner(System.in);
-        input.useDelimiter("\n");
         runBudget();
 
     }
@@ -45,9 +47,12 @@ public class BudgetApp {
     //EFFECTS: initializes Budget App with income and expense Category Lists
     //         and an input scanner.
     public void init() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        input = new Scanner(System.in);
+        input.useDelimiter("\n");
 
         budget = new Budget("unnamed");
-        getName();
 
 
     }
@@ -81,12 +86,14 @@ public class BudgetApp {
     public void displayMenu() {
         System.out.println("\nWelcome to EasyBudget!");
         System.out.println("\nSelect an option:");
-        System.out.println("\tv -> view budget");
-        System.out.println("\te -> edit budget");
-        System.out.println("\tc -> create new budget");
+        System.out.println(CYAN + "\tc -> create new budget" + RESET);
+        System.out.println(CYAN + "\tv -> view budget" + RESET);
+        System.out.println(CYAN + "\te -> edit budget" + RESET);
+        System.out.println("");
         System.out.println("\tl -> load budget from file");
         System.out.println("\ts -> save budget to file");
-        System.out.println("\tx -> close application");
+        System.out.println("");
+        System.out.println(RED + "\tx -> close application" + RESET);
 
     }
 
@@ -114,14 +121,15 @@ public class BudgetApp {
 
     }
 
+    //EFFECTS: asks user if they want to save; if yes save file
     public void askToSave() {
         boolean keepGoing = true;
         String command;
 
         while (keepGoing) {
             System.out.println("\nSave file?");
-            System.out.println("\ts -> save");
-            System.out.println("\tx -> quit without saving");
+            System.out.println(GREEN + "\ts -> save" + RESET);
+            System.out.println(RED + "\tx -> quit without saving" + RESET);
             command = input.next().toLowerCase();
             if (command.equals("x")) {
                 keepGoing = false;
@@ -132,19 +140,22 @@ public class BudgetApp {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets budget name to name given by user
     public void getName() {
-        System.out.println("What is your name?");
+        System.out.println("\nEnter budget name:");
         String name = input.next().toUpperCase();
         budget.setName(name);
     }
 
-    //TODO: save budget
+    //MODIFIES: this
+    //EFFECTS: saves budget to file
     public void saveBudget() {
         try {
             jsonWriter.open();
             jsonWriter.write(budget);
             jsonWriter.close();
-            System.out.println("Saved" + budget.getName() + " to " + JSON_STORE);
+            System.out.println(GREEN + "Saved " + budget.getName() + " to " + JSON_STORE + RESET);
         } catch (FileNotFoundException e) {
             System.out.println("Unable to write to file: " + JSON_STORE);
         }
@@ -183,6 +194,10 @@ public class BudgetApp {
         String command;
 
         while (keepGoing) {
+            if (budget.getIncomes().getCatList().isEmpty() && budget.getExpenses().getCatList().isEmpty()) {
+                System.out.println("Time to make a budget!");
+                getName();
+            }
             displayBudgetMenu();
 
             command = input.next();
@@ -199,21 +214,20 @@ public class BudgetApp {
 
     //EFFECTS: Displays default category options and asks for input
     public void displayBudgetMenu() {
-        System.out.println("Congratulations on starting a budget!");
         System.out.println("\nWould you like to view the default categories or make your own?");
-        System.out.println("\ty -> view default");
-        System.out.println("\tn -> create custom categories");
-        System.out.println("\tq -> return to main menu");
+        System.out.println("\tv -> view default");
+        System.out.println(CYAN + "\tc -> create custom categories" + RESET);
+        System.out.println(RED + "\tq -> return to main menu" + RESET);
     }
 
     //MODIFIES: this
     //EFFECTS: processes selected option from Budget menu
     public void processBudgetMenu(String option) {
         switch (option) {
-            case "y":
+            case "v":
                 viewDefaultCategories();
                 break;
-            case "n":
+            case "c":
                 createCategoryMenu();
                 break;
         }
@@ -267,23 +281,6 @@ public class BudgetApp {
     }
 
     //MODIFIES: this
-    //EFFECTS: displays budget in the latest full given period
-    public void viewPastBudget(String period) {
-        LocalDate currentDate = java.time.LocalDate.now();
-        switch (period) {
-            case "weekly":
-                processWeekly(currentDate);
-                break;
-            case "yearly":
-                processYearly(currentDate);
-                break;
-            case "monthly":
-                processMonthly(currentDate);
-                break;
-        }
-    }
-
-    //MODIFIES: this
     //EFFECTS: Displays income and expenses for each category
     public void displayIndividualCategoryAmounts(LocalDate startDate, LocalDate endDate, double totalI, double totalE) {
         LinkedList<IncomeCategory> incomeList = budget.getIncomes().getCatList();
@@ -310,23 +307,33 @@ public class BudgetApp {
     }
 
     //MODIFIES: this
-    //EFFECTS: display past week's income and expenses
-    public void processWeekly(LocalDate date) {
-        LocalDate startDate;
-        LocalDate endDate;
-        int dayOfWeek = date.getDayOfWeek().getValue();
-        startDate = date.minusDays(dayOfWeek + 6);
-        endDate = date.minusDays(dayOfWeek - 1);
+    //EFFECTS: print budget overview from startDate to endDate
+    public void processBudget(LocalDate startDate, LocalDate endDate) {
+
         double incomeTotal = budget.getIncomes().addTotalAmount(startDate, endDate);
         double expenseTotal = budget.getExpenses().addTotalAmount(startDate, endDate);
         double savingsCutoff = incomeTotal * 0.2;
         double savings = incomeTotal - expenseTotal;
 
-        String msg = getMessageForSavings(savings, savingsCutoff, "week", "last");
+
         displayIndividualCategoryAmounts(startDate, endDate, incomeTotal, expenseTotal);
 
-        printBudgetOverview(incomeTotal, expenseTotal, savings, msg, false, "week");
+        getMessageForBudgetSavings(incomeTotal, expenseTotal, savings, savingsCutoff, startDate, endDate);
 
+    }
+
+    //EFFECTS: Prints budget overview message for a custom period
+    public void getMessageForBudgetSavings(double inc, double expen, double save, double cutOff, LocalDate start,
+                                           LocalDate endDate) {
+        System.out.println("You made " + GREEN + "$" + inc + RESET + " from " + start + " to " + endDate + " and spent "
+                + RED + "$" + expen + RESET);
+        if (save < 0) {
+            System.out.println("Overall you overspent by" + RED + "-$" + abs(save) + RESET + ".");
+        } else if (save >= 0 && save <= cutOff) {
+            System.out.println("Overall you saved " + YELLOW + "$" + save + RESET + ". Almost on track!");
+        } else {
+            System.out.println("Overall you saved " + GREEN + "$" + save + RESET + ". Great work!");
+        }
     }
 
     //MODIFIES: this
@@ -336,21 +343,25 @@ public class BudgetApp {
         String stringSavings;
         String stringE;
         String stringI;
+        String colour;
         String lastOr = "last";
         if (curr) {
             lastOr = "this";
         }
         if (savin < 0) {
             lostOrSaved = "lost";
+            colour = RED;
             stringSavings = df.format(savin * -1);
         } else {
+            colour = GREEN;
             stringSavings = df.format(savin);
         }
         stringE = df.format(expens);
         stringI = df.format(income);
 
-        System.out.println("You made $" + stringI + " " + lastOr + " " + when + " and spent $" + stringE + ".");
-        System.out.println("Overall you " + lostOrSaved + " $" + stringSavings + "! " + msg);
+        System.out.println("You made " + GREEN + "$" + stringI + RESET + " " + lastOr + " " + when + " and spent "
+                + RED + "$" + stringE + RESET + ".");
+        System.out.println("Overall you " + colour + lostOrSaved + " $" + stringSavings + RESET + "! " + msg);
 
     }
 
@@ -368,50 +379,6 @@ public class BudgetApp {
         return msg;
     }
 
-
-    //MODIFIES: this
-    //EFFECTS: display past year's income and expenses
-    public void processYearly(LocalDate date) {
-        LocalDate startDate;
-        LocalDate endDate;
-        String msg;
-        int year = date.minusYears(1).getYear();
-        startDate = LocalDate.of(year, 1, 1);
-        endDate = LocalDate.of(year, 12, 31);
-        double incomeTotal = budget.getIncomes().addTotalAmount(startDate, endDate);
-        double expenseTotal = budget.getExpenses().addTotalAmount(startDate, endDate);
-        double savingsCutoff = incomeTotal * 0.2;
-        double savings = incomeTotal - expenseTotal;
-        msg = getMessageForSavings(savings, savingsCutoff, "year", "last");
-        displayIndividualCategoryAmounts(startDate, endDate, incomeTotal, expenseTotal);
-        printBudgetOverview(incomeTotal, expenseTotal, savings, msg, false, "year");
-
-    }
-
-
-    //MODIFIES: this
-    //EFFECTS: display past month's income and expenses
-    public void processMonthly(LocalDate date) {
-        LocalDate startDate;
-        LocalDate endDate;
-        String msg;
-        int month = date.minusMonths(1).getMonthValue();
-        LocalDate dateMonth = date.minusMonths(1);
-        int year = dateMonth.getYear();
-        startDate = LocalDate.of(year, month, 1);
-        endDate = startDate.withDayOfMonth(startDate.getMonth().length(startDate.isLeapYear()));
-
-        double incomeTotal = budget.getIncomes().addTotalAmount(startDate, endDate);
-        double expenseTotal = budget.getExpenses().addTotalAmount(startDate, endDate);
-        double savingsCutoff = incomeTotal * 0.2;
-        double savings = incomeTotal - expenseTotal;
-
-        msg = getMessageForSavings(savings, savingsCutoff, "month", "last");
-        displayIndividualCategoryAmounts(startDate, endDate, incomeTotal, expenseTotal);
-
-        printBudgetOverview(incomeTotal, expenseTotal, savings, msg, false, "month");
-
-    }
 
 
     //MODIFIES: this
@@ -484,9 +451,9 @@ public class BudgetApp {
     public void viewOverallBudgetMenu() {
         boolean keepGoing = true;
         while (keepGoing) {
-            System.out.println("Would you like to view the overall budget in a past or current period?");
-            System.out.println("\tp -> past period");
-            System.out.println("\tc -> current period");
+            System.out.println("Would you like to view a custom time frame?");
+            System.out.println("\tc -> custom period");
+            System.out.println("\td -> view default choices");
             System.out.println("\tq -> return to menu");
             String command = input.next();
             command = command.toLowerCase();
@@ -494,14 +461,28 @@ public class BudgetApp {
                 keepGoing = false;
             }
             switch (command) {
-                case "p":
-                    viewPastBudget(askBudgetPeriod());
-                    break;
                 case "c":
+                    processBudget(askStartDate(), askEndDate());
+                    break;
+                case "d":
                     viewCurrentBudget(askBudgetPeriod());
                     break;
             }
         }
+    }
+
+    //EFFECTS: asks user for start date and returns it
+    public LocalDate askStartDate() {
+        System.out.println("When would you like to start from?");
+        LocalDate date = askDate();
+        return date;
+    }
+
+    //EFFECTS: asks user for end date and returns it
+    public LocalDate askEndDate() {
+        System.out.println("and go until?");
+        LocalDate date = askDate();
+        return date;
     }
 
 
@@ -539,8 +520,8 @@ public class BudgetApp {
         while (keepGoing) {
             displayCategoryMenu();
             System.out.println("\nSelect an option:");
-            System.out.println("\t1 -> create income category");
-            System.out.println("\t2 -> create expense category");
+            System.out.println(GREEN + "\t1 -> create income category" + RESET);
+            System.out.println(RED + "\t2 -> create expense category" + RESET);
             System.out.println("\t3 -> category menu");
             command = input.next();
             newCommand = Integer.parseInt(command);
@@ -599,8 +580,8 @@ public class BudgetApp {
         while (keepGoing) {
             displayCategoryMenu();
             System.out.println("\nEnter Category ID to edit or:");
-            System.out.println("\te -> edit category list");
-            System.out.println("\tq -> return to menu");
+            System.out.println(YELLOW + "\te -> edit category list" + RESET);
+            System.out.println(RED + "\tq -> return to menu" + RESET);
 
             command = input.next();
             command = command.toLowerCase();
@@ -623,15 +604,15 @@ public class BudgetApp {
         LinkedList<ExpenseCategory> expenseList = budget.getExpenses().getCatList();
 
         System.out.println("Here are your created categories:");
-        System.out.println("Income Categories:");
+        System.out.println(GREEN + "Income Categories:" + RESET);
 
         for (IncomeCategory income : incomeList) {
-            System.out.println("\t-" + income.getName().toUpperCase() + " ID: " + income.getID());
+            System.out.println(GREEN + "\t-" + income.getName().toUpperCase() + " ID: " + income.getID() + RESET);
         }
 
-        System.out.println("\nExpense Categories:");
+        System.out.println(RED + "\nExpense Categories:" + RESET);
         for (ExpenseCategory expense : expenseList) {
-            System.out.println("\t-" + expense.getName().toUpperCase() + " ID: " + expense.getID());
+            System.out.println(RED + "\t-" + expense.getName().toUpperCase() + " ID: " + expense.getID() + RESET);
         }
 
 
@@ -717,7 +698,7 @@ public class BudgetApp {
     public void displayExpenseMenu() {
         LinkedList<SingleExpense> singleExpenses = currentCategory.getSingle();
         LinkedList<RecurringExpense> recurringExpenses = currentCategory.getRecurring();
-        System.out.println("\nYou're currently editing " + currentCategory.getName().toUpperCase());
+        System.out.println("\nYou're currently editing " + RED + currentCategory.getName().toUpperCase() + RESET);
         System.out.println("\nOne-Time Expenses:");
 
         for (SingleExpense expense : singleExpenses) {
@@ -776,7 +757,7 @@ public class BudgetApp {
     public void displayIncomeMenu() {
         LinkedList<SingleIncome> singleIncomes = currentCategory.getSingle();
         LinkedList<RecurringIncome> recurringIncomes = currentCategory.getRecurring();
-        System.out.println("\nYou're currently editing " + currentCategory.getName().toUpperCase());
+        System.out.println("\nYou're currently editing " + GREEN + currentCategory.getName().toUpperCase() + RESET);
         System.out.println("\nOne-Time Incomes:");
 
         for (SingleIncome income : singleIncomes) {
@@ -797,10 +778,10 @@ public class BudgetApp {
 
     //EFFECTS: displays income/expense menu
     public void displayIncomeOrExpenseMenu() {
-        System.out.println("\nEnter ID to delete OR:");
-        System.out.println("\ta -> add new");
-        System.out.println("\te -> edit name");
-        System.out.println("\tq -> quit");
+        System.out.println("\nEnter ID to" + RED + " delete" + RESET + " OR:");
+        System.out.println(GREEN + "\ta -> add new" + RESET);
+        System.out.println(YELLOW + "\te -> edit name" + RESET);
+        System.out.println(RED + "\tq -> quit" + RESET);
     }
 
     //MODIFIES: this
@@ -1035,7 +1016,7 @@ public class BudgetApp {
         boolean keepGoing = true;
         int day = java.time.LocalDate.now().getDayOfMonth();
 
-        System.out.println("Finally, what day?");
+        System.out.println("day:");
 
         while (keepGoing) {
             day = Integer.parseInt(input.next());
@@ -1059,7 +1040,7 @@ public class BudgetApp {
         boolean keepGoing = true;
         int month = java.time.LocalDate.now().getMonthValue();
 
-        System.out.println("month?");
+        System.out.println("month:");
 
         while (keepGoing) {
             month = Integer.parseInt(input.next());
@@ -1083,7 +1064,7 @@ public class BudgetApp {
     public int askYear() {
         boolean keepGoing = true;
         int year = java.time.LocalDate.now().getYear();
-        System.out.println("What year did it start/occur?");
+        System.out.println("Input year:");
 
         while (keepGoing) {
             year = Integer.parseInt(input.next());

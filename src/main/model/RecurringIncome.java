@@ -23,14 +23,11 @@ public class RecurringIncome extends Recurring {
 
 
     //GETTERS
-
-
     public String getPeriod() {
         return this.period;
 
     }
 
-    //SETTER
 
 
 

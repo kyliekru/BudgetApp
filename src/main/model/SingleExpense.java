@@ -15,7 +15,6 @@ public class SingleExpense extends IncomeExpense {
     //         amount spent. Date is set to day expense was created and ID is a
     //         unique positive integer.
     public SingleExpense(String name, double amount) {
-
         date = java.time.LocalDate.now();
         this.name = name;
         this.amount = amount;

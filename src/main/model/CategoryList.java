@@ -73,6 +73,7 @@ public class CategoryList implements Writable {
     }
 
     @Override
+    //EFFECTS: returns CategoryList as a json object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("label", label);
@@ -80,6 +81,7 @@ public class CategoryList implements Writable {
         return json;
     }
 
+    //EFFECTS returns categories as json array
     private JSONArray categoriesToJson() {
         JSONArray jsonArray = new JSONArray();
 
