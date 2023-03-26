@@ -174,7 +174,7 @@ public class BudgetAppGui {
     private void createDeleteListener() {
         deleteCatListener = new DeleteCatListener(budget, incomeCatNames, incomePanelArray, expenseCatNames,
                 expensePanelArray, currentCatLabel, selectedCat, incomePanelList, expensePanelList, incomeCardLayout,
-                expenseCardLayout, mainPanel);
+                expenseCardLayout, mainPanel, incomeModel, expenseModel);
     }
 
     private void addCatContainers(JPanel incomePanelContainer, JPanel expensePanelContainer) {

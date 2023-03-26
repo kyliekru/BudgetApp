@@ -41,6 +41,9 @@ public class CatListSelectionListener implements ListSelectionListener {
         if (!e.getValueIsAdjusting()) {
             String selectedCategory = categoryList.getSelectedValue();
             int categoryID = categoryList.getSelectedIndex();
+            if (categoryID < 0) {
+                categoryID = 0;
+            }
             if (label == 0) {
                 selectedCat = (ExpenseCategory) list.getCatList().get(categoryID);
                 currLabel = 0;

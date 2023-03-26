@@ -25,12 +25,15 @@ public class DeleteCatListener implements ActionListener {
     private CardLayout expenseCardLayout;
     private JPanel currentPanel;
     private JPanel mainPanel;
+    private DefaultListModel expenseModel;
+    private DefaultListModel incomeModel;
 
 
     public DeleteCatListener(Budget budget, JList incomeList, LinkedList<JPanel> incomePanels,
                              JList expenseList, LinkedList<JPanel> expensePanels, int catLabel, Category selectedCat,
                              LinkedList<JPanel> incomePanelList, LinkedList<JPanel> expensePanelList,
-                             CardLayout incomeCardLayout, CardLayout expenseCardLayout, JPanel mainPanel) {
+                             CardLayout incomeCardLayout, CardLayout expenseCardLayout, JPanel mainPanel,
+                             DefaultListModel incomeModel, DefaultListModel expenseModel) {
         this.budget = budget;
         this.incomeList = incomeList;
         this.expenseList = expenseList;
@@ -44,6 +47,8 @@ public class DeleteCatListener implements ActionListener {
         this.incomeCardLayout = incomeCardLayout;
         this.expenseCardLayout = expenseCardLayout;
         this.mainPanel = mainPanel;
+        this.expenseModel = expenseModel;
+        this.incomeModel = incomeModel;
 
 
     }
@@ -61,24 +66,37 @@ public class DeleteCatListener implements ActionListener {
         if (catLabel == 0) {
             index = expenseList.getSelectedIndex();
             currentPanel = expenseCatPanels.get(index);
+            Container parent = currentPanel.getParent();
             expenseCardLayout.removeLayoutComponent(currentPanel);
-            expenseList.remove(index);
+            parent.remove(currentPanel);
+            expenseModel.remove(index);
+            expenseList.getParent().revalidate();
+            expenseList.getParent().repaint();
             expensePanelList.remove(index + 1);
             expensePanelList.remove(index);
             int id = selectedCat.getID();
             budget.getExpenses().removeCat(id);
 
-        } else {
-            index = incomeList.getSelectedIndex();
-            currentPanel = incomeCatPanels.get(index);
-            incomeCardLayout.removeLayoutComponent(currentPanel);
-            incomePanelList.remove(index);
-            incomePanelList.remove(index + 1);
-            int id = selectedCat.getID();
-            budget.getIncomes().removeCat(id);
-        }
-        mainPanel.revalidate();
-        mainPanel.repaint();
 
+        } else {
+            deleteIncome();
+        }
+
+
+    }
+
+    private void deleteIncome() {
+        index = incomeList.getSelectedIndex();
+        currentPanel = incomeCatPanels.get(index);
+        Container parent = currentPanel.getParent();
+        incomeCardLayout.removeLayoutComponent(currentPanel);
+        parent.remove(currentPanel);
+        incomeModel.remove(index);
+        incomeList.getParent().revalidate();
+        incomeList.getParent().repaint();
+        incomePanelList.remove(index + 1);
+        incomePanelList.remove(index);
+        int id = selectedCat.getID();
+        budget.getIncomes().removeCat(id);
     }
 }
