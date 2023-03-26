@@ -73,6 +73,7 @@ public class ExpenseCategory extends Category {
 
     }
 
+
     //MODIFIES: singleExpenses
     //EFFECTS: Searches for SingleExpense in singleExpenses list with given ID,
     //         if found it is removed and returns true, else returns false.
