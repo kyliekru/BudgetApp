@@ -10,7 +10,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
-//Represents a ListSelectionListener for income/expense JLists
 public class CatListSelectionListener implements ListSelectionListener {
 
     private JList<String> categoryList;
@@ -23,7 +22,6 @@ public class CatListSelectionListener implements ListSelectionListener {
     private DeleteIncomeExpenseListener delete;
     private DeleteCatListener deleteCat;
 
-    //CONSTRUCTOR
     public CatListSelectionListener(JList<String> catList, CategoryList list,
                                     CardLayout cardLayout, JPanel container, Category selectedCat, int label,
                                     int currLabel, DeleteIncomeExpenseListener delete, DeleteCatListener deleteCat) {
@@ -38,8 +36,6 @@ public class CatListSelectionListener implements ListSelectionListener {
         this.deleteCat = deleteCat;
     }
 
-    //MODIFIES: this
-    //EFFECTS: set selectedCategory to JList selection
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {

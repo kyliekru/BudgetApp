@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
-//Represents an ActionListener for deleteCategory button; deletes category currently selected
 public class DeleteCatListener implements ActionListener {
 
     private Budget budget;
@@ -30,8 +29,6 @@ public class DeleteCatListener implements ActionListener {
     private DefaultListModel incomeModel;
 
 
-
-    //CONSTRUCTOR
     public DeleteCatListener(Budget budget, JList incomeList, LinkedList<JPanel> incomePanels,
                              JList expenseList, LinkedList<JPanel> expensePanels, int catLabel, Category selectedCat,
                              LinkedList<JPanel> incomePanelList, LinkedList<JPanel> expensePanelList,
@@ -56,7 +53,6 @@ public class DeleteCatListener implements ActionListener {
 
     }
 
-    //SETTERS
     public void setSelectedCat(Category cat) {
         this.selectedCat = cat;
     }
@@ -65,8 +61,6 @@ public class DeleteCatListener implements ActionListener {
         this.catLabel = label;
     }
 
-    //MODIFIES: this, mainPanel, budget
-    //EFFECTS: remove currently selected panel; deleted selected category from budget
     @Override
     public void actionPerformed(ActionEvent e) {
         if (catLabel == 0) {
@@ -91,8 +85,6 @@ public class DeleteCatListener implements ActionListener {
 
     }
 
-    //MODIFIES: this, mainPanel, budget
-    //EFFECTS: deletes income category from budget and removes panel
     private void deleteIncome() {
         index = incomeList.getSelectedIndex();
         currentPanel = incomeCatPanels.get(index);

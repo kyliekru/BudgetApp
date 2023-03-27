@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-//Represents a PieChart for each income and expense category list **NOT IN USE**
 public class DrawPieChart extends JPanel {
 
     private Budget budget;
@@ -30,8 +29,6 @@ public class DrawPieChart extends JPanel {
     private Double amount;
     private Double totalForCat;
 
-    //MODIFIES: this
-    //CONSTRUCTOR
     public DrawPieChart(Budget budget, int label, JPanel mainPanel) {
         this.budget = budget;
         this.label = label;
@@ -46,8 +43,6 @@ public class DrawPieChart extends JPanel {
 
     }
 
-    //MODIFIES: this
-    //EFFECTS: repaints pie chart
     public void update() {
         this.repaint();
 
@@ -56,13 +51,10 @@ public class DrawPieChart extends JPanel {
         mainPanel.repaint();
     }
 
-    //SETTER
     public void setBudget(Budget budget) {
         this.budget = budget;
     }
 
-    //MODIFIES: this
-    //EFFECTS: Draws piechart based on categoryList
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -94,16 +86,11 @@ public class DrawPieChart extends JPanel {
         }
     }
 
-
-    //MODIFIES: this
-    //EFFECTS: calculates percentage category makes up of total amount
     private void calculateCat(Double totalForCat, Category cat, LocalDate current, LocalDate start) {
         amount = cat.addTotalAmount(start, current);
         percentage = amount / totalForCat;
     }
 
-    //MODIFIES: this
-    //EFFECTS: checks if label is 0, if true sets catList to expenseCatList, else sets it to incomeCatList
     private void checkLabel() {
         if (label == 0) {
             catList = budget.getExpenses();
@@ -113,7 +100,6 @@ public class DrawPieChart extends JPanel {
         cats = catList.getCatList();
     }
 
-    //EFFECTS: Rotates through colours for category slice in chart
     private Color getColorForCategory(Category cat) {
         if (COLOR_INDEX % 3 == 0) {
             return Color.CYAN;

@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-//BudgetApp graphical user interface class using Swing
 public class BudgetAppGui {
     
     private JPanel mainPanel;
@@ -80,15 +79,11 @@ public class BudgetAppGui {
     private static final String JSON_STORE = "./data/budget.json";
     private LoadListener loadListener;
 
-    //MODIFIES: this
-    //EFFECTS: build base gui
     public BudgetAppGui() {
         initializeFields();
         initializeGraphics();
     }
 
-    //MODIFIES: this
-    //EFFECTS: initializes fields
     private void initializeFields() {
         budget = new Budget("unnamed");
         expenseCatList = new CategoryList(0);
@@ -107,8 +102,6 @@ public class BudgetAppGui {
         jsonReader = new JsonReader(JSON_STORE);
     }
 
-    //MODIFIES: this
-    //EFFECTS: builds base graphics; buttons, catList panels and menuBar
     private void initializeGraphics() {
         frame = new JFrame("Budget App");
         mainPanel = new JPanel();
@@ -128,12 +121,9 @@ public class BudgetAppGui {
 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         String input = JOptionPane.showInputDialog("Name your budget:");
-        if (input != null) {
-            budget.setName(input);
-        }
+        budget.setName(input);
     }
 
-    //EFFECTS: builds JMenuBar with save and load buttons and returns it
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
@@ -158,8 +148,6 @@ public class BudgetAppGui {
         return menuBar;
     }
 
-    //MODIFIES: this
-    //EFFECTS: create buttons and add listeners
     private void initializeButtons() {
         addCategory = new JButton("Add Cat");
         deleteCategory = new JButton("Delete Cat");
@@ -190,8 +178,6 @@ public class BudgetAppGui {
 
     }
 
-    //MODIFIES: this
-    //EFFECTS: configure income and cat buttons and add to mainPanel
     private void setIncomeAndCatButtons(JButton addCategory, JButton addIncomeButton, JButton deleteCat) {
         addCategory.setPreferredSize(new Dimension(90, 60));
         addListeners();
@@ -215,8 +201,6 @@ public class BudgetAppGui {
         mainPanel.add(catButtonPanel, BorderLayout.PAGE_START);
     }
 
-    //MODIFIES: this
-    //EFFECTS: adds listeners to load, addCat and addIncome buttons
     private void addListeners() {
         addCatListener = new AddCatListener(expenseCatsPanel, incomeCatsPanel, budget,
                 expenseModel, incomeModel, incomeCatNames, expenseCatNames, mainPanel,
@@ -230,8 +214,6 @@ public class BudgetAppGui {
         loadListener.setAddIncomeListener(addIncomeListener);
     }
 
-    //MODIFIES: this
-    //EFFECTS: build income and expense category panel containers and add to mainPanel
     private void initializePanels() {
 
         incomeCatsPanel = new JPanel();
@@ -266,16 +248,12 @@ public class BudgetAppGui {
 
     }
 
-    //MODIFIES: this
-    //EFFECTS: creates deleteListener for deleteCatButton
     private void createDeleteListener() {
         deleteCatListener = new DeleteCatListener(budget, incomeCatNames, incomePanelArray, expenseCatNames,
                 expensePanelArray, currentCatLabel, selectedCat, incomePanelList, expensePanelList, incomeCardLayout,
                 expenseCardLayout, mainPanel, incomeModel, expenseModel);
     }
 
-    //MODIFIES: this
-    //EFFECTS: builds income and expense panel containers and adds to cat containers
     private void addCatContainers(JPanel incomePanelContainer, JPanel expensePanelContainer) {
         JPanel panelContainer = new JPanel();
         panelContainer.setLayout(new GridLayout(1, 2));
@@ -302,8 +280,6 @@ public class BudgetAppGui {
 
     }
 
-    //MODIFIES: this
-    //EFFECTS: adds ListSelectionListener to income and expense category JLists
     private void initializeCatPanels() {
         incomeCatNames.addListSelectionListener(new
                 CatListSelectionListener(incomeCatNames, incomeCatList, incomeCardLayout,

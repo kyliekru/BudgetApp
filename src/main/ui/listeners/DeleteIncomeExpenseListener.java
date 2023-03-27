@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-//Represents an ActionListener for delete income/expense button; removes income/expense
 public class DeleteIncomeExpenseListener implements ActionListener {
 
     private JPanel selection;
@@ -19,7 +18,6 @@ public class DeleteIncomeExpenseListener implements ActionListener {
     private int label;
     private boolean isRecurring;
 
-    //CONSTRUCTOR
     public DeleteIncomeExpenseListener(Budget budget, Category currentCat, int label, boolean isRecurring) {
         this.budget = budget;
         this.currentCat = currentCat;
@@ -29,8 +27,6 @@ public class DeleteIncomeExpenseListener implements ActionListener {
     }
 
 
-
-    //SETTERS
     public void setSelection(JPanel newSelection) {
         this.selection = newSelection;
     }
@@ -45,8 +41,6 @@ public class DeleteIncomeExpenseListener implements ActionListener {
 
 
 
-    //MODIFIES: this, budget, mainPanel
-    //EFFECTS: removes income/expense panel and deletes it from budget
     @Override
     public void actionPerformed(ActionEvent e) {
         Container parent = selection.getParent();
