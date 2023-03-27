@@ -129,10 +129,10 @@ public class AddListener implements ActionListener {
     private void checkAnswer(String answer) {
         if (answer.equals("Yes")) {
             isRecurring = true;
-            currentPanel = currentPanelList.get(index + 1);
+            currentPanel = currentPanelList.get(index);
             askRecurring();
         } else {
-            currentPanel = currentPanelList.get(index);
+            currentPanel = currentPanelList.get(index + 1);
             isRecurring = false;
         }
     }
