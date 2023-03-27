@@ -121,10 +121,10 @@ public class AddListener implements ActionListener {
     private void checkAnswer(String answer) {
         if (answer.equals("Yes")) {
             isRecurring = true;
-            currentPanel = currentPanelList.get(index);
+            currentPanel = currentPanelList.get(index + 1);
             askRecurring();
         } else {
-            currentPanel = currentPanelList.get(index + 1);
+            currentPanel = currentPanelList.get(index);
             isRecurring = false;
         }
     }
@@ -152,7 +152,7 @@ public class AddListener implements ActionListener {
                 currentCategory.addRecurring(income);
                 income.setDate(date);
             }
-            createRecurringPanel(incomeExpenseName, amount, period, currentCategory, date, currentPanel);
+            createRecurringPanel();
         } else {
             if (label == 0) {
                 SingleExpense expense = new SingleExpense(incomeExpenseName, amount);
@@ -163,7 +163,7 @@ public class AddListener implements ActionListener {
                 currentCategory.addSingle(income);
                 income.setDate(date);
             }
-            createSinglePanel(incomeExpenseName, amount, currentCategory, date, currentPanel);
+            createSinglePanel();
 
         }
     }
@@ -193,8 +193,46 @@ public class AddListener implements ActionListener {
 //        currentChart.update();
 //    }
 
+    private void createSinglePanel() {
+        JPanel panel = new JPanel();
+        JLabel name = new JLabel(incomeExpenseName);
+        JLabel amountLabel = new JLabel("$" + String.valueOf(amount));
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.add(name, BorderLayout.NORTH);
+        panel.add(amountLabel, BorderLayout.CENTER);
+        panel.addMouseListener(panelSelectionListener);
+//        updateChart();
+        panel.revalidate();
+        panel.repaint();
+
+        currentPanel.add(panel);
+
+        currentPanel.revalidate();
+        currentPanel.repaint();
+
+    }
+
     public void createRecurringPanel(String incomeExpenseName, Double amount, String period, Category currentCategory,
                                       LocalDate date, JPanel currentPanel) {
+        JPanel panel = new JPanel();
+        JLabel name = new JLabel(incomeExpenseName);
+        JLabel amountLabel = new JLabel("$" + String.valueOf(amount));
+        JLabel periodLabel = new JLabel(period);
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.add(name, BorderLayout.NORTH);
+        panel.add(amountLabel, BorderLayout.CENTER);
+        panel.add(periodLabel, BorderLayout.SOUTH);
+        panel.addMouseListener(panelSelectionListener);
+//        updateChart();
+        panel.revalidate();
+        panel.repaint();
+
+        update(panel, currentPanel);
+    }
+
+    private void createRecurringPanel() {
         JPanel panel = new JPanel();
         JLabel name = new JLabel(incomeExpenseName);
         JLabel amountLabel = new JLabel("$" + String.valueOf(amount));

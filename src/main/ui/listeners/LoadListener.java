@@ -59,14 +59,14 @@ public class LoadListener implements ActionListener {
             int index = 0;
 
             for (Category cat : expenseCats) {
-                addCatListener.addCat(cat.getName(), "Expense", cat);
+                addCatListener.addCat(cat.getName(), "Expense");
 
                 addExpenses(cat, index);
                 index++;
             }
             index = 0;
             for (Category cat : incomeCats) {
-                addCatListener.addCat(cat.getName(), "Income", cat);
+                addCatListener.addCat(cat.getName(), "Income");
                 addIncomes(cat, index);
                 index++;
             }
