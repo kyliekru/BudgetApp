@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 
+//Represents an ActionListener for the addCategory button; adds a category
 public class AddCatListener implements ActionListener {
 
     private String catName;
@@ -41,6 +42,7 @@ public class AddCatListener implements ActionListener {
     private LinkedList<JPanel> expenseCatSingleRecurringPanels;
     private LinkedList<JPanel> currentArrayList;
 
+    //COSTRUCTOR
     public AddCatListener(JPanel expenseCatContainer, JPanel incomeCatContainer, Budget budget,
                           DefaultListModel expenseModel, DefaultListModel incomeModel, JList incomeList,
                           JList expenseList, JPanel currentPanel, JPanel incomeContainer, JPanel expenseContainer,
@@ -68,6 +70,8 @@ public class AddCatListener implements ActionListener {
         this.expenseCatSingleRecurringPanels = expenseCatSingleRecurringPanels;
     }
 
+    //MODIFIES: this, mainPanel
+    //EFFECTS: Gets category info from user and creates it and its panel
     @Override
     public void actionPerformed(ActionEvent e) {
         JComponent[] components = new JComponent[] {
@@ -90,26 +94,37 @@ public class AddCatListener implements ActionListener {
             System.out.println("Name: " + catName);
             System.out.println("Expense/Income: " + type);
         }
-        addCat(catName, type);
+        generateCat(type);
+        addCat(catName, type, category);
     }
 
-    public void addCat(String catName, String type) {
+    public void generateCat(String type) {
         if (type.equals("Expense")) {
             category = new ExpenseCategory(catName);
             budget.getExpenses().addCat(category);
-            expenseListMap.put(category, new LinkedList<>());
-            currentArrayList = expenseCatSingleRecurringPanels;
-            createNewPanel(0);
         } else {
             category = new IncomeCategory(catName);
             budget.getIncomes().addCat(category);
-            incomeListMap.put(category, new LinkedList<>());
-            currentArrayList = incomeCatSingleRecurringPanels;
-            createNewPanel(1);
         }
     }
 
-    private void createNewPanel(int label) {
+    //MODIFIES: this, budget
+    //EFFECTS: creates category and adds to budget; then makes panel
+    public void addCat(String catName, String type, Category category) {
+        if (type.equals("Expense")) {
+            expenseListMap.put(category, new LinkedList<>());
+            currentArrayList = expenseCatSingleRecurringPanels;
+            createNewPanel(0, category);
+        } else {
+            incomeListMap.put(category, new LinkedList<>());
+            currentArrayList = incomeCatSingleRecurringPanels;
+            createNewPanel(1, category);
+        }
+    }
+
+    //MODIFIES: mainPanel, this
+    //EFFECTS: creates Category panel, include a label panel, a single panel and a recurring panel
+    private void createNewPanel(int label, Category category) {
         JPanel newCatPanel = new JPanel();
         newCatPanel.setLayout(new BorderLayout());
         newCatPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -121,7 +136,7 @@ public class AddCatListener implements ActionListener {
         JPanel recurringIncomeExpensePanel = new JPanel();
         incomeExpensePanel.add(singleIncomeExpensePanel);
         incomeExpensePanel.add(recurringIncomeExpensePanel);
-        createCatNamePanel(catNamePanel, newCatPanel);
+        createCatNamePanel(catNamePanel, newCatPanel, category);
         newCatPanel.add(incomeExpensePanel);
 
 
@@ -135,7 +150,9 @@ public class AddCatListener implements ActionListener {
         update();
     }
 
-    private void createCatNamePanel(JPanel catNamePanel, JPanel newCatPanel) {
+    //MODIFIES: this, mainPanel
+    //EFFECTS: creates Category name label, adds it to label panel, the adds panel to Category panel
+    private void createCatNamePanel(JPanel catNamePanel, JPanel newCatPanel, Category category) {
         JLabel catNameLabel = new JLabel(category.getName());
         catNameLabel.setBounds(50, 10, 30, 10);
         catNamePanel.add(catNameLabel, BorderLayout.CENTER);
@@ -144,11 +161,15 @@ public class AddCatListener implements ActionListener {
         newCatPanel.add(catNamePanel, BorderLayout.NORTH);
     }
 
+    //MODFIES: this, mainPanel
+    //EFFECTS: revalidates and repaints CardLayout to show new catPanel
     private void update() {
         parent.revalidate();
         parent.repaint();
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets fields to either income or expense depending on label; 0 == expense
     private void checkLabel(int label) {
         if (label == 0) {
             parent = expenseCatPanel;

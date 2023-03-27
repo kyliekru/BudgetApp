@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
+//Represents an ActionListener for load button in file menu; loads budget from file
 public class LoadListener implements ActionListener {
 
     private JsonReader jsonReader;
@@ -25,6 +26,8 @@ public class LoadListener implements ActionListener {
     private JPanel currentPanel;
     private JFrame frame;
 
+
+    //CONSTRUCTOR
     public LoadListener(Budget budget, JsonReader jsonReader, LinkedList<JPanel> incomePanels,
                         LinkedList<JPanel> expensePanels, JFrame frame) {
         this.budget = budget;
@@ -34,6 +37,7 @@ public class LoadListener implements ActionListener {
         this.frame = frame;
     }
 
+    //SETTERS
     public void setAddCatListener(AddCatListener catListener) {
         addCatListener = catListener;
     }
@@ -47,6 +51,8 @@ public class LoadListener implements ActionListener {
     }
 
 
+    //MODIFIES: this, mainPanel, budget
+    //EFFECTS: reads budget from file and builds panels
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
@@ -79,6 +85,8 @@ public class LoadListener implements ActionListener {
         }
     }
 
+    //MODIFIES: this, mainPanel
+    //EFFECTS: adds expense panels from loaded budget
     private void addExpenses(Category cat, int index) {
         LinkedList<SingleExpense> singleExpenses = cat.getSingle();
         LinkedList<RecurringExpense> recurringExpenses = cat.getRecurring();
@@ -97,6 +105,8 @@ public class LoadListener implements ActionListener {
         }
     }
 
+    //MODIFIES: this, mainPanel
+    //EFFECTS: adds income panels from loaded budget
     private void addIncomes(Category cat, int index) {
         LinkedList<SingleIncome> singleIncomes = cat.getSingle();
         LinkedList<RecurringIncome> recurringIncomes = cat.getRecurring();
