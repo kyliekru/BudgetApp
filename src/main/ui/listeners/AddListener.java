@@ -129,10 +129,19 @@ public class AddListener implements ActionListener {
     private void checkAnswer(String answer) {
         if (answer.equals("Yes")) {
             isRecurring = true;
-            currentPanel = currentPanelList.get(index + 1);
+            if (index == 0) {
+                currentPanel = currentPanelList.get(index);
+            } else {
+                int newIndex = (index * 2) + 1;
+                currentPanel = currentPanelList.get(newIndex);
+            }
             askRecurring();
         } else {
-            currentPanel = currentPanelList.get(index);
+            if (index == 0) {
+                currentPanel = currentPanelList.get(index + 1);
+            } else {
+                currentPanel = currentPanelList.get((index * 2));
+            }
             isRecurring = false;
         }
     }
@@ -201,10 +210,12 @@ public class AddListener implements ActionListener {
         currentPanel.repaint();
     }
 
-//    private void updateChart() {
-//        currentChart.setBudget(budget);
-//        currentChart.update();
-//    }
+    //MODIFIES: this, currentChart
+    //EFFECTS: update pieChart
+    private void updateChart() {
+        currentChart.setBudget(budget);
+        currentChart.update();
+    }
 
     //MODIFIES: this, mainPanel
     //EFFECTS: creates recurring panel and adds it to recurring list

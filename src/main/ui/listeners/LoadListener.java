@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.LinkedList;
 
 //Represents an ActionListener for load button in file menu; loads budget from file
@@ -89,16 +90,26 @@ public class LoadListener implements ActionListener {
     //EFFECTS: adds expense panels from loaded budget
     private void addExpenses(Category cat, int index) {
         LinkedList<SingleExpense> singleExpenses = cat.getSingle();
+        //Collections.reverse(singleExpenses);
         LinkedList<RecurringExpense> recurringExpenses = cat.getRecurring();
+        //Collections.reverse(recurringExpenses);
         for (SingleExpense expense : singleExpenses) {
-            currentPanel = expensePanelList.get(index);
+            if (index == 0) {
+                currentPanel = expensePanelList.get(index + 1);
+            } else {
+                currentPanel = expensePanelList.get((index * 2));
+            }
             String name = expense.getName();
             Double amount = expense.getAmount();
             LocalDate date = expense.getDate();
             addExpenseListener.createSinglePanel(name, amount, cat, date, currentPanel);
         }
         for (RecurringExpense expense : recurringExpenses) {
-            currentPanel = expensePanelList.get(index + 1);
+            if (index == 0) {
+                currentPanel = expensePanelList.get(index);
+            } else {
+                currentPanel = expensePanelList.get((index * 2) + 1);
+            }
             addExpenseListener.createRecurringPanel(expense.getName(), expense.getAmount(),
                     expense.getPeriod(), cat, expense.getDate(), currentPanel);
 
@@ -109,14 +120,25 @@ public class LoadListener implements ActionListener {
     //EFFECTS: adds income panels from loaded budget
     private void addIncomes(Category cat, int index) {
         LinkedList<SingleIncome> singleIncomes = cat.getSingle();
+        //Collections.reverse(singleIncomes);
         LinkedList<RecurringIncome> recurringIncomes = cat.getRecurring();
+        //Collections.reverse(recurringIncomes);
         for (SingleIncome income : singleIncomes) {
-            currentPanel = incomePanelList.get(index);
+            if (index == 0) {
+                currentPanel = incomePanelList.get(index + 1);
+            } else {
+                currentPanel = incomePanelList.get((index * 2));
+            }
+
             addIncomeListener.createSinglePanel(income.getName(), income.getAmount(), cat, income.getDate(),
                     currentPanel);
         }
         for (RecurringIncome income : recurringIncomes) {
-            currentPanel = incomePanelList.get(index + 1);
+            if (index == 0) {
+                currentPanel = incomePanelList.get(index);
+            } else {
+                currentPanel = incomePanelList.get((index * 2) + 1);
+            }
             addIncomeListener.createRecurringPanel(income.getName(), income.getAmount(), income.getPeriod(),
                     cat, income.getDate(), currentPanel);
         }

@@ -85,7 +85,6 @@ public class AddCatListener implements ActionListener {
         int result = JOptionPane.showConfirmDialog(currentPanel, components, "Create Category",
                 JOptionPane.OK_CANCEL_OPTION);
 
-        // If the user clicked OK, display the input
         if (result == JOptionPane.OK_OPTION) {
             JTextField nameField = (JTextField)components[1];
             JComboBox<String> yesNoBox = (JComboBox<String>)components[3];
@@ -135,12 +134,22 @@ public class AddCatListener implements ActionListener {
 
 
         checkLabel(label);
-        model.insertElementAt(category.getName(), 0);
+        insertElements();
         panelContainer.add(newCatPanel, category.getName());
         currentCatList.addFirst(newCatPanel);
-        currentArrayList.addFirst(singleIncomeExpensePanel);
-        currentArrayList.addFirst(recurringIncomeExpensePanel);
+        currentArrayList.add(singleIncomeExpensePanel);
+        currentArrayList.add(recurringIncomeExpensePanel);
         update();
+    }
+
+    //MODIFIES: this, mainPanel
+    //EFFECTS: inserts category name to proper catList at the end of the list
+    private void insertElements() {
+        if (model.getSize() == 0) {
+            model.insertElementAt(category.getName(), 0);
+        } else {
+            model.insertElementAt(category.getName(), model.getSize());
+        }
     }
 
     //MODIFIES: this, mainPanel
