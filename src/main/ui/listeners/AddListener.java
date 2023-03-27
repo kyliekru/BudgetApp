@@ -1,11 +1,13 @@
 package ui.listeners;
 
 import model.*;
+import ui.graphics.DrawPieChart;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
@@ -20,6 +22,7 @@ public class AddListener implements ActionListener {
     private double amount;
     private String period;
     private String answer;
+    private LocalDate date;
     private int label;
     private Category currentCategory;
     private JPanel selection;
@@ -30,11 +33,12 @@ public class AddListener implements ActionListener {
     private Map<Category, LinkedList> currentListMap;
     private boolean isRecurring;
     private LinkedList<JPanel> currentPanelList;
+    private DrawPieChart currentChart;
 
     public AddListener(Budget budget, JList list, Map<Category, LinkedList> currentListMap,
                        int label, JPanel selection,
                        DeleteIncomeExpenseListener delete, JPanel mainPanel, boolean isRecurring,
-                       LinkedList<JPanel> currentPanelList) {
+                       LinkedList<JPanel> currentPanelList, DrawPieChart chart) {
 
         this.budget = budget;
         this.list = list;
@@ -46,16 +50,14 @@ public class AddListener implements ActionListener {
         this.currentListMap = currentListMap;
         this.isRecurring = isRecurring;
         this.currentPanelList = currentPanelList;
+        currentChart = chart;
 
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        index = Integer.parseInt(String.valueOf(list.getSelectedIndex()));
-        if (index == -1) {
-            index = 0;
-        }
+        parseIndex();
         if (label == 0) {
             currentCategory = (Category) budget.getExpenses().getCatList().get(index);
         } else {
@@ -66,6 +68,12 @@ public class AddListener implements ActionListener {
                 new JTextField(),
                 new JLabel("Amount:"),
                 new JTextField(),
+                new JLabel("Start year:"),
+                new JTextField(),
+                new JLabel("Start month:"),
+                new JTextField(),
+                new JLabel("Start day:"),
+                new JTextField(),
                 new JLabel("Recurring?"),
                 new JComboBox<String>(new String[] {"Yes", "No"})
         };
@@ -73,6 +81,13 @@ public class AddListener implements ActionListener {
         computeResult(components);
 
 
+    }
+
+    private void parseIndex() {
+        index = Integer.parseInt(String.valueOf(list.getSelectedIndex()));
+        if (index == -1) {
+            index = 0;
+        }
     }
 
     private void computeResult(JComponent[] components) {
@@ -84,10 +99,17 @@ public class AddListener implements ActionListener {
         if (result == JOptionPane.OK_OPTION) {
             JTextField nameField = (JTextField)components[1];
             JTextField amountField = (JTextField)components[3];
-            JComboBox<String> yesNoBox = (JComboBox<String>)components[5];
+            JTextField startYear = (JTextField) components[5];
+            JTextField startMonth = (JTextField) components[7];
+            JTextField startDay = (JTextField) components[9];
+            JComboBox<String> yesNoBox = (JComboBox<String>)components[11];
             incomeExpenseName = nameField.getText().toUpperCase();
             amount = Double.parseDouble(amountField.getText());
             answer = yesNoBox.getSelectedItem().toString();
+            String year = startYear.getText();
+            String month = startMonth.getText();
+            String day = startDay.getText();
+            date = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
             System.out.println("Name: " + incomeExpenseName);
             System.out.println("Amount: " + amount);
             System.out.println("Recurring: " + answer);
@@ -121,13 +143,33 @@ public class AddListener implements ActionListener {
 
     private void createNewPanel(String answer) {
         if (answer.equals("Yes")) {
-            createRecurringPanel();
+            if (label == 0) {
+                RecurringExpense expense = new RecurringExpense(incomeExpenseName, amount, period);
+                currentCategory.addRecurring(expense);
+                expense.setDate(date);
+            } else {
+                RecurringIncome income = new RecurringIncome(incomeExpenseName, amount, period);
+                currentCategory.addRecurring(income);
+                income.setDate(date);
+            }
+            createRecurringPanel(incomeExpenseName, amount, period, currentCategory, date, currentPanel);
         } else {
-            createSinglePanel();
+            if (label == 0) {
+                SingleExpense expense = new SingleExpense(incomeExpenseName, amount);
+                currentCategory.addSingle(expense);
+                expense.setDate(date);
+            } else {
+                SingleIncome income = new SingleIncome(incomeExpenseName, amount);
+                currentCategory.addSingle(income);
+                income.setDate(date);
+            }
+            createSinglePanel(incomeExpenseName, amount, currentCategory, date, currentPanel);
+
         }
     }
 
-    private void createSinglePanel() {
+    public void createSinglePanel(String incomeExpenseName, Double amount, Category currentCategory, LocalDate date,
+                                  JPanel currentPanel) {
         JPanel panel = new JPanel();
         JLabel name = new JLabel(incomeExpenseName);
         JLabel amountLabel = new JLabel("$" + String.valueOf(amount));
@@ -135,14 +177,8 @@ public class AddListener implements ActionListener {
         panel.setBorder(BorderFactory.createLineBorder(Color.black));
         panel.add(name, BorderLayout.NORTH);
         panel.add(amountLabel, BorderLayout.CENTER);
-        if (label == 0) {
-            SingleExpense expense = new SingleExpense(incomeExpenseName, amount);
-            currentCategory.addSingle(expense);
-        } else {
-            SingleIncome income = new SingleIncome(incomeExpenseName, amount);
-            currentCategory.addSingle(income);
-        }
         panel.addMouseListener(panelSelectionListener);
+//        updateChart();
         panel.revalidate();
         panel.repaint();
 
@@ -152,7 +188,13 @@ public class AddListener implements ActionListener {
         currentPanel.repaint();
     }
 
-    private void createRecurringPanel() {
+//    private void updateChart() {
+//        currentChart.setBudget(budget);
+//        currentChart.update();
+//    }
+
+    public void createRecurringPanel(String incomeExpenseName, Double amount, String period, Category currentCategory,
+                                      LocalDate date, JPanel currentPanel) {
         JPanel panel = new JPanel();
         JLabel name = new JLabel(incomeExpenseName);
         JLabel amountLabel = new JLabel("$" + String.valueOf(amount));
@@ -162,17 +204,15 @@ public class AddListener implements ActionListener {
         panel.add(name, BorderLayout.NORTH);
         panel.add(amountLabel, BorderLayout.CENTER);
         panel.add(periodLabel, BorderLayout.SOUTH);
-        if (label == 0) {
-            RecurringExpense expense = new RecurringExpense(incomeExpenseName, amount, period);
-            currentCategory.addRecurring(expense);
-        } else {
-            RecurringIncome income = new RecurringIncome(incomeExpenseName, amount, period);
-            currentCategory.addRecurring(income);
-        }
         panel.addMouseListener(panelSelectionListener);
+//        updateChart();
         panel.revalidate();
         panel.repaint();
 
+        update(panel, currentPanel);
+    }
+
+    private void update(JPanel panel, JPanel currentPanel) {
         currentPanel.add(panel);
 
         currentPanel.revalidate();

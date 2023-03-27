@@ -93,7 +93,7 @@ public class AddCatListener implements ActionListener {
         addCat(catName, type);
     }
 
-    private void addCat(String catName, String type) {
+    public void addCat(String catName, String type) {
         if (type.equals("Expense")) {
             category = new ExpenseCategory(catName);
             budget.getExpenses().addCat(category);
@@ -114,19 +114,18 @@ public class AddCatListener implements ActionListener {
         newCatPanel.setLayout(new BorderLayout());
         newCatPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         JPanel catNamePanel = new JPanel();
+        catNamePanel.setLayout(new BorderLayout());
         JPanel incomeExpensePanel = new JPanel();
         incomeExpensePanel.setLayout(new GridLayout(1, 2));
         JPanel singleIncomeExpensePanel = new JPanel();
         JPanel recurringIncomeExpensePanel = new JPanel();
         incomeExpensePanel.add(singleIncomeExpensePanel);
         incomeExpensePanel.add(recurringIncomeExpensePanel);
+        createCatNamePanel(catNamePanel, newCatPanel);
         newCatPanel.add(incomeExpensePanel);
 
-        JLabel catNameLabel = new JLabel(category.getName());
-        catNamePanel.add(catNameLabel);
-        newCatPanel.add(catNamePanel, BorderLayout.NORTH);
-        catNameLabel.setForeground(Color.RED);
-        newCatPanel.add(catNameLabel, BorderLayout.NORTH);
+
+
         checkLabel(label);
         model.insertElementAt(category.getName(), 0);
         panelContainer.add(newCatPanel, category.getName());
@@ -134,6 +133,15 @@ public class AddCatListener implements ActionListener {
         currentArrayList.addFirst(singleIncomeExpensePanel);
         currentArrayList.addFirst(recurringIncomeExpensePanel);
         update();
+    }
+
+    private void createCatNamePanel(JPanel catNamePanel, JPanel newCatPanel) {
+        JLabel catNameLabel = new JLabel(category.getName());
+        catNameLabel.setBounds(50, 10, 30, 10);
+        catNamePanel.add(catNameLabel, BorderLayout.CENTER);
+        newCatPanel.add(catNamePanel, BorderLayout.NORTH);
+        catNameLabel.setForeground(Color.PINK);
+        newCatPanel.add(catNamePanel, BorderLayout.NORTH);
     }
 
     private void update() {
