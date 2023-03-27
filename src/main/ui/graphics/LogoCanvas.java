@@ -2,8 +2,11 @@ package ui.graphics;
 
 import java.awt.*;
 
+//Represents a logo canvas, using a png
 public class LogoCanvas extends Canvas {
 
+    //MODIFIES: this
+    //EFFECTS: draw image on panel
     public void paint(Graphics g) {
 
         Toolkit t = Toolkit.getDefaultToolkit();

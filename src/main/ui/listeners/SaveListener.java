@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 
+//Represents an ActionListener for save button in file menu; saves budget to file
 public class SaveListener implements ActionListener {
 
     private static final String JSON_STORE = "./data/budget.json";
@@ -15,6 +16,7 @@ public class SaveListener implements ActionListener {
     private Budget budget;
     private JFrame frame;
 
+    //CONSTRUCTOR
     public SaveListener(JsonWriter jsonWriter, Budget budget, JFrame frame) {
         this.jsonWriter = jsonWriter;
         this.budget = budget;
@@ -22,6 +24,8 @@ public class SaveListener implements ActionListener {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: saves budget to file
     @Override
     public void actionPerformed(ActionEvent e) {
         try {

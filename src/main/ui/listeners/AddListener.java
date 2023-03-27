@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 
+//Represents an actionListener for addIncome and addExpense buttons; adds income/expense
 public class AddListener implements ActionListener {
 
 
@@ -35,6 +36,7 @@ public class AddListener implements ActionListener {
     private LinkedList<JPanel> currentPanelList;
     private DrawPieChart currentChart;
 
+    //CONSTRUCTOR
     public AddListener(Budget budget, JList list, Map<Category, LinkedList> currentListMap,
                        int label, JPanel selection,
                        DeleteIncomeExpenseListener delete, JPanel mainPanel, boolean isRecurring,
@@ -55,6 +57,8 @@ public class AddListener implements ActionListener {
 
     }
 
+    //MODIFIES: this, mainPanel
+    //EFFECTS: Gets info from user then creates income/expense and adds it to proper panel
     @Override
     public void actionPerformed(ActionEvent e) {
         parseIndex();
@@ -83,6 +87,8 @@ public class AddListener implements ActionListener {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: if index is not selected (== -1) set it to 0
     private void parseIndex() {
         index = Integer.parseInt(String.valueOf(list.getSelectedIndex()));
         if (index == -1) {
@@ -90,12 +96,12 @@ public class AddListener implements ActionListener {
         }
     }
 
+    //MODIFIES: this, mainPanel, budget
+    //EFFECTS: creates income/expense and adds it to proper panel
     private void computeResult(JComponent[] components) {
-        // Show the JOptionPane and get the user's input
         int result = JOptionPane.showConfirmDialog(mainPanel, components, "Create Category",
                 JOptionPane.OK_CANCEL_OPTION);
 
-        // If the user clicked OK, display the input
         if (result == JOptionPane.OK_OPTION) {
             JTextField nameField = (JTextField)components[1];
             JTextField amountField = (JTextField)components[3];
@@ -118,6 +124,8 @@ public class AddListener implements ActionListener {
         createNewPanel(answer);
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets currentPanel to single or recurring panel depending on user input
     private void checkAnswer(String answer) {
         if (answer.equals("Yes")) {
             isRecurring = true;
@@ -129,6 +137,7 @@ public class AddListener implements ActionListener {
         }
     }
 
+    //EFFECTS: ask user whether income/expense is recurring or not
     private void askRecurring() {
         JComboBox<String> comboBox = new JComboBox<String>(new String[] {"weekly", "bi-weekly", "monthly"});
         int resultTwo = JOptionPane.showConfirmDialog(mainPanel, comboBox,
@@ -141,6 +150,8 @@ public class AddListener implements ActionListener {
 
 
 
+    //MODIFIES: this, mainPanel
+    //EFFECTS: creates new panel with name, amount, and period labels and adds it to correct panel
     private void createNewPanel(String answer) {
         if (answer.equals("Yes")) {
             if (label == 0) {
@@ -168,6 +179,8 @@ public class AddListener implements ActionListener {
         }
     }
 
+    //MODIFIES: this, mainPanel
+    //EFFECTS: creates a new single panel and adds it to single panel list
     public void createSinglePanel(String incomeExpenseName, Double amount, Category currentCategory, LocalDate date,
                                   JPanel currentPanel) {
         JPanel panel = new JPanel();
@@ -193,6 +206,8 @@ public class AddListener implements ActionListener {
 //        currentChart.update();
 //    }
 
+    //MODIFIES: this, mainPanel
+    //EFFECTS: creates recurring panel and adds it to recurring list
     public void createRecurringPanel(String incomeExpenseName, Double amount, String period, Category currentCategory,
                                       LocalDate date, JPanel currentPanel) {
         JPanel panel = new JPanel();
@@ -212,6 +227,8 @@ public class AddListener implements ActionListener {
         update(panel, currentPanel);
     }
 
+    //MODIFIES: this, mainPanel
+    //EFFECTS: adds new panel to proper single/recurring mainPanel, and updates it
     private void update(JPanel panel, JPanel currentPanel) {
         currentPanel.add(panel);
 
