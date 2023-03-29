@@ -38,6 +38,7 @@ public class CatListSelectionListener implements ListSelectionListener {
         this.deleteCat = deleteCat;
     }
 
+    //SETTER
     public void setLists(JList<String> catList, CategoryList list) {
         this.categoryList = catList;
         this.list = list;

@@ -82,6 +82,8 @@ public class DeleteIncomeExpenseListener implements ActionListener {
         parent.repaint();
     }
 
+    //MODIFIES: this, budget, currentCat
+    //EFFECTS: removes selected income/expense from selected category
     private void removeItem(String itemName) {
         if (isRecurring) {
             if (currentCat instanceof ExpenseCategory) {

@@ -80,7 +80,6 @@ public class BudgetAppGui {
     private AddListener addExpenseListener;
 
     private static final String JSON_STORE = "./data/budget.json";
-    private LoadListener loadListener;
     private JPanel currentPanel;
     private CatListSelectionListener expenseListListener;
     private CatListSelectionListener incomeListListener;
@@ -145,6 +144,8 @@ public class BudgetAppGui {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: intializes buttons and panels
     private void initialize() {
         initializePanels();
         initializeCatPanels();
@@ -152,6 +153,8 @@ public class BudgetAppGui {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
+    //MODIFIES: this, budget
+    //EFFECTS: asks user to load, if yes load budget; else start new
     private void processAnswer(String answer) {
         if (answer.equals("Yes")) {
             load();
@@ -163,6 +166,8 @@ public class BudgetAppGui {
         }
     }
 
+    //MODIFIES: this, budget
+    //EFFECTS: load budget
     public void load() {
         try {
             budget = jsonReader.read();
@@ -194,6 +199,8 @@ public class BudgetAppGui {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: display loaded message and set listeners to loaded budget
     private void completeLoad() {
         JOptionPane.showMessageDialog(frame, "Loaded " + budget.getName() + " from " + JSON_STORE);
         addCatListener.setBudget(budget);

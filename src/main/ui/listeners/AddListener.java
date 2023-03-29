@@ -62,6 +62,7 @@ public class AddListener implements ActionListener {
 
     }
 
+    //SETTER
     public void setBudget(Budget budget) {
         this.budget = budget;
     }

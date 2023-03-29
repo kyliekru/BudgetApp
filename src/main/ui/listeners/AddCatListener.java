@@ -96,14 +96,9 @@ public class AddCatListener implements ActionListener {
         addCat(catName, type);
     }
 
+    //SETTER
     public void setBudget(Budget budget) {
         this.budget = budget;
-    }
-
-    public void setContainers(JPanel incomePanel, JPanel expensePanel, JPanel panelContainer) {
-        this.panelContainer = panelContainer;
-        this.incomeContainer = incomePanel;
-        this.expenseContainer = expensePanel;
     }
 
     //MODIFIES: this, budget
