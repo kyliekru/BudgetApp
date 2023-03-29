@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -35,12 +34,16 @@ public class AddListener implements ActionListener {
     private boolean isRecurring;
     private LinkedList<JPanel> currentPanelList;
     private DrawPieChart currentChart;
+    private Map<String, Integer> incomeMap;
+    private Map<String, Integer> expenseMap;
+    private static int id = 1;
 
     //CONSTRUCTOR
     public AddListener(Budget budget, JList list, Map<Category, LinkedList> currentListMap,
                        int label, JPanel selection,
                        DeleteIncomeExpenseListener delete, JPanel mainPanel, boolean isRecurring,
-                       LinkedList<JPanel> currentPanelList, DrawPieChart chart) {
+                       LinkedList<JPanel> currentPanelList, DrawPieChart chart, Map<String, Integer> incomeMap,
+                       Map<String, Integer> expenseMap) {
 
         this.budget = budget;
         this.list = list;
@@ -53,8 +56,14 @@ public class AddListener implements ActionListener {
         this.isRecurring = isRecurring;
         this.currentPanelList = currentPanelList;
         currentChart = chart;
+        this.incomeMap = incomeMap;
+        this.expenseMap = expenseMap;
 
 
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
     }
 
     //MODIFIES: this, mainPanel
@@ -172,7 +181,7 @@ public class AddListener implements ActionListener {
                 currentCategory.addRecurring(income);
                 income.setDate(date);
             }
-            createRecurringPanel(incomeExpenseName, amount, period, currentCategory, date, currentPanel);
+            createRecurringPanel(incomeExpenseName, amount, period, currentCategory, date, currentPanel, label);
         } else {
             if (label == 0) {
                 SingleExpense expense = new SingleExpense(incomeExpenseName, amount);
@@ -183,15 +192,16 @@ public class AddListener implements ActionListener {
                 currentCategory.addSingle(income);
                 income.setDate(date);
             }
-            createSinglePanel(incomeExpenseName, amount, currentCategory, date, currentPanel);
+            createSinglePanel(incomeExpenseName, amount, currentCategory, date, currentPanel, label);
 
         }
     }
 
+
     //MODIFIES: this, mainPanel
     //EFFECTS: creates a new single panel and adds it to single panel list
     public void createSinglePanel(String incomeExpenseName, Double amount, Category currentCategory, LocalDate date,
-                                  JPanel currentPanel) {
+                                  JPanel currentPanel, int label) {
         JPanel panel = new JPanel();
         JLabel name = new JLabel(incomeExpenseName);
         JLabel amountLabel = new JLabel("$" + String.valueOf(amount));
@@ -200,6 +210,12 @@ public class AddListener implements ActionListener {
         panel.add(name, BorderLayout.NORTH);
         panel.add(amountLabel, BorderLayout.CENTER);
         panel.addMouseListener(panelSelectionListener);
+        if (label == 0) {
+            expenseMap.put(incomeExpenseName, id);
+        } else {
+            incomeMap.put(incomeExpenseName, id);
+        }
+        id++;
 //        updateChart();
         panel.revalidate();
         panel.repaint();
@@ -220,7 +236,7 @@ public class AddListener implements ActionListener {
     //MODIFIES: this, mainPanel
     //EFFECTS: creates recurring panel and adds it to recurring list
     public void createRecurringPanel(String incomeExpenseName, Double amount, String period, Category currentCategory,
-                                      LocalDate date, JPanel currentPanel) {
+                                      LocalDate date, JPanel currentPanel, int label) {
         JPanel panel = new JPanel();
         JLabel name = new JLabel(incomeExpenseName);
         JLabel amountLabel = new JLabel("$" + String.valueOf(amount));
@@ -231,6 +247,12 @@ public class AddListener implements ActionListener {
         panel.add(amountLabel, BorderLayout.CENTER);
         panel.add(periodLabel, BorderLayout.SOUTH);
         panel.addMouseListener(panelSelectionListener);
+        if (label == 0) {
+            expenseMap.put(incomeExpenseName, id);
+        } else {
+            incomeMap.put(incomeExpenseName, id);
+        }
+        id++;
 //        updateChart();
         panel.revalidate();
         panel.repaint();

@@ -26,16 +26,18 @@ public class LoadListener implements ActionListener {
     private LinkedList<JPanel> expensePanelList;
     private JPanel currentPanel;
     private JFrame frame;
+    private SaveListener saver;
 
 
     //CONSTRUCTOR
     public LoadListener(Budget budget, JsonReader jsonReader, LinkedList<JPanel> incomePanels,
-                        LinkedList<JPanel> expensePanels, JFrame frame) {
+                        LinkedList<JPanel> expensePanels, JFrame frame, SaveListener saver) {
         this.budget = budget;
         this.jsonReader = jsonReader;
         this.incomePanelList = incomePanels;
         this.expensePanelList = expensePanels;
         this.frame = frame;
+        this.saver = saver;
     }
 
     //SETTERS
@@ -77,13 +79,19 @@ public class LoadListener implements ActionListener {
                 addIncomes(cat, index);
                 index++;
             }
-            JOptionPane.showMessageDialog(frame, "Loaded " + budget.getName() + " from " + JSON_STORE);
+            completeLoad();
 
 
 
         } catch (IOException exception) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
+    }
+
+    private void completeLoad() {
+        saver.setBudget(budget);
+
+        JOptionPane.showMessageDialog(frame, "Loaded " + budget.getName() + " from " + JSON_STORE);
     }
 
     //MODIFIES: this, mainPanel
@@ -102,7 +110,7 @@ public class LoadListener implements ActionListener {
             String name = expense.getName();
             Double amount = expense.getAmount();
             LocalDate date = expense.getDate();
-            addExpenseListener.createSinglePanel(name, amount, cat, date, currentPanel);
+            addExpenseListener.createSinglePanel(name, amount, cat, date, currentPanel, 0);
         }
         for (RecurringExpense expense : recurringExpenses) {
             if (index == 0) {
@@ -111,7 +119,7 @@ public class LoadListener implements ActionListener {
                 currentPanel = expensePanelList.get((index * 2) + 1);
             }
             addExpenseListener.createRecurringPanel(expense.getName(), expense.getAmount(),
-                    expense.getPeriod(), cat, expense.getDate(), currentPanel);
+                    expense.getPeriod(), cat, expense.getDate(), currentPanel, 0);
 
         }
     }
@@ -125,22 +133,22 @@ public class LoadListener implements ActionListener {
         //Collections.reverse(recurringIncomes);
         for (SingleIncome income : singleIncomes) {
             if (index == 0) {
-                currentPanel = incomePanelList.get(index + 1);
+                currentPanel = incomePanelList.get(index);
             } else {
                 currentPanel = incomePanelList.get((index * 2));
             }
 
             addIncomeListener.createSinglePanel(income.getName(), income.getAmount(), cat, income.getDate(),
-                    currentPanel);
+                    currentPanel, 1);
         }
         for (RecurringIncome income : recurringIncomes) {
             if (index == 0) {
-                currentPanel = incomePanelList.get(index);
+                currentPanel = incomePanelList.get(index + 1);
             } else {
                 currentPanel = incomePanelList.get((index * 2) + 1);
             }
             addIncomeListener.createRecurringPanel(income.getName(), income.getAmount(), income.getPeriod(),
-                    cat, income.getDate(), currentPanel);
+                    cat, income.getDate(), currentPanel, 1);
         }
     }
 }

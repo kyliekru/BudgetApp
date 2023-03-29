@@ -38,3 +38,17 @@ from continuing to occur
 - As a user, I want to be able to save my budget to a file
 - As a user, I want to be able to reload my budget from a file or start a new one
 
+# Instructions for Grader
+
+- You can generate the first required event related to adding Xs to a Y by when the application is open
+and the budget has been named, click the "add cat" button in the top middle of the screen. Then enter a name and choose
+the type. Finally, click "OK" and the list item will be generated on the left or right depending on type chosen.
+- You can generate the second required event related to adding Xs to a Y by once a category has been added as stated
+above, select the category you would like to add to by clicking, and click the "Add" button below its list panel. Fill in required
+info, requires in this order: String, double, proper year value, proper month value, proper day value. Then select
+yes or no and select "OK". If yes, select period and click "OK", and income/expense will be added to selected category.
+- You can locate my visual component by viewing the top left corner of the screen, where there is a logo.
+- You can save the state of my application by clicking the "file" button in the menubar, and then the "save" option.
+- You can reload the state of my application by when starting the application, choose yes when asked if you'd like to
+load your budget.
+

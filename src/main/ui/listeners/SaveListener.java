@@ -24,6 +24,10 @@ public class SaveListener implements ActionListener {
 
     }
 
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+    }
+
     //MODIFIES: this
     //EFFECTS: saves budget to file
     @Override

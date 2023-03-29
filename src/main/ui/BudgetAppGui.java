@@ -11,11 +11,13 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -79,6 +81,11 @@ public class BudgetAppGui {
 
     private static final String JSON_STORE = "./data/budget.json";
     private LoadListener loadListener;
+    private JPanel currentPanel;
+    private CatListSelectionListener expenseListListener;
+    private CatListSelectionListener incomeListListener;
+    private Map<String, Integer> incomeMap = new HashMap<>();
+    private Map<String, Integer> expenseMap = new HashMap<>();
 
     //MODIFIES: this
     //EFFECTS: build base gui
@@ -86,6 +93,8 @@ public class BudgetAppGui {
         initializeFields();
         initializeGraphics();
     }
+
+
 
     //MODIFIES: this
     //EFFECTS: initializes fields
@@ -102,7 +111,8 @@ public class BudgetAppGui {
         expenseCatMap = new HashMap<>();
         incomePanelList = new LinkedList<>();
         expensePanelList = new LinkedList<>();
-        deleteListener = new DeleteIncomeExpenseListener(budget, selectedCat, currentCatLabel, isRecurring);
+        deleteListener = new DeleteIncomeExpenseListener(budget, selectedCat, currentCatLabel, isRecurring,
+                incomeMap, expenseMap);
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
     }
@@ -117,19 +127,140 @@ public class BudgetAppGui {
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(900, 700));
-        frame.setJMenuBar(createMenuBar());
 
         frame.pack();
 
         frame.setVisible(true);
+
+        initialize();
+        JComboBox<String> comboBox = new JComboBox<String>(new String[] {"Yes", "No"});
+        int resultTwo = JOptionPane.showConfirmDialog(mainPanel, comboBox,
+                "Load budget?", JOptionPane.OK_CANCEL_OPTION);
+
+        if (resultTwo == JOptionPane.OK_OPTION) {
+            String answer = comboBox.getSelectedItem().toString();
+            processAnswer(answer);
+        }
+        frame.setJMenuBar(createMenuBar());
+
+    }
+
+    private void initialize() {
         initializePanels();
         initializeCatPanels();
         initializeButtons();
-
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        String input = JOptionPane.showInputDialog("Name your budget:");
-        if (input != null) {
-            budget.setName(input);
+    }
+
+    private void processAnswer(String answer) {
+        if (answer.equals("Yes")) {
+            load();
+        } else {
+            String input = JOptionPane.showInputDialog("Name your budget:");
+            if (input != null && !input.equals("")) {
+                budget.setName(input);
+            }
+        }
+    }
+
+    public void load() {
+        try {
+            budget = jsonReader.read();
+            System.out.println("Loaded " + budget.getName() + " from " + JSON_STORE);
+            expenseCatList = budget.getExpenses();
+            incomeCatList = budget.getIncomes();
+            LinkedList<Category> expenseCats = expenseCatList.getCatList();
+            LinkedList<Category> incomeCats = incomeCatList.getCatList();
+            int index = 0;
+
+            for (Category cat : expenseCats) {
+                addCatListener.addCat(cat.getName(), "Expense");
+
+                addExpenses(cat, index);
+                index++;
+            }
+            index = 0;
+            for (Category cat : incomeCats) {
+                addCatListener.addCat(cat.getName(), "Income");
+                addIncomes(cat, index);
+                index++;
+            }
+            completeLoad();
+
+
+
+        } catch (IOException exception) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+    private void completeLoad() {
+        JOptionPane.showMessageDialog(frame, "Loaded " + budget.getName() + " from " + JSON_STORE);
+        addCatListener.setBudget(budget);
+        addIncomeListener.setBudget(budget);
+        addExpenseListener.setBudget(budget);
+        deleteCatListener.setBudget(budget);
+        deleteListener.setBudget(budget);
+        incomeListListener.setLists(incomeCatNames, budget.getIncomes());
+        expenseListListener.setLists(expenseCatNames, budget.getExpenses());
+
+    }
+
+    //MODIFIES: this, mainPanel
+    //EFFECTS: adds expense panels from loaded budget
+    private void addExpenses(Category cat, int index) {
+        LinkedList<SingleExpense> singleExpenses = cat.getSingle();
+        //Collections.reverse(singleExpenses);
+        LinkedList<RecurringExpense> recurringExpenses = cat.getRecurring();
+        //Collections.reverse(recurringExpenses);
+        for (SingleExpense expense : singleExpenses) {
+            if (index == 0) {
+                currentPanel = expensePanelList.get(index);
+            } else {
+                currentPanel = expensePanelList.get((index * 2));
+            }
+            String name = expense.getName();
+            Double amount = expense.getAmount();
+            LocalDate date = expense.getDate();
+            addExpenseListener.createSinglePanel(name, amount, cat, date, currentPanel, 0);
+        }
+        for (RecurringExpense expense : recurringExpenses) {
+            if (index == 0) {
+                currentPanel = expensePanelList.get(index + 1);
+            } else {
+                currentPanel = expensePanelList.get((index * 2) + 1);
+            }
+            addExpenseListener.createRecurringPanel(expense.getName(), expense.getAmount(),
+                    expense.getPeriod(), cat, expense.getDate(), currentPanel, 0);
+
+        }
+    }
+
+    //MODIFIES: this, mainPanel
+    //EFFECTS: adds income panels from loaded budget
+    private void addIncomes(Category cat, int index) {
+        LinkedList<SingleIncome> singleIncomes = cat.getSingle();
+        //Collections.reverse(singleIncomes);
+        LinkedList<RecurringIncome> recurringIncomes = cat.getRecurring();
+        //Collections.reverse(recurringIncomes);
+        for (SingleIncome income : singleIncomes) {
+            if (index == 0) {
+                currentPanel = incomePanelList.get(index);
+            } else {
+                currentPanel = incomePanelList.get((index * 2));
+            }
+
+            addIncomeListener.createSinglePanel(income.getName(), income.getAmount(), cat, income.getDate(),
+                    currentPanel, 1);
+        }
+        for (RecurringIncome income : recurringIncomes) {
+            if (index == 0) {
+                currentPanel = incomePanelList.get(index + 1);
+            } else {
+                currentPanel = incomePanelList.get((index * 2) + 1);
+            }
+            addIncomeListener.createRecurringPanel(income.getName(), income.getAmount(), income.getPeriod(),
+                    cat, income.getDate(), currentPanel, 1);
         }
     }
 
@@ -145,16 +276,17 @@ public class BudgetAppGui {
 
         JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem("Save");
         rbMenuItem.setMnemonic(KeyEvent.VK_R);
-        rbMenuItem.addActionListener(new SaveListener(jsonWriter, budget, frame));
+        SaveListener saver = new SaveListener(jsonWriter, budget, frame);
+        rbMenuItem.addActionListener(saver);
         group.add(rbMenuItem);
         menu.add(rbMenuItem);
 
-        JRadioButtonMenuItem rbMenuItem2 = new JRadioButtonMenuItem("Load");
-        rbMenuItem2.setMnemonic(KeyEvent.VK_O);
-        loadListener = new LoadListener(budget, jsonReader, incomePanelList, expensePanelList, frame);
-        rbMenuItem2.addActionListener(loadListener);
-        group.add(rbMenuItem2);
-        menu.add(rbMenuItem2);
+//        JRadioButtonMenuItem rbMenuItem2 = new JRadioButtonMenuItem("Load");
+//        rbMenuItem2.setMnemonic(KeyEvent.VK_O);
+//        loadListener = new LoadListener(budget, jsonReader, incomePanelList, expensePanelList, frame, saver);
+//        rbMenuItem2.addActionListener(loadListener);
+//        group.add(rbMenuItem2);
+//        menu.add(rbMenuItem2);
         return menuBar;
     }
 
@@ -176,9 +308,8 @@ public class BudgetAppGui {
 
         addExpenseButton = new JButton("Add");
         addExpenseListener = new AddListener(budget, expenseCatNames, expenseCatMap, 0, selection,
-                deleteListener, mainPanel, isRecurring, expensePanelList, expensePieChart);
+                deleteListener, mainPanel, isRecurring, expensePanelList, expensePieChart, incomeMap, expenseMap);
         addExpenseButton.addActionListener(addExpenseListener);
-        loadListener.setAddExpenseListener(addExpenseListener);
         deleteExpenseButton = new JButton("Delete");
         deleteExpenseButton.addActionListener(deleteListener);
         expenseButtonsPanel.add(addExpenseButton, BorderLayout.LINE_START);
@@ -223,11 +354,9 @@ public class BudgetAppGui {
                 incomePanelContainer, expensePanelContainer, incomePanelArray, expensePanelArray, selection,
                 expenseCatMap, incomeCatMap, incomePanelList, expensePanelList);
         addCategory.addActionListener(addCatListener);
-        loadListener.setAddCatListener(addCatListener);
         addIncomeListener = new AddListener(budget, incomeCatNames, incomeCatMap, 1, selection,
-                deleteListener, mainPanel, isRecurring, incomePanelList, incomePieChart);
+                deleteListener, mainPanel, isRecurring, incomePanelList, incomePieChart, incomeMap, expenseMap);
         addIncomeButton.addActionListener(addIncomeListener);
-        loadListener.setAddIncomeListener(addIncomeListener);
     }
 
     //MODIFIES: this
@@ -305,11 +434,11 @@ public class BudgetAppGui {
     //MODIFIES: this
     //EFFECTS: adds ListSelectionListener to income and expense category JLists
     private void initializeCatPanels() {
-        incomeCatNames.addListSelectionListener(new
-                CatListSelectionListener(incomeCatNames, incomeCatList, incomeCardLayout,
-                incomePanelContainer, selectedCat, 1, currentCatLabel, deleteListener, deleteCatListener));
-        expenseCatNames.addListSelectionListener(new
-                CatListSelectionListener(expenseCatNames, expenseCatList, expenseCardLayout, expensePanelContainer,
-                selectedCat, 0, currentCatLabel, deleteListener, deleteCatListener));
+        incomeListListener = new CatListSelectionListener(incomeCatNames, incomeCatList, incomeCardLayout,
+                incomePanelContainer, selectedCat, 1, currentCatLabel, deleteListener, deleteCatListener);
+        incomeCatNames.addListSelectionListener(incomeListListener);
+        expenseListListener = new CatListSelectionListener(expenseCatNames, expenseCatList, expenseCardLayout,
+                expensePanelContainer, selectedCat, 0, currentCatLabel, deleteListener, deleteCatListener);
+        expenseCatNames.addListSelectionListener(expenseListListener);
     }
 }

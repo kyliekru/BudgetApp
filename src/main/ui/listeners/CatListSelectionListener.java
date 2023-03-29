@@ -38,6 +38,11 @@ public class CatListSelectionListener implements ListSelectionListener {
         this.deleteCat = deleteCat;
     }
 
+    public void setLists(JList<String> catList, CategoryList list) {
+        this.categoryList = catList;
+        this.list = list;
+    }
+
     //MODIFIES: this
     //EFFECTS: set selectedCategory to JList selection
     @Override
@@ -59,7 +64,7 @@ public class CatListSelectionListener implements ListSelectionListener {
             cardLayout.show(container, selectedCategory);
             delete.setCurrentCat(selectedCat);
             deleteCat.setSelectedCat(selectedCat);
-            deleteCat.setCatLabel(label);
+            deleteCat.setCatLabel(currLabel);
         }
 
     }

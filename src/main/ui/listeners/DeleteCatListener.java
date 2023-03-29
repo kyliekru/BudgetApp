@@ -65,6 +65,10 @@ public class DeleteCatListener implements ActionListener {
         this.catLabel = label;
     }
 
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+    }
+
     //MODIFIES: this, mainPanel, budget
     //EFFECTS: remove currently selected panel; deleted selected category from budget
     @Override
