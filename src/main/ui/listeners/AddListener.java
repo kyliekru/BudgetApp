@@ -140,7 +140,7 @@ public class AddListener implements ActionListener {
         if (answer.equals("Yes")) {
             isRecurring = true;
             if (index == 0) {
-                currentPanel = currentPanelList.get(index);
+                currentPanel = currentPanelList.get(index + 1);
             } else {
                 int newIndex = (index * 2) + 1;
                 currentPanel = currentPanelList.get(newIndex);
@@ -148,7 +148,7 @@ public class AddListener implements ActionListener {
             askRecurring();
         } else {
             if (index == 0) {
-                currentPanel = currentPanelList.get(index + 1);
+                currentPanel = currentPanelList.get(index);
             } else {
                 currentPanel = currentPanelList.get((index * 2));
             }
