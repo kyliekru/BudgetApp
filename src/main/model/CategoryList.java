@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class CategoryList implements Writable {
 
     private int label;
-    private LinkedList<Category> categories;
+    private final LinkedList<Category> categories;
 
     //Constructor
     //EFFECTS: creates a category list with a label of expense or income and
@@ -45,6 +45,11 @@ public class CategoryList implements Writable {
     //EFFECTS: add cat to Category list
     public void addCat(Category cat) {
         categories.addLast(cat);
+        if (label == 0) {
+            EventLog.getInstance().logEvent(new Event("Expense category added."));
+        } else {
+            EventLog.getInstance().logEvent(new Event("Income category added."));
+        }
 
     }
 

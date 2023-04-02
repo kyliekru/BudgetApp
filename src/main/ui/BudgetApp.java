@@ -89,10 +89,10 @@ public class BudgetApp {
         System.out.println(CYAN + "\tc -> create new budget" + RESET);
         System.out.println(CYAN + "\tv -> view budget" + RESET);
         System.out.println(CYAN + "\te -> edit budget" + RESET);
-        System.out.println("");
+        System.out.println();
         System.out.println("\tl -> load budget from file");
         System.out.println("\ts -> save budget to file");
-        System.out.println("");
+        System.out.println();
         System.out.println(RED + "\tx -> close application" + RESET);
 
     }

@@ -11,17 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IncomeCategoryTest {
 
-    private IncomeCategory icTest1 = new IncomeCategory("salary");
-    private IncomeCategory icTest2 = new IncomeCategory("odd jobs");
-    private IncomeCategory icTest3 = new IncomeCategory("stuff");
-    private RecurringIncome helper = new RecurringIncome("salary", 1500, "bi-weekly");
-    private RecurringIncome helper2 = new RecurringIncome("serving job", 500, "bi-weekly");
-    private SingleIncome singleHelper = new SingleIncome("washed windows", 100);
-    private SingleIncome singleHelper2 = new SingleIncome("washed car", 50);
-    private RecurringIncome helper3 = new RecurringIncome("babysitting", 50, "weekly");
+    private final IncomeCategory icTest1 = new IncomeCategory("salary");
+    private final IncomeCategory icTest2 = new IncomeCategory("odd jobs");
+    private final IncomeCategory icTest3 = new IncomeCategory("stuff");
+    private final RecurringIncome helper = new RecurringIncome("salary", 1500, "bi-weekly");
+    private final RecurringIncome helper2 = new RecurringIncome("serving job", 500, "bi-weekly");
+    private final SingleIncome singleHelper = new SingleIncome("washed windows", 100);
+    private final SingleIncome singleHelper2 = new SingleIncome("washed car", 50);
+    private final RecurringIncome helper3 = new RecurringIncome("babysitting", 50, "weekly");
 
-    private LocalDate endDate = LocalDate.of(2023, 6, 11);
-    private LocalDate startDate = LocalDate.of(2023, 2, 4);
+    private final LocalDate endDate = LocalDate.of(2023, 6, 11);
+    private final LocalDate startDate = LocalDate.of(2023, 2, 4);
     private LocalDate setDate = LocalDate.of(2023, 2, 8);
     @Test
     public void incomeCategoryTest() {

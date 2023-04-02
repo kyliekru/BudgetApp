@@ -14,14 +14,14 @@ import java.awt.*;
 public class CatListSelectionListener implements ListSelectionListener {
 
     private JList<String> categoryList;
-    private CardLayout cardLayout;
-    private JPanel container;
+    private final CardLayout cardLayout;
+    private final JPanel container;
     private CategoryList list;
     private Category selectedCat;
-    private int label;
+    private final int label;
     private int currLabel;
-    private DeleteIncomeExpenseListener delete;
-    private DeleteCatListener deleteCat;
+    private final DeleteIncomeExpenseListener delete;
+    private final DeleteCatListener deleteCat;
 
     //CONSTRUCTOR
     public CatListSelectionListener(JList<String> catList, CategoryList list,

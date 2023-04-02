@@ -17,25 +17,25 @@ public class AddListener implements ActionListener {
 
     private JPanel currentPanel;
     private Budget budget;
-    private JList list;
+    private final JList list;
     private String incomeExpenseName;
     private double amount;
     private String period;
     private String answer;
     private LocalDate date;
-    private int label;
+    private final int label;
     private Category currentCategory;
-    private JPanel selection;
-    private BoxListener panelSelectionListener;
-    private DeleteIncomeExpenseListener delete;
-    private JPanel mainPanel;
+    private final JPanel selection;
+    private final BoxListener panelSelectionListener;
+    private final DeleteIncomeExpenseListener delete;
+    private final JPanel mainPanel;
     private int index;
-    private Map<Category, LinkedList> currentListMap;
+    private final Map<Category, LinkedList> currentListMap;
     private boolean isRecurring;
-    private LinkedList<JPanel> currentPanelList;
-    private DrawPieChart currentChart;
-    private Map<String, Integer> incomeMap;
-    private Map<String, Integer> expenseMap;
+    private final LinkedList<JPanel> currentPanelList;
+    private final DrawPieChart currentChart;
+    private final Map<String, Integer> incomeMap;
+    private final Map<String, Integer> expenseMap;
     private static int id = 1;
 
     //CONSTRUCTOR
@@ -205,7 +205,7 @@ public class AddListener implements ActionListener {
                                   JPanel currentPanel, int label) {
         JPanel panel = new JPanel();
         JLabel name = new JLabel(incomeExpenseName);
-        JLabel amountLabel = new JLabel("$" + String.valueOf(amount));
+        JLabel amountLabel = new JLabel("$" + amount);
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createLineBorder(Color.black));
         panel.add(name, BorderLayout.NORTH);
@@ -240,7 +240,7 @@ public class AddListener implements ActionListener {
                                       LocalDate date, JPanel currentPanel, int label) {
         JPanel panel = new JPanel();
         JLabel name = new JLabel(incomeExpenseName);
-        JLabel amountLabel = new JLabel("$" + String.valueOf(amount));
+        JLabel amountLabel = new JLabel("$" + amount);
         JLabel periodLabel = new JLabel(period);
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createLineBorder(Color.black));

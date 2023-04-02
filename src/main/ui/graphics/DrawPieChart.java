@@ -14,18 +14,18 @@ import java.util.LinkedList;
 public class DrawPieChart extends JPanel {
 
     private Budget budget;
-    private int label;
+    private final int label;
     private CategoryList catList;
     private LinkedList<Category> cats;
-    private static int COLOR_INDEX = 1;
-    private int width;
-    private int height;
-    private int xcoord;
-    private int ycoord;
+    private static final int COLOR_INDEX = 1;
+    private final int width;
+    private final int height;
+    private final int xcoord;
+    private final int ycoord;
     private int startAngle;
-    private int diameter;
+    private final int diameter;
     private Double percentage;
-    private JPanel mainPanel;
+    private final JPanel mainPanel;
     private int arcAngle;
     private Double amount;
     private Double totalForCat;

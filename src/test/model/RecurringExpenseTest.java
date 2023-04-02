@@ -12,12 +12,12 @@ class RecurringExpenseTest {
     private RecurringExpense reTest1;
     private RecurringExpense reTest2;
     private RecurringExpense reTest3;
-    private ExpenseCategory utilities = new ExpenseCategory("utilities");
-    private ExpenseCategory rent = new ExpenseCategory("rent");
-    private LocalDate endDate = LocalDate.of(2023, 6, 11);
-    private LocalDate startDate = LocalDate.of(2023, 2, 4);
-    private LocalDate setDate = LocalDate.of(2023, 2, 8);
-    private LocalDate afterEndDate = LocalDate.of(2024, 4, 3);
+    private final ExpenseCategory utilities = new ExpenseCategory("utilities");
+    private final ExpenseCategory rent = new ExpenseCategory("rent");
+    private final LocalDate endDate = LocalDate.of(2023, 6, 11);
+    private final LocalDate startDate = LocalDate.of(2023, 2, 4);
+    private final LocalDate setDate = LocalDate.of(2023, 2, 8);
+    private final LocalDate afterEndDate = LocalDate.of(2024, 4, 3);
 
     @BeforeEach
     void runBefore() {

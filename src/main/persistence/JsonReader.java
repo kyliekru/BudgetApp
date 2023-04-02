@@ -14,7 +14,7 @@ import org.json.*;
 //Represents a reader that reads budget from JSON data stored in file
 //SOURCE: JsonSerializationDemo
 public class JsonReader {
-    private String source;
+    private final String source;
 
     //EFFECTS: construct reader to read from source file
     public JsonReader(String source) {

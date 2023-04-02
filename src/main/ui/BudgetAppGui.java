@@ -1,6 +1,7 @@
 package ui;
 
 import model.*;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 import ui.graphics.DrawPieChart;
@@ -32,12 +33,12 @@ public class BudgetAppGui {
     private JPanel incomeCatsPanel;
     private JScrollPane incomeCats;
     private JList<String> incomeCatNames;
-    private DefaultListModel incomeModel = new DefaultListModel<>();
+    private final DefaultListModel incomeModel = new DefaultListModel<>();
     
     private JPanel expenseCatsPanel;
     private JScrollPane expenseCats;
     private JList<String> expenseCatNames;
-    private DefaultListModel expenseModel = new DefaultListModel<>();
+    private final DefaultListModel expenseModel = new DefaultListModel<>();
 
     private Budget budget;
     private Category category;
@@ -83,8 +84,8 @@ public class BudgetAppGui {
     private JPanel currentPanel;
     private CatListSelectionListener expenseListListener;
     private CatListSelectionListener incomeListListener;
-    private Map<String, Integer> incomeMap = new HashMap<>();
-    private Map<String, Integer> expenseMap = new HashMap<>();
+    private final Map<String, Integer> incomeMap = new HashMap<>();
+    private final Map<String, Integer> expenseMap = new HashMap<>();
 
     //MODIFIES: this
     //EFFECTS: build base gui
@@ -124,6 +125,7 @@ public class BudgetAppGui {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setPreferredSize(new Dimension(750, 650));
         frame.setContentPane(mainPanel);
+        addWindowListener();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(900, 700));
 
@@ -142,6 +144,19 @@ public class BudgetAppGui {
         }
         frame.setJMenuBar(createMenuBar());
 
+    }
+
+    public void addWindowListener() {
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+
+                printLog(EventLog.getInstance());
+
+                System.exit(0);
+
+            }
+        });
     }
 
     //MODIFIES: this
@@ -447,5 +462,12 @@ public class BudgetAppGui {
         expenseListListener = new CatListSelectionListener(expenseCatNames, expenseCatList, expenseCardLayout,
                 expensePanelContainer, selectedCat, 0, currentCatLabel, deleteListener, deleteCatListener);
         expenseCatNames.addListSelectionListener(expenseListListener);
+    }
+
+    public void printLog(EventLog el) {
+        for (Event next : el) {
+            System.out.println(next.toString() + "\n\n");
+        }
+
     }
 }

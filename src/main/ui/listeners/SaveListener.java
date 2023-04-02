@@ -12,9 +12,9 @@ import java.io.FileNotFoundException;
 public class SaveListener implements ActionListener {
 
     private static final String JSON_STORE = "./data/budget.json";
-    private JsonWriter jsonWriter;
+    private final JsonWriter jsonWriter;
     private Budget budget;
-    private JFrame frame;
+    private final JFrame frame;
 
     //CONSTRUCTOR
     public SaveListener(JsonWriter jsonWriter, Budget budget, JFrame frame) {

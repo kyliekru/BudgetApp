@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 public class BoxListener extends MouseAdapter {
 
     private JPanel selection;
-    private DeleteIncomeExpenseListener delete;
+    private final DeleteIncomeExpenseListener delete;
 
     //CONSTRUCTOR
     public BoxListener(JPanel selection, DeleteIncomeExpenseListener delete) {

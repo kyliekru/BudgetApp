@@ -18,10 +18,10 @@ public class DeleteIncomeExpenseListener implements ActionListener {
     private Budget budget;
     private int index;
     private Category currentCat;
-    private int label;
+    private final int label;
     private boolean isRecurring;
-    private Map<String, Integer> incomeMap;
-    private Map<String, Integer> expenseMap;
+    private final Map<String, Integer> incomeMap;
+    private final Map<String, Integer> expenseMap;
 
     //CONSTRUCTOR
     public DeleteIncomeExpenseListener(Budget budget, Category currentCat, int label, boolean isRecurring,

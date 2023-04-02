@@ -21,9 +21,9 @@ class CategoryListTest {
     private CategoryList clTest2;
     private SingleExpense eatingOut;
     private RecurringExpense hairProducts;
-    private LocalDate startDate = LocalDate.of(2023, 2, 7);
-    private LocalDate endDate = LocalDate.of(2023, 6, 11);
-    private LocalDate setDate = LocalDate.of(2023, 2, 8);
+    private final LocalDate startDate = LocalDate.of(2023, 2, 7);
+    private final LocalDate endDate = LocalDate.of(2023, 6, 11);
+    private final LocalDate setDate = LocalDate.of(2023, 2, 8);
 
 
 

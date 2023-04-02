@@ -11,8 +11,8 @@ import java.util.LinkedList;
 public class ExpenseCategory extends Category {
 
     private String name;
-    private LinkedList<RecurringExpense> recurringExpenses;
-    private LinkedList<SingleExpense> singleExpenses;
+    private final LinkedList<RecurringExpense> recurringExpenses;
+    private final LinkedList<SingleExpense> singleExpenses;
     private int id;
 
     //Constructor
@@ -63,6 +63,7 @@ public class ExpenseCategory extends Category {
     //EFFECTS: adds single expense to one-off expense list
     public void addSingle(IncomeExpense expense) {
         singleExpenses.addLast((SingleExpense) expense);
+        EventLog.getInstance().logEvent(new Event("Added single expense."));
 
     }
 
@@ -70,6 +71,7 @@ public class ExpenseCategory extends Category {
     //EFFECTS: add recurring expense to recurring expense list
     public void addRecurring(IncomeExpense expense) {
         recurringExpenses.addLast((RecurringExpense) expense);
+        EventLog.getInstance().logEvent(new Event("Added recurring expense."));
 
     }
 
@@ -86,8 +88,12 @@ public class ExpenseCategory extends Category {
                 outcome = true;
             }
         }
+        if (outcome) {
+            EventLog.getInstance().logEvent(new Event("Single expense removed."));
+        }
 
         return outcome;
+
 
     }
 
@@ -102,6 +108,10 @@ public class ExpenseCategory extends Category {
                 recurringExpenses.remove(expense);
                 outcome = true;
             }
+        }
+
+        if (outcome) {
+            EventLog.getInstance().logEvent(new Event("Recurring expense removed."));
         }
 
         return outcome;

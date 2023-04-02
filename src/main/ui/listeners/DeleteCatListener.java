@@ -13,21 +13,21 @@ import java.util.LinkedList;
 public class DeleteCatListener implements ActionListener {
 
     private Budget budget;
-    private JList<String> incomeList;
-    private JList<String> expenseList;
-    private LinkedList<JPanel> incomeCatPanels;
-    private LinkedList<JPanel> expenseCatPanels;
+    private final JList<String> incomeList;
+    private final JList<String> expenseList;
+    private final LinkedList<JPanel> incomeCatPanels;
+    private final LinkedList<JPanel> expenseCatPanels;
     private int catLabel;
     private Category selectedCat;
-    private LinkedList<JPanel> incomePanelList;
-    private LinkedList<JPanel> expensePanelList;
+    private final LinkedList<JPanel> incomePanelList;
+    private final LinkedList<JPanel> expensePanelList;
     private int index;
-    private CardLayout incomeCardLayout;
-    private CardLayout expenseCardLayout;
+    private final CardLayout incomeCardLayout;
+    private final CardLayout expenseCardLayout;
     private JPanel currentPanel;
-    private JPanel mainPanel;
-    private DefaultListModel expenseModel;
-    private DefaultListModel incomeModel;
+    private final JPanel mainPanel;
+    private final DefaultListModel expenseModel;
+    private final DefaultListModel incomeModel;
 
 
 

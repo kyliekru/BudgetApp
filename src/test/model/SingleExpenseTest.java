@@ -9,15 +9,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SingleExpenseTest {
 
-    private ExpenseCategory eatingOut = new ExpenseCategory("EatingOut");
-    private ExpenseCategory schoolSupplies = new ExpenseCategory("SchoolSupplies");
+    private final ExpenseCategory eatingOut = new ExpenseCategory("EatingOut");
+    private final ExpenseCategory schoolSupplies = new ExpenseCategory("SchoolSupplies");
     private SingleExpense seTest1;
     private SingleExpense seTest2;
-    private LocalDate startDate = LocalDate.of(2023, 02, 4);
-    private LocalDate endDate = LocalDate.of(2023, 6, 11);
-    private LocalDate setDate = LocalDate.of(2023, 7, 8);
-    private LocalDate currentDate = LocalDate.of(2023, 2, 13);
-    private LocalDate setDate2 = LocalDate.of(2023, 1, 1);
+    private final LocalDate startDate = LocalDate.of(2023, 02, 4);
+    private final LocalDate endDate = LocalDate.of(2023, 6, 11);
+    private final LocalDate setDate = LocalDate.of(2023, 7, 8);
+    private final LocalDate currentDate = LocalDate.of(2023, 2, 13);
+    private final LocalDate setDate2 = LocalDate.of(2023, 1, 1);
 
     @BeforeEach
     void runBefore() {

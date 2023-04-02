@@ -11,8 +11,8 @@ import java.util.LinkedList;
 public class IncomeCategory extends Category {
 
     private String name;
-    private LinkedList<RecurringIncome> recurringIncomes;
-    private LinkedList<SingleIncome> singleIncomes;
+    private final LinkedList<RecurringIncome> recurringIncomes;
+    private final LinkedList<SingleIncome> singleIncomes;
     private int id;
 
     //Constructor
@@ -61,6 +61,7 @@ public class IncomeCategory extends Category {
     //EFFECTS: adds one-off income to single incomes list
     public void addSingle(IncomeExpense income) {
         singleIncomes.addLast((SingleIncome) income);
+        EventLog.getInstance().logEvent(new Event("Single income added."));
 
     }
 
@@ -68,6 +69,7 @@ public class IncomeCategory extends Category {
     //EFFECTS: adds recurring income to recurring incomes list
     public void addRecurring(IncomeExpense income) {
         recurringIncomes.addLast((RecurringIncome) income);
+        EventLog.getInstance().logEvent(new Event("Recurring income added."));
     }
 
 
@@ -81,6 +83,10 @@ public class IncomeCategory extends Category {
                 singleIncomes.remove(income);
                 outcome = true;
             }
+        }
+
+        if (outcome) {
+            EventLog.getInstance().logEvent(new Event("Single income removed."));
         }
 
         return outcome;
@@ -97,6 +103,10 @@ public class IncomeCategory extends Category {
                 recurringIncomes.remove(income);
                 outcome = true;
             }
+        }
+
+        if (outcome) {
+            EventLog.getInstance().logEvent(new Event("Recurring income removed."));
         }
 
         return outcome;

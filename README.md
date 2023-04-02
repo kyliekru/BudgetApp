@@ -52,3 +52,33 @@ yes or no and select "OK". If yes, select period and click "OK", and income/expe
 - You can reload the state of my application by when starting the application, choose yes when asked if you'd like to
 load your budget.
 
+# Phase 4: Task 2
+Sat Apr 01 19:48:20 PDT 2023
+Expense category added.
+
+
+Sat Apr 01 19:48:31 PDT 2023
+Added recurring expense.
+
+
+Sat Apr 01 19:48:35 PDT 2023
+Income category added.
+
+
+Sat Apr 01 19:48:46 PDT 2023
+Single income added.
+
+This EventLog occurs after starting the program and adding first an expense category, then a recurring expense to that
+category, then adding an income category and adding a single income to that category.
+
+# Phase 4: Task 3
+If I had more time to work on the project, I think I would change how I implemented
+some of my classes. For example, I would change my ID system to be more specific to each item,
+but available at a higher level of the diagram. This would have made implementing my GUI significantly easier. I also
+would get rid of the CategoryList class, as I think it adds unnecessary complexity with the budget class
+being implemented. Finally, I would implement a single income/expense abstract class, similar to the recurring class,
+to decrease complexity when implementing the GUI.
+
+- Alter ID system
+- Remove CategoryList class
+- Implement SingleIncomeExpense class that extends IncomeExpense

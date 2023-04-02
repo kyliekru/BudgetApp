@@ -15,31 +15,31 @@ public class AddCatListener implements ActionListener {
 
     private String catName;
     private String type;
-    private JList<String> incomeList;
-    private JList<String> expenseList;
+    private final JList<String> incomeList;
+    private final JList<String> expenseList;
     private Category category;
     private Budget budget;
     JPanel parent;
     DefaultListModel model;
-    private JPanel incomeCatPanel;
-    private JPanel expenseCatPanel;
-    private DefaultListModel expenseModel;
-    private DefaultListModel incomeModel;
-    private DefaultListModel newCatModel = new DefaultListModel<>();
-    private JPanel currentPanel;
+    private final JPanel incomeCatPanel;
+    private final JPanel expenseCatPanel;
+    private final DefaultListModel expenseModel;
+    private final DefaultListModel incomeModel;
+    private final DefaultListModel newCatModel = new DefaultListModel<>();
+    private final JPanel currentPanel;
     private JList currentList;
     private JPanel panelContainer;
-    private JPanel incomeContainer;
-    private JPanel expenseContainer;
+    private final JPanel incomeContainer;
+    private final JPanel expenseContainer;
     private LinkedList<JPanel> currentCatList;
-    private LinkedList<JPanel> incomeCatList;
-    private LinkedList<JPanel> expenseCatList;
-    private JPanel selection;
-    private Map<Category, LinkedList> expenseListMap;
-    private Map<Category, LinkedList> incomeListMap;
-    private LinkedList<JPanel> incomeCatSingleRecurringPanels;
+    private final LinkedList<JPanel> incomeCatList;
+    private final LinkedList<JPanel> expenseCatList;
+    private final JPanel selection;
+    private final Map<Category, LinkedList> expenseListMap;
+    private final Map<Category, LinkedList> incomeListMap;
+    private final LinkedList<JPanel> incomeCatSingleRecurringPanels;
 
-    private LinkedList<JPanel> expenseCatSingleRecurringPanels;
+    private final LinkedList<JPanel> expenseCatSingleRecurringPanels;
     private LinkedList<JPanel> currentArrayList;
 
     //COSTRUCTOR
