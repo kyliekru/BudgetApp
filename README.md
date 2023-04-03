@@ -73,10 +73,10 @@ category, then adding an income category and adding a single income to that cate
 
 # Phase 4: Task 3
 If I had more time to work on the project, I think I would change how I implemented
-some of my classes. For example, I would change my ID system to be more specific to each item,
-but available at a higher level of the diagram. This would have made implementing my GUI significantly easier. I also
+some of my classes. For example, I would change my ID system to be a Singleton design to make the
+identification more useful. This would have made implementing my GUI significantly easier. I also
 would get rid of the CategoryList class, as I think it adds unnecessary complexity with the budget class
-being implemented. Finally, I would implement a single income/expense abstract class, similar to the recurring class,
+being implemented. Or, I would make CategoryList iterable. Finally, I would implement a single income/expense abstract class, similar to the recurring class,
 to decrease complexity when implementing the GUI.
 
 - Alter ID system

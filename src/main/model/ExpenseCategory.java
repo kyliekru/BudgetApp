@@ -63,7 +63,7 @@ public class ExpenseCategory extends Category {
     //EFFECTS: adds single expense to one-off expense list
     public void addSingle(IncomeExpense expense) {
         singleExpenses.addLast((SingleExpense) expense);
-        EventLog.getInstance().logEvent(new Event("Added single expense."));
+        EventLog.getInstance().logEvent(new Event("Single expense added."));
 
     }
 
@@ -71,7 +71,7 @@ public class ExpenseCategory extends Category {
     //EFFECTS: add recurring expense to recurring expense list
     public void addRecurring(IncomeExpense expense) {
         recurringExpenses.addLast((RecurringExpense) expense);
-        EventLog.getInstance().logEvent(new Event("Added recurring expense."));
+        EventLog.getInstance().logEvent(new Event("Recurring expense added."));
 
     }
 

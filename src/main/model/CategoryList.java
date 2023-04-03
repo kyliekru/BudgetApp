@@ -64,6 +64,13 @@ public class CategoryList implements Writable {
                 outcome = true;
             }
         }
+        if (outcome) {
+            if (label == 0) {
+                EventLog.getInstance().logEvent(new Event("Expense category deleted."));
+            } else {
+                EventLog.getInstance().logEvent(new Event("Income category deleted."));
+            }
+        }
         return outcome;
 
     }
