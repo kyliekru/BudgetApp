@@ -53,23 +53,37 @@ yes or no and select "OK". If yes, select period and click "OK", and income/expe
 load your budget.
 
 # Phase 4: Task 2
-Sat Apr 01 19:48:20 PDT 2023
+Tue Apr 11 08:30:14 PDT 2023
 Expense category added.
 
 
-Sat Apr 01 19:48:31 PDT 2023
-Added recurring expense.
+Tue Apr 11 08:30:24 PDT 2023
+Recurring expense added.
 
 
-Sat Apr 01 19:48:35 PDT 2023
+Tue Apr 11 08:30:36 PDT 2023
+Single expense added.
+
+
+Tue Apr 11 08:30:43 PDT 2023
 Income category added.
 
 
-Sat Apr 01 19:48:46 PDT 2023
-Single income added.
+Tue Apr 11 08:30:57 PDT 2023
+Recurring income added.
 
-This EventLog occurs after starting the program and adding first an expense category, then a recurring expense to that
-category, then adding an income category and adding a single income to that category.
+
+Tue Apr 11 08:31:05 PDT 2023
+Recurring income removed.
+
+
+Tue Apr 11 08:31:08 PDT 2023
+Income category deleted.
+
+
+This EventLog occurs after starting the program and adding first an expense category, a single and a recurring expense,
+then an income category followed by a recurring income are added. Finally, the recurring income is deleted and then the
+income category is deleted.
 
 # Phase 4: Task 3
 If I had more time to work on the project, I think I would change how I implemented
